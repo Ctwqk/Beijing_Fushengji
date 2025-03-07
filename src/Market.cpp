@@ -11,9 +11,10 @@ bool Market::whetherToInclude(){
 }
 
 Market::Market(std::vector<Item> &v): gen(std::random_device{}()), dist(0.0, 1.0){
-    for(Item &i:v){
-        inventory[i] = i.price;
-        // std::cout<<i.price<<std::endl;
+    
+    for(int i=0;i<v.size();i++){
+        inventory.push_back({v[i], false});
+        inventory_[v[i]] = i;
     }
 }
 
@@ -21,12 +22,13 @@ std::vector<Item> Market::getAvailableItems(){
     std::vector<Item> ans;
     for (auto& pair: inventory){
         if(whetherToInclude()){
-            ans.push_back(pair.first);
-            ans.back().renewPrice();
+            pair.first.renewPrice();
             // pair.second = pair.first.price;
-            ans.back().setEvent();
+            pair.first.setEvent();
+            ans.push_back(pair.first);
         }
     }
+    availableItems = ans;
     return ans;
 }
 
@@ -35,18 +37,18 @@ std::vector<Item> Market::newDay(){
     return availableItems;
 }
 
-void Market::addItem(Item &i){
-    if(inventory.find(i) == inventory.end()){
-        throw std::runtime_error("no such item");
+void Market::addItemToAvailable(Item &i){
+    if(inventory_.find(i) != inventory_.end()){
+        throw std::runtime_error("item already exist");
         return;
     }
-    inventory[i] = true;
+    inventory[inventory_[i]].second = true;
     availableItems.push_back(i);
 }
 
 int Market::askPrice(Item &i){
-    if(inventory.find(i)==inventory.end()){
-        return -1;
+    if(inventory_.find(i)==inventory_.end()){
+        throw std::runtime_error("no such item");
     }
-    return inventory[i];
+    return inventory[inventory_[i]].first.price;
 }

@@ -18,16 +18,19 @@ class Market{
         std::mt19937 gen;
         std::uniform_real_distribution<double> dist;
     protected:
-        std::unordered_map<Item, int> inventory;
+        std::unordered_map<Item, int> inventory_;
+        std::vector<std::pair<Item, bool>> inventory;
         std::vector<Item> availableItems;
     public:
         void setPlayer(Player* playerPtr);
         Market(std::vector<Item> &v);
         std::vector<Item> getAvailableItems();
         std::vector<Item> newDay();
-        void addItem(Item &i);
+        void addItemToAvailable(Item &i);
         int askPrice(Item & i);
-        std::vector<Item> getItems(){return availableItems;}
+        std::vector<Item> getItems(){
+            return availableItems;
+        }
         
         
 };

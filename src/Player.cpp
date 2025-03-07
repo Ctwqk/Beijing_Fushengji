@@ -14,7 +14,7 @@ void Player::sell(Item &i, int count){
     cash += market->askPrice(i) * count;
     space += count;
     inventory[i] -= count;
-    market->addItem(i);
+    market->addItemToAvailable(i);
     reputation += i.reputationPrice;
 }
 

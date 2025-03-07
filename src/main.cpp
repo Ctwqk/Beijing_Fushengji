@@ -131,12 +131,17 @@ void RenderMapUI(int &STEP){
                     }
                 }
                 for (auto &p : playerInventory){
-                    if(market->askPrice(p.first) != -1) continue;
-                    p.first.setEvent();
-                    if(p.first.event){
-                        p.first.event->setTextPopUp(textWinHandle);
-                        popupEvents.push_back(p.first.event);
+                    try{
+                        market->askPrice(p.first);
                     }
+                    catch(const std::runtime_error &e){
+                        p.first.setEvent();
+                        if(p.first.event){
+                            p.first.event->setTextPopUp(textWinHandle);
+                            popupEvents.push_back(p.first.event);
+                        }
+                    }
+                    
                 }
                 textWinHandle->setEvents(popupEvents);
                 popupEvents.clear();
@@ -167,9 +172,9 @@ void RenderMainWindow(int &STEP) {
     ImGui::Columns(1);
     char buffer[128];
     // std::cout<<marketItems.size()<<std::endl;
-    marketItems = market->getItems();
     for (int i = 0; i < marketItems.size(); i++) {
-        std::sprintf(buffer, "%-30s  %16d", marketItems[i].name.c_str(), market->askPrice(marketItems[i]));
+        marketItems[i].price = market->askPrice(marketItems[i]);
+        std::sprintf(buffer, "%-30s  %16d", marketItems[i].name.c_str(), marketItems[i].price);
         if (ImGui::Selectable(buffer, selectedMarketIndex == i) ){
             selectedMarketIndex = i;
         }
