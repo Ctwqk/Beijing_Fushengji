@@ -1,0 +1,3 @@
+/home/taiwei/code/myBeijingHell/build/CMakeFiles/ImGui_SDL2_OpenGL.dir
+/home/taiwei/code/myBeijingHell/build/CMakeFiles/edit_cache.dir
+/home/taiwei/code/myBeijingHell/build/CMakeFiles/rebuild_cache.dir
