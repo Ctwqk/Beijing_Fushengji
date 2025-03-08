@@ -1,0 +1,43 @@
+file(REMOVE_RECURSE
+  "Beijing_Fushengji"
+  "Beijing_Fushengji.pdb"
+  "CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_opengl3.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_opengl3.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/src/BankPopUp.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/src/BankPopUp.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/src/Events.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/src/Events.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/src/HospitalPopUp.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/src/HospitalPopUp.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/src/Market.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/src/Market.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/src/MarketPopUp.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/src/MarketPopUp.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/src/Player.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/src/Player.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/src/PopUp.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/src/PopUp.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/src/PostPopUp.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/src/PostPopUp.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/src/SelectPopUp.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/src/SelectPopUp.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/src/TextPopUp.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/src/TextPopUp.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/src/main.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/src/main.cpp.o.d"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/Beijing_Fushengji.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

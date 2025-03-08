@@ -1,3 +1,11 @@
-/home/taiwei/code/myBeijingHell/build/CMakeFiles/ImGui_SDL2_OpenGL.dir
+/home/taiwei/code/myBeijingHell/build/CMakeFiles/Beijing_Fushengji.dir
 /home/taiwei/code/myBeijingHell/build/CMakeFiles/edit_cache.dir
 /home/taiwei/code/myBeijingHell/build/CMakeFiles/rebuild_cache.dir
+/home/taiwei/code/myBeijingHell/build/_deps/sdl2-build/CMakeFiles/sdl_headers_copy.dir
+/home/taiwei/code/myBeijingHell/build/_deps/sdl2-build/CMakeFiles/SDL2main.dir
+/home/taiwei/code/myBeijingHell/build/_deps/sdl2-build/CMakeFiles/SDL2.dir
+/home/taiwei/code/myBeijingHell/build/_deps/sdl2-build/CMakeFiles/SDL2-static.dir
+/home/taiwei/code/myBeijingHell/build/_deps/sdl2-build/CMakeFiles/SDL2_test.dir
+/home/taiwei/code/myBeijingHell/build/_deps/sdl2-build/CMakeFiles/uninstall.dir
+/home/taiwei/code/myBeijingHell/build/_deps/sdl2-build/CMakeFiles/edit_cache.dir
+/home/taiwei/code/myBeijingHell/build/_deps/sdl2-build/CMakeFiles/rebuild_cache.dir

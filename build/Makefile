@@ -117,24 +117,102 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named ImGui_SDL2_OpenGL
+# Target rules for targets named Beijing_Fushengji
 
 # Build rule for target.
-ImGui_SDL2_OpenGL: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ImGui_SDL2_OpenGL
-.PHONY : ImGui_SDL2_OpenGL
+Beijing_Fushengji: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Beijing_Fushengji
+.PHONY : Beijing_Fushengji
 
 # fast build rule for target.
-ImGui_SDL2_OpenGL/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/build
-.PHONY : ImGui_SDL2_OpenGL/fast
+Beijing_Fushengji/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/build
+.PHONY : Beijing_Fushengji/fast
+
+#=============================================================================
+# Target rules for targets named sdl_headers_copy
+
+# Build rule for target.
+sdl_headers_copy: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sdl_headers_copy
+.PHONY : sdl_headers_copy
+
+# fast build rule for target.
+sdl_headers_copy/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/sdl2-build/CMakeFiles/sdl_headers_copy.dir/build.make _deps/sdl2-build/CMakeFiles/sdl_headers_copy.dir/build
+.PHONY : sdl_headers_copy/fast
+
+#=============================================================================
+# Target rules for targets named SDL2main
+
+# Build rule for target.
+SDL2main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SDL2main
+.PHONY : SDL2main
+
+# fast build rule for target.
+SDL2main/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/sdl2-build/CMakeFiles/SDL2main.dir/build.make _deps/sdl2-build/CMakeFiles/SDL2main.dir/build
+.PHONY : SDL2main/fast
+
+#=============================================================================
+# Target rules for targets named SDL2
+
+# Build rule for target.
+SDL2: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SDL2
+.PHONY : SDL2
+
+# fast build rule for target.
+SDL2/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/sdl2-build/CMakeFiles/SDL2.dir/build.make _deps/sdl2-build/CMakeFiles/SDL2.dir/build
+.PHONY : SDL2/fast
+
+#=============================================================================
+# Target rules for targets named SDL2-static
+
+# Build rule for target.
+SDL2-static: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SDL2-static
+.PHONY : SDL2-static
+
+# fast build rule for target.
+SDL2-static/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/sdl2-build/CMakeFiles/SDL2-static.dir/build.make _deps/sdl2-build/CMakeFiles/SDL2-static.dir/build
+.PHONY : SDL2-static/fast
+
+#=============================================================================
+# Target rules for targets named SDL2_test
+
+# Build rule for target.
+SDL2_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SDL2_test
+.PHONY : SDL2_test
+
+# fast build rule for target.
+SDL2_test/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/sdl2-build/CMakeFiles/SDL2_test.dir/build.make _deps/sdl2-build/CMakeFiles/SDL2_test.dir/build
+.PHONY : SDL2_test/fast
+
+#=============================================================================
+# Target rules for targets named uninstall
+
+# Build rule for target.
+uninstall: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 uninstall
+.PHONY : uninstall
+
+# fast build rule for target.
+uninstall/fast:
+	$(MAKE) $(MAKESILENT) -f _deps/sdl2-build/CMakeFiles/uninstall.dir/build.make _deps/sdl2-build/CMakeFiles/uninstall.dir/build
+.PHONY : uninstall/fast
 
 imgui/backends/imgui_impl_opengl3.o: imgui/backends/imgui_impl_opengl3.cpp.o
 .PHONY : imgui/backends/imgui_impl_opengl3.o
 
 # target to build an object file
 imgui/backends/imgui_impl_opengl3.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/backends/imgui_impl_opengl3.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_opengl3.cpp.o
 .PHONY : imgui/backends/imgui_impl_opengl3.cpp.o
 
 imgui/backends/imgui_impl_opengl3.i: imgui/backends/imgui_impl_opengl3.cpp.i
@@ -142,7 +220,7 @@ imgui/backends/imgui_impl_opengl3.i: imgui/backends/imgui_impl_opengl3.cpp.i
 
 # target to preprocess a source file
 imgui/backends/imgui_impl_opengl3.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/backends/imgui_impl_opengl3.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_opengl3.cpp.i
 .PHONY : imgui/backends/imgui_impl_opengl3.cpp.i
 
 imgui/backends/imgui_impl_opengl3.s: imgui/backends/imgui_impl_opengl3.cpp.s
@@ -150,7 +228,7 @@ imgui/backends/imgui_impl_opengl3.s: imgui/backends/imgui_impl_opengl3.cpp.s
 
 # target to generate assembly for a file
 imgui/backends/imgui_impl_opengl3.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/backends/imgui_impl_opengl3.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_opengl3.cpp.s
 .PHONY : imgui/backends/imgui_impl_opengl3.cpp.s
 
 imgui/backends/imgui_impl_sdl2.o: imgui/backends/imgui_impl_sdl2.cpp.o
@@ -158,7 +236,7 @@ imgui/backends/imgui_impl_sdl2.o: imgui/backends/imgui_impl_sdl2.cpp.o
 
 # target to build an object file
 imgui/backends/imgui_impl_sdl2.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/backends/imgui_impl_sdl2.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.o
 .PHONY : imgui/backends/imgui_impl_sdl2.cpp.o
 
 imgui/backends/imgui_impl_sdl2.i: imgui/backends/imgui_impl_sdl2.cpp.i
@@ -166,7 +244,7 @@ imgui/backends/imgui_impl_sdl2.i: imgui/backends/imgui_impl_sdl2.cpp.i
 
 # target to preprocess a source file
 imgui/backends/imgui_impl_sdl2.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/backends/imgui_impl_sdl2.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.i
 .PHONY : imgui/backends/imgui_impl_sdl2.cpp.i
 
 imgui/backends/imgui_impl_sdl2.s: imgui/backends/imgui_impl_sdl2.cpp.s
@@ -174,7 +252,7 @@ imgui/backends/imgui_impl_sdl2.s: imgui/backends/imgui_impl_sdl2.cpp.s
 
 # target to generate assembly for a file
 imgui/backends/imgui_impl_sdl2.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/backends/imgui_impl_sdl2.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.s
 .PHONY : imgui/backends/imgui_impl_sdl2.cpp.s
 
 imgui/imgui.o: imgui/imgui.cpp.o
@@ -182,7 +260,7 @@ imgui/imgui.o: imgui/imgui.cpp.o
 
 # target to build an object file
 imgui/imgui.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/imgui.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.o
 .PHONY : imgui/imgui.cpp.o
 
 imgui/imgui.i: imgui/imgui.cpp.i
@@ -190,7 +268,7 @@ imgui/imgui.i: imgui/imgui.cpp.i
 
 # target to preprocess a source file
 imgui/imgui.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/imgui.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.i
 .PHONY : imgui/imgui.cpp.i
 
 imgui/imgui.s: imgui/imgui.cpp.s
@@ -198,7 +276,7 @@ imgui/imgui.s: imgui/imgui.cpp.s
 
 # target to generate assembly for a file
 imgui/imgui.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/imgui.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.s
 .PHONY : imgui/imgui.cpp.s
 
 imgui/imgui_draw.o: imgui/imgui_draw.cpp.o
@@ -206,7 +284,7 @@ imgui/imgui_draw.o: imgui/imgui_draw.cpp.o
 
 # target to build an object file
 imgui/imgui_draw.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/imgui_draw.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o
 .PHONY : imgui/imgui_draw.cpp.o
 
 imgui/imgui_draw.i: imgui/imgui_draw.cpp.i
@@ -214,7 +292,7 @@ imgui/imgui_draw.i: imgui/imgui_draw.cpp.i
 
 # target to preprocess a source file
 imgui/imgui_draw.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/imgui_draw.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.i
 .PHONY : imgui/imgui_draw.cpp.i
 
 imgui/imgui_draw.s: imgui/imgui_draw.cpp.s
@@ -222,7 +300,7 @@ imgui/imgui_draw.s: imgui/imgui_draw.cpp.s
 
 # target to generate assembly for a file
 imgui/imgui_draw.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/imgui_draw.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.s
 .PHONY : imgui/imgui_draw.cpp.s
 
 imgui/imgui_tables.o: imgui/imgui_tables.cpp.o
@@ -230,7 +308,7 @@ imgui/imgui_tables.o: imgui/imgui_tables.cpp.o
 
 # target to build an object file
 imgui/imgui_tables.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/imgui_tables.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.o
 .PHONY : imgui/imgui_tables.cpp.o
 
 imgui/imgui_tables.i: imgui/imgui_tables.cpp.i
@@ -238,7 +316,7 @@ imgui/imgui_tables.i: imgui/imgui_tables.cpp.i
 
 # target to preprocess a source file
 imgui/imgui_tables.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/imgui_tables.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.i
 .PHONY : imgui/imgui_tables.cpp.i
 
 imgui/imgui_tables.s: imgui/imgui_tables.cpp.s
@@ -246,7 +324,7 @@ imgui/imgui_tables.s: imgui/imgui_tables.cpp.s
 
 # target to generate assembly for a file
 imgui/imgui_tables.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/imgui_tables.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.s
 .PHONY : imgui/imgui_tables.cpp.s
 
 imgui/imgui_widgets.o: imgui/imgui_widgets.cpp.o
@@ -254,7 +332,7 @@ imgui/imgui_widgets.o: imgui/imgui_widgets.cpp.o
 
 # target to build an object file
 imgui/imgui_widgets.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/imgui_widgets.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o
 .PHONY : imgui/imgui_widgets.cpp.o
 
 imgui/imgui_widgets.i: imgui/imgui_widgets.cpp.i
@@ -262,7 +340,7 @@ imgui/imgui_widgets.i: imgui/imgui_widgets.cpp.i
 
 # target to preprocess a source file
 imgui/imgui_widgets.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/imgui_widgets.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.i
 .PHONY : imgui/imgui_widgets.cpp.i
 
 imgui/imgui_widgets.s: imgui/imgui_widgets.cpp.s
@@ -270,7 +348,7 @@ imgui/imgui_widgets.s: imgui/imgui_widgets.cpp.s
 
 # target to generate assembly for a file
 imgui/imgui_widgets.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/imgui/imgui_widgets.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.s
 .PHONY : imgui/imgui_widgets.cpp.s
 
 src/BankPopUp.o: src/BankPopUp.cpp.o
@@ -278,7 +356,7 @@ src/BankPopUp.o: src/BankPopUp.cpp.o
 
 # target to build an object file
 src/BankPopUp.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/BankPopUp.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/BankPopUp.cpp.o
 .PHONY : src/BankPopUp.cpp.o
 
 src/BankPopUp.i: src/BankPopUp.cpp.i
@@ -286,7 +364,7 @@ src/BankPopUp.i: src/BankPopUp.cpp.i
 
 # target to preprocess a source file
 src/BankPopUp.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/BankPopUp.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/BankPopUp.cpp.i
 .PHONY : src/BankPopUp.cpp.i
 
 src/BankPopUp.s: src/BankPopUp.cpp.s
@@ -294,7 +372,7 @@ src/BankPopUp.s: src/BankPopUp.cpp.s
 
 # target to generate assembly for a file
 src/BankPopUp.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/BankPopUp.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/BankPopUp.cpp.s
 .PHONY : src/BankPopUp.cpp.s
 
 src/Events.o: src/Events.cpp.o
@@ -302,7 +380,7 @@ src/Events.o: src/Events.cpp.o
 
 # target to build an object file
 src/Events.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/Events.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/Events.cpp.o
 .PHONY : src/Events.cpp.o
 
 src/Events.i: src/Events.cpp.i
@@ -310,7 +388,7 @@ src/Events.i: src/Events.cpp.i
 
 # target to preprocess a source file
 src/Events.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/Events.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/Events.cpp.i
 .PHONY : src/Events.cpp.i
 
 src/Events.s: src/Events.cpp.s
@@ -318,7 +396,7 @@ src/Events.s: src/Events.cpp.s
 
 # target to generate assembly for a file
 src/Events.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/Events.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/Events.cpp.s
 .PHONY : src/Events.cpp.s
 
 src/HospitalPopUp.o: src/HospitalPopUp.cpp.o
@@ -326,7 +404,7 @@ src/HospitalPopUp.o: src/HospitalPopUp.cpp.o
 
 # target to build an object file
 src/HospitalPopUp.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/HospitalPopUp.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/HospitalPopUp.cpp.o
 .PHONY : src/HospitalPopUp.cpp.o
 
 src/HospitalPopUp.i: src/HospitalPopUp.cpp.i
@@ -334,7 +412,7 @@ src/HospitalPopUp.i: src/HospitalPopUp.cpp.i
 
 # target to preprocess a source file
 src/HospitalPopUp.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/HospitalPopUp.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/HospitalPopUp.cpp.i
 .PHONY : src/HospitalPopUp.cpp.i
 
 src/HospitalPopUp.s: src/HospitalPopUp.cpp.s
@@ -342,7 +420,7 @@ src/HospitalPopUp.s: src/HospitalPopUp.cpp.s
 
 # target to generate assembly for a file
 src/HospitalPopUp.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/HospitalPopUp.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/HospitalPopUp.cpp.s
 .PHONY : src/HospitalPopUp.cpp.s
 
 src/Market.o: src/Market.cpp.o
@@ -350,7 +428,7 @@ src/Market.o: src/Market.cpp.o
 
 # target to build an object file
 src/Market.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/Market.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/Market.cpp.o
 .PHONY : src/Market.cpp.o
 
 src/Market.i: src/Market.cpp.i
@@ -358,7 +436,7 @@ src/Market.i: src/Market.cpp.i
 
 # target to preprocess a source file
 src/Market.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/Market.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/Market.cpp.i
 .PHONY : src/Market.cpp.i
 
 src/Market.s: src/Market.cpp.s
@@ -366,7 +444,7 @@ src/Market.s: src/Market.cpp.s
 
 # target to generate assembly for a file
 src/Market.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/Market.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/Market.cpp.s
 .PHONY : src/Market.cpp.s
 
 src/MarketPopUp.o: src/MarketPopUp.cpp.o
@@ -374,7 +452,7 @@ src/MarketPopUp.o: src/MarketPopUp.cpp.o
 
 # target to build an object file
 src/MarketPopUp.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/MarketPopUp.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/MarketPopUp.cpp.o
 .PHONY : src/MarketPopUp.cpp.o
 
 src/MarketPopUp.i: src/MarketPopUp.cpp.i
@@ -382,7 +460,7 @@ src/MarketPopUp.i: src/MarketPopUp.cpp.i
 
 # target to preprocess a source file
 src/MarketPopUp.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/MarketPopUp.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/MarketPopUp.cpp.i
 .PHONY : src/MarketPopUp.cpp.i
 
 src/MarketPopUp.s: src/MarketPopUp.cpp.s
@@ -390,7 +468,7 @@ src/MarketPopUp.s: src/MarketPopUp.cpp.s
 
 # target to generate assembly for a file
 src/MarketPopUp.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/MarketPopUp.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/MarketPopUp.cpp.s
 .PHONY : src/MarketPopUp.cpp.s
 
 src/Player.o: src/Player.cpp.o
@@ -398,7 +476,7 @@ src/Player.o: src/Player.cpp.o
 
 # target to build an object file
 src/Player.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/Player.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/Player.cpp.o
 .PHONY : src/Player.cpp.o
 
 src/Player.i: src/Player.cpp.i
@@ -406,7 +484,7 @@ src/Player.i: src/Player.cpp.i
 
 # target to preprocess a source file
 src/Player.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/Player.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/Player.cpp.i
 .PHONY : src/Player.cpp.i
 
 src/Player.s: src/Player.cpp.s
@@ -414,7 +492,7 @@ src/Player.s: src/Player.cpp.s
 
 # target to generate assembly for a file
 src/Player.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/Player.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/Player.cpp.s
 .PHONY : src/Player.cpp.s
 
 src/PopUp.o: src/PopUp.cpp.o
@@ -422,7 +500,7 @@ src/PopUp.o: src/PopUp.cpp.o
 
 # target to build an object file
 src/PopUp.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/PopUp.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/PopUp.cpp.o
 .PHONY : src/PopUp.cpp.o
 
 src/PopUp.i: src/PopUp.cpp.i
@@ -430,7 +508,7 @@ src/PopUp.i: src/PopUp.cpp.i
 
 # target to preprocess a source file
 src/PopUp.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/PopUp.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/PopUp.cpp.i
 .PHONY : src/PopUp.cpp.i
 
 src/PopUp.s: src/PopUp.cpp.s
@@ -438,7 +516,7 @@ src/PopUp.s: src/PopUp.cpp.s
 
 # target to generate assembly for a file
 src/PopUp.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/PopUp.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/PopUp.cpp.s
 .PHONY : src/PopUp.cpp.s
 
 src/PostPopUp.o: src/PostPopUp.cpp.o
@@ -446,7 +524,7 @@ src/PostPopUp.o: src/PostPopUp.cpp.o
 
 # target to build an object file
 src/PostPopUp.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/PostPopUp.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/PostPopUp.cpp.o
 .PHONY : src/PostPopUp.cpp.o
 
 src/PostPopUp.i: src/PostPopUp.cpp.i
@@ -454,7 +532,7 @@ src/PostPopUp.i: src/PostPopUp.cpp.i
 
 # target to preprocess a source file
 src/PostPopUp.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/PostPopUp.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/PostPopUp.cpp.i
 .PHONY : src/PostPopUp.cpp.i
 
 src/PostPopUp.s: src/PostPopUp.cpp.s
@@ -462,7 +540,7 @@ src/PostPopUp.s: src/PostPopUp.cpp.s
 
 # target to generate assembly for a file
 src/PostPopUp.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/PostPopUp.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/PostPopUp.cpp.s
 .PHONY : src/PostPopUp.cpp.s
 
 src/SelectPopUp.o: src/SelectPopUp.cpp.o
@@ -470,7 +548,7 @@ src/SelectPopUp.o: src/SelectPopUp.cpp.o
 
 # target to build an object file
 src/SelectPopUp.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/SelectPopUp.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/SelectPopUp.cpp.o
 .PHONY : src/SelectPopUp.cpp.o
 
 src/SelectPopUp.i: src/SelectPopUp.cpp.i
@@ -478,7 +556,7 @@ src/SelectPopUp.i: src/SelectPopUp.cpp.i
 
 # target to preprocess a source file
 src/SelectPopUp.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/SelectPopUp.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/SelectPopUp.cpp.i
 .PHONY : src/SelectPopUp.cpp.i
 
 src/SelectPopUp.s: src/SelectPopUp.cpp.s
@@ -486,7 +564,7 @@ src/SelectPopUp.s: src/SelectPopUp.cpp.s
 
 # target to generate assembly for a file
 src/SelectPopUp.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/SelectPopUp.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/SelectPopUp.cpp.s
 .PHONY : src/SelectPopUp.cpp.s
 
 src/TextPopUp.o: src/TextPopUp.cpp.o
@@ -494,7 +572,7 @@ src/TextPopUp.o: src/TextPopUp.cpp.o
 
 # target to build an object file
 src/TextPopUp.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/TextPopUp.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/TextPopUp.cpp.o
 .PHONY : src/TextPopUp.cpp.o
 
 src/TextPopUp.i: src/TextPopUp.cpp.i
@@ -502,7 +580,7 @@ src/TextPopUp.i: src/TextPopUp.cpp.i
 
 # target to preprocess a source file
 src/TextPopUp.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/TextPopUp.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/TextPopUp.cpp.i
 .PHONY : src/TextPopUp.cpp.i
 
 src/TextPopUp.s: src/TextPopUp.cpp.s
@@ -510,7 +588,7 @@ src/TextPopUp.s: src/TextPopUp.cpp.s
 
 # target to generate assembly for a file
 src/TextPopUp.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/TextPopUp.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/TextPopUp.cpp.s
 .PHONY : src/TextPopUp.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -518,7 +596,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -526,7 +604,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -534,7 +612,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ImGui_SDL2_OpenGL.dir/build.make CMakeFiles/ImGui_SDL2_OpenGL.dir/src/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 # Help Target
@@ -545,7 +623,13 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... ImGui_SDL2_OpenGL"
+	@echo "... sdl_headers_copy"
+	@echo "... uninstall"
+	@echo "... Beijing_Fushengji"
+	@echo "... SDL2"
+	@echo "... SDL2-static"
+	@echo "... SDL2_test"
+	@echo "... SDL2main"
 	@echo "... imgui/backends/imgui_impl_opengl3.o"
 	@echo "... imgui/backends/imgui_impl_opengl3.i"
 	@echo "... imgui/backends/imgui_impl_opengl3.s"
