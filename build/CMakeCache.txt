@@ -1097,7 +1097,7 @@ EGL_egl_LIBDIR:INTERNAL=
 EGL_egl_PREFIX:INTERNAL=
 EGL_egl_VERSION:INTERNAL=
 //Details about finding GLEW
-FIND_PACKAGE_MESSAGE_DETAILS_GLEW:INTERNAL=[/usr/include][/usr/lib/x86_64-linux-gnu/libGLEW.so][v2.2.0(2.0)]
+FIND_PACKAGE_MESSAGE_DETAILS_GLEW:INTERNAL=[/usr/include][/usr/lib/x86_64-linux-gnu/libGLEW.so][v2.2.0()]
 //Details about finding Git
 FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[/usr/bin/git][v2.34.1()]
 //Details about finding OpenGL

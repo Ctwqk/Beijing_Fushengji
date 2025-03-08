@@ -78,7 +78,6 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "_deps/sdl2-subbuild/CMakeLists.txt"
-  "_deps/glew-subbuild/CMakeLists.txt"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   "_deps/sdl2-build/SDL_config.h.intermediate"
   "_deps/sdl2-build/include/SDL_revision.h"

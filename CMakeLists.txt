@@ -18,16 +18,32 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(SDL2)
 
-#Fetch GLEW
-set(GLEW_SOURCE_DIR ${CMAKE_SOURCE_DIR}/external/GLEW)
-FetchContent_Declare(
-    GLEW
-    GIT_REPOSITORY https://github.com/nigels-com/glew.git
-    GIT_TAG glew-2.2.0
-    SOURCE_DIR ${GLEW_SOURCE_DIR}
-)
-FetchContent_MakeAvailable(GLEW)
-find_package(GLEW 2.0 REQUIRED)
+#build and link GLEW
+# set(GLEW_SOURCE_DIR ${CMAKE_SOURCE_DIR}/external/GLEW)
+
+# execute_process(    
+#     COMMAND chmod +x ${GLEW_SOURCE_DIR}/cmake-testbuild.sh
+#     COMMAND ${GLEW_SOURCE_DIR}/cmake-testbuild.sh
+#     WORKING_DIRECTORY ${GLEW_SOURCE_DIR}
+# )
+
+# set(GLEW_INCLUDE_DIRS ${GLEW_SOURCE_DIR}/out/include)
+# include_directories(${GLEW_INCLUDE_DIRS})
+
+# set(GLEW_LIBRARIES ${GLEW_SOURCE_DIR}/out/lib/libGLEW.a)
+# link_directories(${GLEW_SOURCE_DIR}/out/lib)
+
+# set(GLEW_SOURCE_DIR ${CMAKE_SOURCE_DIR}/external/GLEW)
+# FetchContent_Declare(
+#     GLEW
+#     GIT_REPOSITORY https://github.com/nigels-com/glew.git
+#     GIT_TAG glew-2.2.0
+#     SOURCE_DIR ${GLEW_SOURCE_DIR}
+# )
+# FetchContent_MakeAvailable(GLEW)
+
+find_package(GLEW REQUIRED)
+
 #Find OpenGL
 find_package(OpenGL REQUIRED)
 
@@ -76,9 +92,13 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 # Platform-Specific Dependencies
 if(WIN32)
     set(PLATFORM_LIBS opengl32)
+    include_directories(${GLEW_INCLUDE_DIRS})
+    link_libraries(${GLEW_LIBRARIES})
 elseif(APPLE)
     find_library(OpenGL_LIBRARY OpenGL)
     set(PLATFORM_LIBS ${OpenGL_LIBRARY})
+    include_directories(${GLEW_INCLUDE_DIRS})
+    link_libraries(${GLEW_LIBRARIES})
 elseif(UNIX)
     find_package(OpenGL REQUIRED)
     set(PLATFORM_LIBS ${OPENGL_gl_LIBRARY})
@@ -88,4 +108,4 @@ endif()
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER})
 
 # Link Libraries
-target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2::SDL2main ${PLATFORM_LIBS} GLEW::GLEW)
+target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2::SDL2main ${PLATFORM_LIBS} ${GLEW_LIBRARIES})
