@@ -1,22 +1,40 @@
 cmake_minimum_required(VERSION 3.10)
-project(ImGui_SDL2_OpenGL)
+project(Beijing_Fushengji)
 
 # Set C++ Standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Find SDL2 and OpenGL
-find_package(SDL2 REQUIRED)
+
+include(FetchContent)
+
+# Fetch SDL2
+set(SDL2_SOURCE_DIR ${CMAKE_SOURCE_DIR}/external/SDL2)
+FetchContent_Declare(
+    SDL2
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+    GIT_TAG release-2.26.5
+    SOURCE_DIR ${SDL2_SOURCE_DIR}
+)
+FetchContent_MakeAvailable(SDL2)
+
+#Fetch GLEW
+set(GLEW_SOURCE_DIR ${CMAKE_SOURCE_DIR}/external/GLEW)
+FetchContent_Declare(
+    GLEW
+    GIT_REPOSITORY https://github.com/nigels-com/glew.git
+    GIT_TAG glew-2.2.0
+    SOURCE_DIR ${GLEW_SOURCE_DIR}
+)
+FetchContent_MakeAvailable(GLEW)
+find_package(GLEW 2.0 REQUIRED)
+#Find OpenGL
 find_package(OpenGL REQUIRED)
 
-# Find GLEW
-find_package(GLEW REQUIRED)
-include_directories(${GLEW_INCLUDE_DIRS})
-
-# Include SDL2 and OpenGL
-include_directories(${SDL2_INCLUDE_DIRS})
+#ImGui
 include_directories(${CMAKE_SOURCE_DIR}/imgui)
 include_directories(${CMAKE_SOURCE_DIR}/imgui/backends)
+
 
 # Source Files
 set(SOURCES
@@ -39,19 +57,21 @@ set(SOURCES
     imgui/backends/imgui_impl_opengl3.cpp
 )
 set(HEADER
-    src/Item.h
-    src/Market.h
-    src/MarketPopUp.h
-    src/Player.h
-    src/PopUp.h
-    src/Events.h
-    src/TextPopUp.h
-    src/Button.h
-    src/HospitalPopUp.h
-    src/SelectPopUp.h
-    src/BankPopUp.h
-    src/PostPopUp.h
+    include/Item.h
+    include/Market.h
+    include/MarketPopUp.h
+    include/Player.h
+    include/PopUp.h
+    include/Events.h
+    include/TextPopUp.h
+    include/Button.h
+    include/HospitalPopUp.h
+    include/SelectPopUp.h
+    include/BankPopUp.h
+    include/PostPopUp.h
 )
+
+include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Platform-Specific Dependencies
 if(WIN32)
@@ -65,7 +85,7 @@ elseif(UNIX)
 endif()
 
 # Add Executable
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER})
 
 # Link Libraries
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${PLATFORM_LIBS} GLEW::GLEW)
+target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2::SDL2main ${PLATFORM_LIBS} GLEW::GLEW)

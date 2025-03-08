@@ -306,7 +306,7 @@ int main(int argc, char* argv[]) {
     ImGui_ImplOpenGL3_Init("#version 130");
 
     ImGuiIO& io = ImGui::GetIO();
-    io.Fonts->AddFontFromFileTTF("wqy-zenhei.ttc", 18.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+    io.Fonts->AddFontFromFileTTF("../wqy-zenhei.ttc", 18.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
 
     //init values
     initCheckMap();
