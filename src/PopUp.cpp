@@ -1,6 +1,6 @@
 #include "PopUp.h"
 #include "TextPopUp.h"
 
-void PopUp::setTextWin(TextPopUp* tp){
+void PopUp::setTextWin(std::shared_ptr<TextPopUp> tp){
     errorWin = tp;
 }

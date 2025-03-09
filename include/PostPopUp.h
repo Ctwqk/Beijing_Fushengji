@@ -7,13 +7,13 @@
 
 class PostPopUp: public PopUp{
     private:
-        Player* player;
+        std::shared_ptr<Player> player;
     protected:
         int quantity;
         int maxMoney;
 
     public:
-        PostPopUp(Player *p);
+        PostPopUp(const std::shared_ptr<Player> &p);
         void Render();
         void Open();
 };

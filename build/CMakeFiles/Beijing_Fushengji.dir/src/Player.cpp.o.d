@@ -205,6 +205,14 @@ CMakeFiles/Beijing_Fushengji.dir/src/Player.cpp.o: \
  /usr/include/c++/11/bits/stl_heap.h \
  /usr/include/c++/11/bits/stl_tempbuf.h \
  /home/taiwei/code/myBeijingHell/include/Button.h \
+ /home/taiwei/code/myBeijingHell/include/TextPopUp.h \
+ /home/taiwei/code/myBeijingHell/include/PopUp.h \
+ /home/taiwei/code/myBeijingHell/imgui/imgui.h \
+ /home/taiwei/code/myBeijingHell/imgui/imconfig.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/float.h /usr/include/string.h \
+ /usr/include/strings.h /usr/include/assert.h \
+ /home/taiwei/code/myBeijingHell/imgui/backends/imgui_impl_sdl2.h \
+ /home/taiwei/code/myBeijingHell/imgui/backends/imgui_impl_opengl3.h \
  /usr/include/c++/11/memory \
  /usr/include/c++/11/bits/stl_raw_storage_iter.h \
  /usr/include/c++/11/bits/align.h /usr/include/c++/11/bits/unique_ptr.h \
@@ -216,5 +224,6 @@ CMakeFiles/Beijing_Fushengji.dir/src/Player.cpp.o: \
  /usr/include/c++/11/bits/atomic_base.h \
  /usr/include/c++/11/bits/atomic_lockfree_defines.h \
  /usr/include/c++/11/backward/auto_ptr.h \
- /usr/include/c++/11/pstl/glue_memory_defs.h \
+ /usr/include/c++/11/pstl/glue_memory_defs.h /usr/include/c++/11/deque \
+ /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
  /home/taiwei/code/myBeijingHell/include/Market.h

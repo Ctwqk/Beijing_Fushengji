@@ -1,0 +1,1 @@
+ ../external/glew-2.2.0/lib/libglew32.a _deps/sdl2-build/libSDL2.dll.a _deps/sdl2-build/libSDL2main.a -lopengl32 ../external/glew-2.2.0/lib/libglew32.a -lopengl32 -lshell32 -Wl,--undefined=WinMain -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

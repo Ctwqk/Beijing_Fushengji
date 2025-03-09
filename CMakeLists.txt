@@ -42,7 +42,15 @@ FetchContent_MakeAvailable(SDL2)
 # )
 # FetchContent_MakeAvailable(GLEW)
 
-find_package(GLEW REQUIRED)
+if(WIN32 OR MINGW)
+    set(GLEW_ROOT ${CMAKE_SOURCE_DIR}/external/glew-2.2.0)
+    set(GLEW_INCLUDE_DIRS ${GLEW_ROOT}/include)
+    set(GLEW_LIBRARIES ${GLEW_ROOT}/lib/libglew32.a)  
+
+else()
+    find_package(GLEW REQUIRED)
+endif()
+
 
 #Find OpenGL
 find_package(OpenGL REQUIRED)

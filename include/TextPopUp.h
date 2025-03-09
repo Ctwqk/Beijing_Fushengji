@@ -1,22 +1,25 @@
 #ifndef TEXTPOPUP_H
 #define TEXTPOPUP_H
 
-#include "Item.h"
 #include "PopUp.h"
 #include <string>
 #include "Button.h"
-#include "Events.h"
+#include <deque>
+
+class Item;
+
+class Event;
 class TextPopUp : public PopUp{
     private:
         std::string text;
         std::string label;
         ButtonWithAction* button;
-        std::vector<Event*> events;
+        std::deque<std::shared_ptr<Event>> events;
     public:
         TextPopUp();
         void Render();
         void Open(std::string text, std::string label, ButtonWithAction *b = nullptr);
-        void setEvents(std::vector<Event*> &e);
+        void setEvents(std::vector<std::shared_ptr<Event>> &e);
 };
 
 

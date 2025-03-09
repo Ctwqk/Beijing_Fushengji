@@ -1,6 +1,5 @@
 #include "BankPopUp.h"
 #include "Player.h"
-#include "SelectPopUp.h"
 #include "Button.h"
 
 void BankPopUp::Open(){
@@ -8,13 +7,17 @@ void BankPopUp::Open(){
     // std::cout<<"outer open"<<std::endl;
     selectWin->Open();
     isOpen = true;
+    isSelected = false;
 }
 
 void BankPopUp::Render(){
+
     if(selectWin->IsOpen()){
         selectWin->Render();
+        // std::cout<<"selectWin open"<<std::endl;
     }
     if(isSelected){
+        selectWin->Close();
         ImGui::OpenPopup("银行");
     }
     if(ImGui::BeginPopupModal("银行", NULL, ImGuiWindowFlags_AlwaysAutoResize)){
@@ -44,7 +47,7 @@ void BankPopUp::Render(){
     
 }
 
-BankPopUp::BankPopUp(Player *p): player(p){
+BankPopUp::BankPopUp(const std::shared_ptr<Player> &p): player(p){
     std::vector<ButtonWithAction> buttons = {
         {"存款", [&](){
             isSaving = true;
@@ -67,7 +70,7 @@ BankPopUp::BankPopUp(Player *p): player(p){
             ImGui::CloseCurrentPopup();
         }}
     };
-    selectWin = new SelectPopUp(buttons, 3);
+    selectWin = std::make_unique<SelectPopUp>(buttons, 3);
 }
 
 void BankPopUp::Close(){

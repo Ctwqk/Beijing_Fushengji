@@ -2,7 +2,7 @@
 #include "Player.h"
 
 
-void Market::setPlayer(Player* playerPtr){
+void Market::setPlayer(std::shared_ptr<Player> playerPtr){
     p = playerPtr;
 }
 
@@ -24,6 +24,7 @@ std::vector<Item> Market::getAvailableItems(){
         if(whetherToInclude()){
             pair.first.renewPrice();
             // pair.second = pair.first.price;
+            // std::cout<<pair.first.getName()<<std::endl;
             pair.first.setEvent();
             ans.push_back(pair.first);
         }
@@ -50,5 +51,5 @@ int Market::askPrice(Item &i){
     if(inventory_.find(i)==inventory_.end()){
         throw std::runtime_error("no such item");
     }
-    return inventory[inventory_[i]].first.price;
+    return inventory[inventory_[i]].first.getPrice();
 }

@@ -14,7 +14,7 @@ class Player;
 class Market{
     private:
         bool whetherToInclude();
-        Player* p;
+        std::weak_ptr<Player> p;
         std::mt19937 gen;
         std::uniform_real_distribution<double> dist;
     protected:
@@ -22,7 +22,7 @@ class Market{
         std::vector<std::pair<Item, bool>> inventory;
         std::vector<Item> availableItems;
     public:
-        void setPlayer(Player* playerPtr);
+        void setPlayer(std::shared_ptr<Player> playerPtr);
         Market(std::vector<Item> &v);
         std::vector<Item> getAvailableItems();
         std::vector<Item> newDay();
@@ -31,7 +31,6 @@ class Market{
         std::vector<Item> getItems(){
             return availableItems;
         }
-        
         
 };
 

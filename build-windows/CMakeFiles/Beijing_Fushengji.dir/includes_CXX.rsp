@@ -1,0 +1,1 @@
+-I/home/taiwei/code/myBeijingHell/imgui -I/home/taiwei/code/myBeijingHell/imgui/backends -I/home/taiwei/code/myBeijingHell/include -I/home/taiwei/code/myBeijingHell/external/glew-2.2.0/include -I/home/taiwei/code/myBeijingHell/build-windows/_deps/sdl2-build/include -I/home/taiwei/code/myBeijingHell/build-windows/_deps/sdl2-build/include-config-release

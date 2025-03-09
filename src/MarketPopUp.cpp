@@ -42,12 +42,18 @@ void MarketPopUp::Open(Item &i, bool iB){
     isBuy = iB;
     curItem = i;
     // std::cout<<totalCash<<" "<<i.price<<std::endl;
-    totalNumber = curItem.calPossibleNumber(totalCash);
-    quantity = totalNumber;
+    if(iB){
+        totalNumber = curItem.calPossibleNumber(player->getCash());
+        quantity = totalNumber;
+    }
+    else{
+        totalNumber = player->getItemNumber(curItem);
+        quantity = totalNumber;
+    }
 }
 
 
-MarketPopUp::MarketPopUp( Player * p):player(p){
+MarketPopUp::MarketPopUp(std::shared_ptr<Player> p):player(p){
     availableSpace = p->getSpace();
     totalCash = p->getCash();
     noMoney = "没有足够金钱购买";

@@ -10,7 +10,7 @@ class Market;
 
 class Player{
     private:
-        Market * market;
+        std::shared_ptr<Market> market;
     protected:
         int health;
         int cash;
@@ -23,7 +23,7 @@ class Player{
     public:
         static constexpr float DEBT_RATING = 1.05, SAVING_RATING = 1.04, UPPER_LIMIT = 100;
         Player(int h, int c, int d, int s, int r, int sp);
-        void setMarket(Market * marketPtr);
+        void setMarket(const std::shared_ptr<Market> &marketPtr);
         void setHealth(int h) { health = h; }
         void setCash(int c) { cash = c; }
         void setDebt(int d) { debt = d; }
@@ -36,9 +36,10 @@ class Player{
         int getSaving(){return saving;}
         int getReputation(){return reputation;}
         int getSpace(){return space;}
-        std::vector<std::pair<Item,int>> getInventory();
+        const std::vector<std::pair<Item,int>> getInventory();
         void buy(Item &i, int count);
         void sell(Item &i, int count);
+        int getItemNumber(Item &i);
         void newDay();
 };
 

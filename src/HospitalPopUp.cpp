@@ -1,7 +1,7 @@
 #include "HospitalPopUp.h"
 #include "TextPopUp.h"
 
-HospitalPopUp::HospitalPopUp(Player* p):player(p){
+HospitalPopUp::HospitalPopUp(const std::shared_ptr<Player> &p):player(p){
     maxCure = Player::UPPER_LIMIT - player->getHealth();
     
 }

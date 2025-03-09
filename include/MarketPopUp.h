@@ -12,7 +12,7 @@ class Market;
 
 class MarketPopUp : public PopUp{
     private:
-        Player* player;
+        std::shared_ptr<Player> player;
     protected:
         Item curItem;
         int totalCash;
@@ -25,7 +25,7 @@ class MarketPopUp : public PopUp{
         bool tradeSuccess = true;
         
     public:
-        MarketPopUp( Player * p);
+        MarketPopUp(std::shared_ptr<Player> p);
         void Render() ;
         void Open(Item &i, bool iB);
 };

@@ -7,8 +7,11 @@
 #include <functional>
 #include "Button.h"
 // Forward declarations
+#include "TextPopUp.h"
+#include <memory>
+
 class Item;
-class TextPopUp;
+
 
 enum class GoodEventName{
     OldFriendCar,
@@ -45,7 +48,7 @@ struct Event {
 private:
     std::mt19937 gen;
     std::uniform_real_distribution<double> dist;
-    TextPopUp* textWin;
+    std::shared_ptr<TextPopUp> textWin;
 
     bool goodThingHappen();
     Item* item;
@@ -54,7 +57,7 @@ public:
     std::string text;
     std::string label;
     ButtonWithAction* button;
-    void setTextPopUp(TextPopUp* tp);
+    void setTextPopUp(const std::shared_ptr<TextPopUp> &tp);
 
     Event(const std::string& l, const std::string& t, ButtonWithAction* b);
     Event(Item* it);

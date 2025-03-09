@@ -4,8 +4,10 @@
 void SelectPopUp::Render(){
     if(isOpen){
         ImGui::OpenPopup("选择");
+        // std::cout<<"select open"<<std::endl;
     }
     if(ImGui::BeginPopupModal("选择", NULL, ImGuiWindowFlags_AlwaysAutoResize)){
+        // std::cout<<"select begin"<<std::endl;
         ImGui::Text("你要干什么");
         
         int count = 0;

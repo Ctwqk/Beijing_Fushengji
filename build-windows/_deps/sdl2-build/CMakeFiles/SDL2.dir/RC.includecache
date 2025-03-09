@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/taiwei/code/myBeijingHell/external/SDL2/src/main/windows/version.rc
+winresrc.h
+/home/taiwei/code/myBeijingHell/external/SDL2/src/main/windows/winresrc.h
+

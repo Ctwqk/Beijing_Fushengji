@@ -33,6 +33,6 @@ void PostPopUp::Render(){
     }
 }
 
-PostPopUp::PostPopUp(Player* p):player(p){
+PostPopUp::PostPopUp(const std::shared_ptr<Player> &p):player(p){
     
 }

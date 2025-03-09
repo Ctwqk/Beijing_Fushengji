@@ -2,20 +2,20 @@
 #define BANKPOPUP_H
 
 #include "PopUp.h"
+#include "SelectPopUp.h"
 class Player;
-class SelectPopUp;
 
 class BankPopUp: public PopUp{
     private:
-        Player* player;
-        SelectPopUp* selectWin;
+        std::shared_ptr<Player> player;
+        std::unique_ptr<SelectPopUp> selectWin;
     protected:
         int quantity;
         int maxMoney;
         bool isSaving;
-        bool isSelected;
+        bool isSelected = false;
     public:
-        BankPopUp(Player *p);
+        BankPopUp(const std::shared_ptr<Player> &p);
         void Render();
         void Open();
         void Close();

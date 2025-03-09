@@ -1,0 +1,2 @@
+/usr/bin/x86_64-w64-mingw32-ar qc libSDL2main.a CMakeFiles/SDL2main.dir/src/main/windows/SDL_windows_main.c.obj
+/usr/bin/x86_64-w64-mingw32-ranlib libSDL2main.a
