@@ -295,18 +295,11 @@ FETCHCONTENT_FULLY_DISCONNECTED:BOOL=OFF
 FETCHCONTENT_QUIET:BOOL=ON
 
 //When not empty, overrides where to find pre-populated content
-// for GLEW
-FETCHCONTENT_SOURCE_DIR_GLEW:PATH=
-
-//When not empty, overrides where to find pre-populated content
 // for SDL2
 FETCHCONTENT_SOURCE_DIR_SDL2:PATH=
 
 //Enables UPDATE_DISCONNECTED behavior for all content population
 FETCHCONTENT_UPDATES_DISCONNECTED:BOOL=OFF
-
-//Enables UPDATE_DISCONNECTED behavior just for population of GLEW
-FETCHCONTENT_UPDATES_DISCONNECTED_GLEW:BOOL=OFF
 
 //Enables UPDATE_DISCONNECTED behavior just for population of SDL2
 FETCHCONTENT_UPDATES_DISCONNECTED_SDL2:BOOL=OFF
