@@ -14,6 +14,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/taiwei/code/myBeijingHell/imgui/imgui_draw.cpp" "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o" "gcc" "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o.d"
   "/home/taiwei/code/myBeijingHell/imgui/imgui_tables.cpp" "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.o" "gcc" "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.o.d"
   "/home/taiwei/code/myBeijingHell/imgui/imgui_widgets.cpp" "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o" "gcc" "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o.d"
+  "/home/taiwei/code/myBeijingHell/src/AiApi.cpp" "CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o" "gcc" "CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o.d"
   "/home/taiwei/code/myBeijingHell/src/BankPopUp.cpp" "CMakeFiles/Beijing_Fushengji.dir/src/BankPopUp.cpp.o" "gcc" "CMakeFiles/Beijing_Fushengji.dir/src/BankPopUp.cpp.o.d"
   "/home/taiwei/code/myBeijingHell/src/Events.cpp" "CMakeFiles/Beijing_Fushengji.dir/src/Events.cpp.o" "gcc" "CMakeFiles/Beijing_Fushengji.dir/src/Events.cpp.o.d"
   "/home/taiwei/code/myBeijingHell/src/HospitalPopUp.cpp" "CMakeFiles/Beijing_Fushengji.dir/src/HospitalPopUp.cpp.o" "gcc" "CMakeFiles/Beijing_Fushengji.dir/src/HospitalPopUp.cpp.o.d"

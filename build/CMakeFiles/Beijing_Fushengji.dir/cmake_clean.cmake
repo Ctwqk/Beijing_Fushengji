@@ -13,6 +13,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.o.d"
   "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o"
   "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o.d"
   "CMakeFiles/Beijing_Fushengji.dir/src/BankPopUp.cpp.o"
   "CMakeFiles/Beijing_Fushengji.dir/src/BankPopUp.cpp.o.d"
   "CMakeFiles/Beijing_Fushengji.dir/src/Events.cpp.o"

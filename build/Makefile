@@ -351,6 +351,30 @@ imgui/imgui_widgets.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.s
 .PHONY : imgui/imgui_widgets.cpp.s
 
+src/AiApi.o: src/AiApi.cpp.o
+.PHONY : src/AiApi.o
+
+# target to build an object file
+src/AiApi.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o
+.PHONY : src/AiApi.cpp.o
+
+src/AiApi.i: src/AiApi.cpp.i
+.PHONY : src/AiApi.i
+
+# target to preprocess a source file
+src/AiApi.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.i
+.PHONY : src/AiApi.cpp.i
+
+src/AiApi.s: src/AiApi.cpp.s
+.PHONY : src/AiApi.s
+
+# target to generate assembly for a file
+src/AiApi.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.s
+.PHONY : src/AiApi.cpp.s
+
 src/BankPopUp.o: src/BankPopUp.cpp.o
 .PHONY : src/BankPopUp.o
 
@@ -648,6 +672,9 @@ help:
 	@echo "... imgui/imgui_widgets.o"
 	@echo "... imgui/imgui_widgets.i"
 	@echo "... imgui/imgui_widgets.s"
+	@echo "... src/AiApi.o"
+	@echo "... src/AiApi.i"
+	@echo "... src/AiApi.s"
 	@echo "... src/BankPopUp.o"
 	@echo "... src/BankPopUp.i"
 	@echo "... src/BankPopUp.s"

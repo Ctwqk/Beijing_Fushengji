@@ -223,10 +223,24 @@ CMakeFiles/Beijing_Fushengji.dir/src/Events.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Beijing_Fushengji.dir/src/Events.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/taiwei/code/myBeijingHell/src/Events.cpp -o CMakeFiles/Beijing_Fushengji.dir/src/Events.cpp.s
 
+CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o: CMakeFiles/Beijing_Fushengji.dir/flags.make
+CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o: ../src/AiApi.cpp
+CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o: CMakeFiles/Beijing_Fushengji.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o -MF CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o.d -o CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o -c /home/taiwei/code/myBeijingHell/src/AiApi.cpp
+
+CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/taiwei/code/myBeijingHell/src/AiApi.cpp > CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.i
+
+CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/taiwei/code/myBeijingHell/src/AiApi.cpp -o CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.s
+
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.o: CMakeFiles/Beijing_Fushengji.dir/flags.make
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.o: ../imgui/imgui.cpp
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.o: CMakeFiles/Beijing_Fushengji.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.o -MF CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.o.d -o CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.o -c /home/taiwei/code/myBeijingHell/imgui/imgui.cpp
 
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.i: cmake_force
@@ -240,7 +254,7 @@ CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.s: cmake_force
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o: CMakeFiles/Beijing_Fushengji.dir/flags.make
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o: ../imgui/imgui_draw.cpp
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o: CMakeFiles/Beijing_Fushengji.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o -MF CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o.d -o CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o -c /home/taiwei/code/myBeijingHell/imgui/imgui_draw.cpp
 
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.i: cmake_force
@@ -254,7 +268,7 @@ CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.s: cmake_force
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o: CMakeFiles/Beijing_Fushengji.dir/flags.make
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o: ../imgui/imgui_widgets.cpp
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o: CMakeFiles/Beijing_Fushengji.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o -MF CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o.d -o CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o -c /home/taiwei/code/myBeijingHell/imgui/imgui_widgets.cpp
 
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.i: cmake_force
@@ -268,7 +282,7 @@ CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.s: cmake_force
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.o: CMakeFiles/Beijing_Fushengji.dir/flags.make
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.o: ../imgui/imgui_tables.cpp
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.o: CMakeFiles/Beijing_Fushengji.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.o -MF CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.o.d -o CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.o -c /home/taiwei/code/myBeijingHell/imgui/imgui_tables.cpp
 
 CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.i: cmake_force
@@ -282,7 +296,7 @@ CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_tables.cpp.s: cmake_force
 CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.o: CMakeFiles/Beijing_Fushengji.dir/flags.make
 CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.o: ../imgui/backends/imgui_impl_sdl2.cpp
 CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.o: CMakeFiles/Beijing_Fushengji.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.o -MF CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.o.d -o CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.o -c /home/taiwei/code/myBeijingHell/imgui/backends/imgui_impl_sdl2.cpp
 
 CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.i: cmake_force
@@ -296,7 +310,7 @@ CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_sdl2.cpp.s: cmake_for
 CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/Beijing_Fushengji.dir/flags.make
 CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_opengl3.cpp.o: ../imgui/backends/imgui_impl_opengl3.cpp
 CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/Beijing_Fushengji.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_opengl3.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_opengl3.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_opengl3.cpp.o -MF CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_opengl3.cpp.o.d -o CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_opengl3.cpp.o -c /home/taiwei/code/myBeijingHell/imgui/backends/imgui_impl_opengl3.cpp
 
 CMakeFiles/Beijing_Fushengji.dir/imgui/backends/imgui_impl_opengl3.cpp.i: cmake_force
@@ -320,6 +334,7 @@ Beijing_Fushengji_OBJECTS = \
 "CMakeFiles/Beijing_Fushengji.dir/src/SelectPopUp.cpp.o" \
 "CMakeFiles/Beijing_Fushengji.dir/src/PostPopUp.cpp.o" \
 "CMakeFiles/Beijing_Fushengji.dir/src/Events.cpp.o" \
+"CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o" \
 "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.o" \
 "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o" \
 "CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o" \
@@ -341,6 +356,7 @@ Beijing_Fushengji: CMakeFiles/Beijing_Fushengji.dir/src/BankPopUp.cpp.o
 Beijing_Fushengji: CMakeFiles/Beijing_Fushengji.dir/src/SelectPopUp.cpp.o
 Beijing_Fushengji: CMakeFiles/Beijing_Fushengji.dir/src/PostPopUp.cpp.o
 Beijing_Fushengji: CMakeFiles/Beijing_Fushengji.dir/src/Events.cpp.o
+Beijing_Fushengji: CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o
 Beijing_Fushengji: CMakeFiles/Beijing_Fushengji.dir/imgui/imgui.cpp.o
 Beijing_Fushengji: CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_draw.cpp.o
 Beijing_Fushengji: CMakeFiles/Beijing_Fushengji.dir/imgui/imgui_widgets.cpp.o
@@ -352,8 +368,9 @@ Beijing_Fushengji: _deps/sdl2-build/libSDL2-2.0.so.0.2600.5
 Beijing_Fushengji: _deps/sdl2-build/libSDL2main.a
 Beijing_Fushengji: /usr/lib/x86_64-linux-gnu/libGL.so
 Beijing_Fushengji: /usr/lib/x86_64-linux-gnu/libGLEW.so
+Beijing_Fushengji: /usr/local/lib/libcurl.so
 Beijing_Fushengji: CMakeFiles/Beijing_Fushengji.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Linking CXX executable Beijing_Fushengji"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Linking CXX executable Beijing_Fushengji"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Beijing_Fushengji.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
