@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include "AiApi.h"
 #include "Player.h"
+#include "Language.h"
 
 std::unordered_map<Item, NewsEventNames> check;
 
@@ -55,23 +56,23 @@ Event::Event(Item* itm)
     label = "";
     auto it = check.find(*itm);
     if(it == check.end()){
-        text = "未发现任何事件";
+        text = GET_TEXT("NO_EVENT");
         return;
     }
 
     switch(it->second){
         case NewsEventNames::FakeCigerrate:
-            label = "新闻事件";
+            label = GET_TEXT("NEWS_EVENT");
             if(goodThingHappen()){
-                text = "假烟供不应求！";
-                buttons.push_back(std::make_shared<ButtonWithAction>("确定", [ & ](){
+                text = GET_TEXT("FAKE_CIG_UP");
+                buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [ & ](){
                     item->setPrice(item->getPrice() * 5);
                     ImGui::CloseCurrentPopup();
                 }));
             }
             else{
-                text = "市面上突然出现好多假烟贩子！";
-                buttons.push_back(std::make_shared<ButtonWithAction>("确定", [ & ](){
+                text = GET_TEXT("FAKE_CIG_DOWN");
+                buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [ & ](){
                     item->setPrice(item->getPrice() / 5);
                     ImGui::CloseCurrentPopup();
                 }));
@@ -79,17 +80,17 @@ Event::Event(Item* itm)
             break;
 
         case NewsEventNames::UsedCar:
-            label = "新闻事件";
+            label = GET_TEXT("NEWS_EVENT");
             if(goodThingHappen()){
-                text = "走私二手车市场需求爆棚，价格暴涨！";
-                buttons.push_back(std::make_shared<ButtonWithAction>("确定", [ & ](){
+                text = GET_TEXT("USED_CAR_UP");
+                buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [ & ](){
                     item->setPrice(item->getPrice() * 5);
                     ImGui::CloseCurrentPopup();
                 }));
             }
             else{
-                text = "警方大规模查封走私车市场，价格暴跌！";
-                buttons.push_back(std::make_shared<ButtonWithAction>("确定", [ & ](){
+                text = GET_TEXT("USED_CAR_DOWN");
+                buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [ & ](){
                     item->setPrice(item->getPrice() / 5);
                     ImGui::CloseCurrentPopup();
                 }));
@@ -97,17 +98,17 @@ Event::Event(Item* itm)
             break;
 
         case NewsEventNames::FakeWine:
-            label = "新闻事件";
+            label = GET_TEXT("NEWS_EVENT");
             if(goodThingHappen()){
-                text = "假白酒销量突增，黑市交易火爆！";
-                buttons.push_back(std::make_shared<ButtonWithAction>("确定", [ & ](){
+                text = GET_TEXT("FAKE_WINE_UP");
+                buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [ & ](){
                     item->setPrice(item->getPrice() * 5);
                     ImGui::CloseCurrentPopup();
                 }));
             }
             else{
-                text = "有人喝假白酒中毒住院，市场彻底崩盘！";
-                buttons.push_back(std::make_shared<ButtonWithAction>("确定", [ & ](){
+                text = GET_TEXT("FAKE_WINE_DOWN");
+                buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [ & ](){
                     item->setPrice(item->getPrice() / 5);
                     ImGui::CloseCurrentPopup();
                 }));
@@ -115,17 +116,17 @@ Event::Event(Item* itm)
             break;
 
         case NewsEventNames::FakeMakeUp:
-            label = "新闻事件";
+            label = GET_TEXT("NEWS_EVENT");
             if(goodThingHappen()){
-                text = "假冒化妆品竟意外受到消费者青睐！";
-                buttons.push_back(std::make_shared<ButtonWithAction>("确定", [ & ](){
+                text = GET_TEXT("FAKE_MAKEUP_UP");
+                buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [ & ](){
                     item->setPrice(item->getPrice() * 5);
                     ImGui::CloseCurrentPopup();
                 }));
             }
             else{
-                text = "质检部门严查假化妆品，市场价格暴跌！";
-                buttons.push_back(std::make_shared<ButtonWithAction>("确定", [ & ](){
+                text = GET_TEXT("FAKE_MAKEUP_DOWN");
+                buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [ & ](){
                     item->setPrice(item->getPrice() / 5);
                     ImGui::CloseCurrentPopup();
                 }));
@@ -133,17 +134,17 @@ Event::Event(Item* itm)
             break;
 
         case NewsEventNames::FakeCD:
-            label = "新闻事件";
+            label = GET_TEXT("NEWS_EVENT");
             if(goodThingHappen()){
-                text = "新电影热映，盗版CD卖疯了！";
-                buttons.push_back(std::make_shared<ButtonWithAction>("确定", [ & ](){
+                text = GET_TEXT("FAKE_CD_UP");
+                buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [ & ](){
                     item->setPrice(item->getPrice() * 5);
                     ImGui::CloseCurrentPopup();
                 }));
             }
             else{
-                text = "政府严厉打击盗版产业，盗版CD市场惨淡！";
-                buttons.push_back(std::make_shared<ButtonWithAction>("确定", [ & ](){
+                text = GET_TEXT("FAKE_CD_DOWN");
+                buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [ & ](){
                     item->setPrice(item->getPrice() / 5);
                     ImGui::CloseCurrentPopup();
                 }));
@@ -151,17 +152,17 @@ Event::Event(Item* itm)
             break;
 
         case NewsEventNames::ShanghaiBaby:
-            label = "新闻事件";
+            label = GET_TEXT("NEWS_EVENT");
             if(goodThingHappen()){
-                text = "上海小宝贝被奉为文学经典，销量猛增！";
-                buttons.push_back(std::make_shared<ButtonWithAction>("确定", [ & ](){
+                text = GET_TEXT("SHANGHAI_BABY_UP");
+                buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [ & ](){
                     item->setPrice(item->getPrice() * 5);
                     ImGui::CloseCurrentPopup();
                 }));
             }
             else{
-                text = "上海小宝贝被禁售，市场价格急速下滑！";
-                buttons.push_back(std::make_shared<ButtonWithAction>("确定", [ & ](){
+                text = GET_TEXT("SHANGHAI_BABY_DOWN");
+                buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [ & ](){
                     item->setPrice(item->getPrice() / 5);
                     ImGui::CloseCurrentPopup();
                 }));
@@ -169,17 +170,17 @@ Event::Event(Item* itm)
             break;
 
         case NewsEventNames::ImportToy:
-            label = "新闻事件";
+            label = GET_TEXT("NEWS_EVENT");
             if(goodThingHappen()){
-                text = "进口玩具成为热门潮流，家长们疯狂抢购！";
-                buttons.push_back(std::make_shared<ButtonWithAction>("确定", [ & ](){
+                text = GET_TEXT("IMPORT_TOY_UP");
+                buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [ & ](){
                     item->setPrice(item->getPrice() * 5);
                     ImGui::CloseCurrentPopup();
                 }));
             }
             else{
-                text = "进口玩具曝出质量问题，市场迅速降温！";
-                buttons.push_back(std::make_shared<ButtonWithAction>("确定", [ & ](){
+                text = GET_TEXT("IMPORT_TOY_DOWN");
+                buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [ & ](){
                     item->setPrice(item->getPrice() / 5);
                     ImGui::CloseCurrentPopup();
                 }));
@@ -187,10 +188,9 @@ Event::Event(Item* itm)
             break;
 
         default:
-            text = "没有特殊事件发生";
-            label = "确认";
-            buttons.push_back(std::make_shared<ButtonWithAction>("确定", nullptr));
-            std::cout << "capture" << std::endl;
+            text = GET_TEXT("NO_SPECIAL_EVENT");
+            label = GET_TEXT("CONFIRM");
+            buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), nullptr));
             break;
     }
     // std::cout << item->price << std::endl;

@@ -639,6 +639,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+utils/Language.o: utils/Language.cpp.o
+.PHONY : utils/Language.o
+
+# target to build an object file
+utils/Language.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/utils/Language.cpp.o
+.PHONY : utils/Language.cpp.o
+
+utils/Language.i: utils/Language.cpp.i
+.PHONY : utils/Language.i
+
+# target to preprocess a source file
+utils/Language.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/utils/Language.cpp.i
+.PHONY : utils/Language.cpp.i
+
+utils/Language.s: utils/Language.cpp.s
+.PHONY : utils/Language.s
+
+# target to generate assembly for a file
+utils/Language.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/utils/Language.cpp.s
+.PHONY : utils/Language.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -708,6 +732,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... utils/Language.o"
+	@echo "... utils/Language.i"
+	@echo "... utils/Language.s"
 .PHONY : help
 
 

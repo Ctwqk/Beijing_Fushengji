@@ -1,6 +1,7 @@
 #include "BankPopUp.h"
 #include "Player.h"
 #include "Button.h"
+#include "Language.h"
 
 void BankPopUp::Open(){
     quantity = 1;
@@ -18,15 +19,15 @@ void BankPopUp::Render(){
     }
     if(isSelected){
         selectWin->Close();
-        ImGui::OpenPopup("银行");
+        ImGui::OpenPopup(GET_TEXT("BANK_TITLE").c_str());
     }
     // ImGui::SetNextWindowSize(ImVec2(400, 300));
-    if(ImGui::BeginPopupModal("银行", NULL, ImGuiWindowFlags_AlwaysAutoResize)){
+    if(ImGui::BeginPopupModal(GET_TEXT("BANK_TITLE").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)){
         ImGui::InputInt("##", &quantity, 1, 5);
         if(quantity < 0) quantity = 0;
         if(quantity >  maxMoney) quantity = maxMoney;
         ImGui::Spacing();
-        if(ImGui::Button("确定", ImVec2(100, 40))){
+        if(ImGui::Button(GET_TEXT("CONFIRM").c_str(), ImVec2(100, 40))){
             if(isSaving){
                 player->setCash(player->getCash() - quantity);
                 player->setSaving(player->getSaving() + quantity);
@@ -39,7 +40,7 @@ void BankPopUp::Render(){
             ImGui::CloseCurrentPopup();
         }
         ImGui::SameLine();
-        if(ImGui::Button("取消", ImVec2(100, 40))){
+        if(ImGui::Button(GET_TEXT("CANCEL").c_str(), ImVec2(100, 40))){
             Close();
             ImGui::CloseCurrentPopup();
         }
@@ -50,7 +51,7 @@ void BankPopUp::Render(){
 
 BankPopUp::BankPopUp(const std::shared_ptr<Player> &p): player(p){
     std::vector<ButtonWithAction> buttons = {
-        {"存款", [&](){
+        {GET_TEXT("DEPOSIT"), [&](){
             isSaving = true;
             isSelected = true;
             maxMoney = player->getCash();
@@ -58,7 +59,7 @@ BankPopUp::BankPopUp(const std::shared_ptr<Player> &p): player(p){
             selectWin->Close();
             ImGui::CloseCurrentPopup();
         }},
-        {"取款", [&](){
+        {GET_TEXT("WITHDRAW"), [&](){
             isSaving = false;
             isSelected = true;
             maxMoney = player->getSaving();
@@ -66,7 +67,7 @@ BankPopUp::BankPopUp(const std::shared_ptr<Player> &p): player(p){
             selectWin->Close();
             ImGui::CloseCurrentPopup();
         }},
-        {"取消", [&](){
+        {GET_TEXT("CANCEL"), [&](){
             selectWin->Close();
             ImGui::CloseCurrentPopup();
         }}

@@ -1,14 +1,13 @@
 #include "SelectPopUp.h"
 #include "Button.h"
+#include "Language.h"
 
 void SelectPopUp::Render(){
     if(isOpen){
-        ImGui::OpenPopup("选择");
-        // std::cout<<"select open"<<std::endl;
+        ImGui::OpenPopup(GET_TEXT("SELECT_TITLE").c_str());
     }
-    if(ImGui::BeginPopupModal("选择", NULL, ImGuiWindowFlags_AlwaysAutoResize)){
-        // std::cout<<"select begin"<<std::endl;
-        ImGui::Text("你要干什么");
+    if(ImGui::BeginPopupModal(GET_TEXT("SELECT_TITLE").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)){
+        ImGui::Text("%s", GET_TEXT("WHAT_TO_DO").c_str());
         
         int count = 0;
         for(const auto& selection: selections){

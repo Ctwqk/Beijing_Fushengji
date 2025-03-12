@@ -327,4 +327,5 @@ CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o: \
  /usr/include/c++/11/deque /usr/include/c++/11/bits/stl_deque.h \
  /usr/include/c++/11/bits/deque.tcc \
  /home/taiwei/code/myBeijingHell/utils/util.h \
- /home/taiwei/code/myBeijingHell/include/Button.h
+ /home/taiwei/code/myBeijingHell/include/Button.h \
+ /home/taiwei/code/myBeijingHell/utils/Language.h

@@ -1,18 +1,20 @@
 #include "HospitalPopUp.h"
 #include "TextPopUp.h"
+#include "Language.h"
 
 HospitalPopUp::HospitalPopUp(const std::shared_ptr<Player> &p):player(p){
     maxCure = Player::UPPER_LIMIT - player->getHealth();
     
 }
 
+
 void HospitalPopUp::Render(){
     if(isOpen){
-        ImGui::OpenPopup("医院");
+        ImGui::OpenPopup(GET_TEXT("HOSPITAL_TITLE").c_str());
     }
-    if(ImGui::BeginPopupModal("医院", NULL, ImGuiWindowFlags_AlwaysAutoResize)){
+    if(ImGui::BeginPopupModal(GET_TEXT("HOSPITAL_TITLE").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)){
         if(player->getCash() < PRICE_PER_HEALTH){
-            errorWin->Open("医生：没钱看什么病", "没钱了", nullptr);
+            errorWin->Open(GET_TEXT("NO_MONEY_DOCTOR"), GET_TEXT("NO_MONEY"), nullptr);
             ImGui::CloseCurrentPopup();
             Close();
         }
@@ -21,14 +23,14 @@ void HospitalPopUp::Render(){
             if(quantity <0) quantity = 0;
             if(quantity > maxCure) quantity = maxCure;
             ImGui::Spacing();
-            if(ImGui::Button("确定", ImVec2(100, 40))){
+            if(ImGui::Button(GET_TEXT("CONFIRM").c_str(), ImVec2(100, 40))){
                 player->setCash(player->getCash() - quantity * PRICE_PER_HEALTH);
                 player->setHealth(player->getHealth() + quantity);
                 ImGui::CloseCurrentPopup();
                 Close();
             }
             ImGui::SameLine();
-            if(ImGui::Button("你们太黑了！告你们去！", ImVec2(200, 40))){
+            if(ImGui::Button(GET_TEXT("TOO_EXPENSIVE").c_str(), ImVec2(200, 40))){
                 ImGui::CloseCurrentPopup();
                 Close();
             }

@@ -227,4 +227,5 @@ CMakeFiles/Beijing_Fushengji.dir/src/MarketPopUp.cpp.o: \
  /usr/include/c++/11/pstl/glue_memory_defs.h /usr/include/c++/11/deque \
  /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
  /home/taiwei/code/myBeijingHell/include/Player.h \
- /home/taiwei/code/myBeijingHell/include/Market.h
+ /home/taiwei/code/myBeijingHell/include/Market.h \
+ /home/taiwei/code/myBeijingHell/utils/Language.h

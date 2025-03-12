@@ -37,6 +37,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Beijing_Fushengji.dir/src/TextPopUp.cpp.o.d"
   "CMakeFiles/Beijing_Fushengji.dir/src/main.cpp.o"
   "CMakeFiles/Beijing_Fushengji.dir/src/main.cpp.o.d"
+  "CMakeFiles/Beijing_Fushengji.dir/utils/Language.cpp.o"
+  "CMakeFiles/Beijing_Fushengji.dir/utils/Language.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -221,4 +221,5 @@ CMakeFiles/Beijing_Fushengji.dir/src/TextPopUp.cpp.o: \
  /usr/include/c++/11/pstl/glue_numeric_defs.h \
  /home/taiwei/code/myBeijingHell/include/TextPopUp.h \
  /home/taiwei/code/myBeijingHell/include/Item.h \
- /home/taiwei/code/myBeijingHell/include/Events.h
+ /home/taiwei/code/myBeijingHell/include/Events.h \
+ /home/taiwei/code/myBeijingHell/utils/Language.h

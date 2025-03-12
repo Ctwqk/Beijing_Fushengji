@@ -26,6 +26,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/taiwei/code/myBeijingHell/src/SelectPopUp.cpp" "CMakeFiles/Beijing_Fushengji.dir/src/SelectPopUp.cpp.o" "gcc" "CMakeFiles/Beijing_Fushengji.dir/src/SelectPopUp.cpp.o.d"
   "/home/taiwei/code/myBeijingHell/src/TextPopUp.cpp" "CMakeFiles/Beijing_Fushengji.dir/src/TextPopUp.cpp.o" "gcc" "CMakeFiles/Beijing_Fushengji.dir/src/TextPopUp.cpp.o.d"
   "/home/taiwei/code/myBeijingHell/src/main.cpp" "CMakeFiles/Beijing_Fushengji.dir/src/main.cpp.o" "gcc" "CMakeFiles/Beijing_Fushengji.dir/src/main.cpp.o.d"
+  "/home/taiwei/code/myBeijingHell/utils/Language.cpp" "CMakeFiles/Beijing_Fushengji.dir/utils/Language.cpp.o" "gcc" "CMakeFiles/Beijing_Fushengji.dir/utils/Language.cpp.o.d"
   )
 
 # Targets to which this target links.

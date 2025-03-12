@@ -16,6 +16,9 @@
 #include <unordered_set>
 #include <filesystem>
 #include "AiApi.h"
+#include "Language.h"
+#include <thread>
+#include <future>
 
 namespace fs = std::filesystem;
 
@@ -27,15 +30,15 @@ class MainPage{
         static constexpr int TOTAL_STEP = 40;
         
         
-        static const std::vector<std::string> subwayStations;
-        static const std::vector<std::string> cityLocations ;
+        std::vector<std::string> subwayStations;
+        std::vector<std::string> cityLocations ;
 
         int STEP = 0;
         int cash = 2000, debt = 5000, saving = 0, health = 100, reputation = 100;
         int selectedMarketIndex = -1, selectedPlayerIndex = -1;
         bool cityOrSubway = true;
         bool running = true;
-        
+        bool showLanguageSelector = true;
         
         std::vector<std::shared_ptr<PopUp>> popUps;
         std::vector<std::shared_ptr<Event>> popupEvents;
@@ -46,14 +49,10 @@ class MainPage{
         // BankPopUp* bankWinHandle;
         // PostPopUp* postWinHandle;
         std::vector<std::pair<Item,int>> playerInventory;
-        std::vector<Item> allItems = {
-            {"进口香烟", 206}, {"走私汽车", 15338}, {"假白酒（剧毒！）", 2634, -10}, 
-            {"进口玩具", 610}, {"仿造化妆品", 235}, {"上海小宝贝（教科书）", 100000, +5}
-        };
-
+        std::vector<Item> allItems;
         std::vector<Item> marketItems;
         std::shared_ptr<Player> player = std::make_shared<Player>(health, cash, debt, saving, reputation, 100);
-        std::shared_ptr<Market> market = std::make_shared<Market>(allItems);
+        std::shared_ptr<Market> market;
         std::shared_ptr<MarketPopUp>marketWinHandle = std::make_shared<MarketPopUp>(player);
         std::shared_ptr<TextPopUp>textWinHandle = std::make_shared<TextPopUp>();
         std::shared_ptr<HospitalPopUp>hospitalWinHandle = std::make_shared<HospitalPopUp>(player);
@@ -61,11 +60,14 @@ class MainPage{
         std::shared_ptr<BankPopUp>bankWinHandle = std::make_shared<BankPopUp>(player);
         std::shared_ptr<AiApi>aiApi;
         std::unordered_map<Item, bool> inPackageNotInMarket;
+        std::future<std::shared_ptr<Event>> randomEventFuture;
     protected:
         void RenderMapUI();
         void RenderMainWindow();
         void wrapUp();
         bool isRunning(){return running;}
+        void RenderLanguageSelector();
+        void FetchRandomEvent();
         void SetOldFashionImGuiStyle(){
             ImGuiStyle& style = ImGui::GetStyle();
 
@@ -104,16 +106,18 @@ class MainPage{
         
         int run();
 };
-const std::vector<std::string> MainPage::cityLocations = {
-    "海淀大街", "亚运村", "三元西桥",
-    "八角西路", "翠微路", "府右街", "永安里",
-    "玉泉宫", "永定门", "方庄"
-};
-const std::vector<std::string> MainPage::subwayStations = {
-    "西直门", "积水潭", "东直门",
-    "苹果园", "公主坟", "复兴门", "建国门",
-    "长椿街", "茶文门", "北京站"
-};
+
+void MainPage::FetchRandomEvent() {
+    try{
+        randomEventFuture = std::async(std::launch::async, [this]() {
+            return player->randomEvent();
+        });
+    }
+    catch(const std::exception &e){
+        std::cerr << "Error starting async task for random event: " << e.what() << std::endl;
+    }
+    
+}
 
 MainPage::MainPage()
     : STEP(0), selectedMarketIndex(-1), selectedPlayerIndex(-1), player(std::make_shared<Player>(health, cash, debt, saving, reputation, 100)), market(std::make_shared<Market>(allItems)),
@@ -139,19 +143,35 @@ MainPage::MainPage()
     // std::cout<<aiApi->run("说句吉祥话")<<std::endl;
     // std::cout<<fontPath<<std::endl;
     io.Fonts->AddFontFromFileTTF(fontPath.string().c_str(), 18.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
-    check = {   //external in Events.h
-        {Item("进口香烟", 206), NewsEventNames::FakeCigerrate},
-        {Item("走私汽车", 15338), NewsEventNames::UsedCar},
-        {Item("假白酒（剧毒！）", 2634, -10), NewsEventNames::FakeWine},
-        {Item("进口玩具", 610), NewsEventNames::ImportToy},
-        {Item("仿造化妆品", 235), NewsEventNames::FakeMakeUp},
-        {Item("上海小宝贝（教科书）", 100000, 5), NewsEventNames::ShanghaiBaby},
-        {Item("盗版CD", 100), NewsEventNames::FakeCD}
-    };
+    // check = {   //external in Events.h, search on name not price
+    //     {Item("进口香烟", 206), NewsEventNames::FakeCigerrate},
+    //     {Item("走私汽车", 15338), NewsEventNames::UsedCar},
+    //     {Item("假白酒（剧毒！）", 2634, -10), NewsEventNames::FakeWine},
+    //     {Item("进口玩具", 610), NewsEventNames::ImportToy},
+    //     {Item("仿造化妆品", 235), NewsEventNames::FakeMakeUp},
+    //     {Item("上海小宝贝（教科书）", 1000, 5), NewsEventNames::ShanghaiBaby},
+    //     {Item("盗版CD", 100), NewsEventNames::FakeCD}
+    // };
+    // cityLocations = {
+    //     "海淀大街", "亚运村", "三元西桥",
+    //     "八角西路", "翠微路", "府右街", "永安里",
+    //     "玉泉宫", "永定门", "方庄"
+    // };
+    // subwayStations = {
+    //     "西直门", "积水潭", "东直门",
+    //     "苹果园", "公主坟", "复兴门", "建国门",
+    //     "长椿街", "茶文门", "北京站"
+    // };
+    // allItems = {
+    //     {"进口香烟", 206}, {"走私汽车", 15338}, {"假白酒（剧毒！）", 2634, -10}, 
+    //     {"进口玩具", 610}, {"仿造化妆品", 235}, {"上海小宝贝（教科书）", 1000, +5}, {"盗版CD", 100}
+    // };
+    
     Player::setAiApi(aiApi);
     market->setPlayer(player);
     player->setMarket(market);
-    std::string lifeBackground = "您扮演一位从外地到北京谋生的青年。一开始，您只有2000元钱，并且还欠村长（一个流氓头子）5500元债务。这些债务每天的利息高达10%，如果不及时还清，村长会叫在北京的老乡们来扁您，您可能牺牲在北京街头。您决定在北京地铁各黑市倒卖各种物品来发财致富，不仅还掉债务，而且要荣登北京富人排行榜";  // a general life background for the character in Beijing;
+    // std::string lifeBackground = "您扮演一位从外地到北京谋生的青年。一开始，您只有2000元钱，并且还欠村长（一个流氓头子）5500元债务。这些债务每天的利息高达10%，如果不及时还清，村长会叫在北京的老乡们来扁您，您可能牺牲在北京街头。您决定在北京地铁各黑市倒卖各种物品来发财致富，不仅还掉债务，而且要荣登北京富人排行榜";  // a general life background for the character in Beijing;
+    std::string lifeBackground = GET_TEXT("LIFE_BACKGROUND");
     marketWinHandle->setTextWin(textWinHandle);
     hospitalWinHandle->setTextWin(textWinHandle);
     player->setLifeStory(lifeBackground);
@@ -166,7 +186,7 @@ MainPage::MainPage()
     popUps.push_back(postWinHandle);
     popUps.push_back(bankWinHandle);
 
-    marketItems = market->newDay();
+    
     for(auto &i:allItems){
         inPackageNotInMarket[i] = false;
     }
@@ -195,8 +215,12 @@ int MainPage::run(){
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
-        
-        RenderMainWindow();
+        if(showLanguageSelector){
+            RenderLanguageSelector();
+        }
+        else{
+            RenderMainWindow();
+        }
         if(!isRunning()){
             running = false;
         }
@@ -214,21 +238,69 @@ int MainPage::run(){
     return 0;
 }
 
+void MainPage::RenderLanguageSelector() {
+    if (showLanguageSelector){
+        ImGui::OpenPopup("Choose your language");
+    }
+    
+    if(ImGui::BeginPopupModal("Choose your language", NULL, ImGuiWindowFlags_AlwaysAutoResize)){
+        auto renderButton = [&](){
+            showLanguageSelector = false;
+            check = {
+                {Item(GET_TEXT("IMPORTED_CIGARETTES"), 206), NewsEventNames::FakeCigerrate},
+                {Item(GET_TEXT("SMUGGLED_CARS"), 15338), NewsEventNames::UsedCar},
+                {Item(GET_TEXT("FAKE_LIQUOR"), 2634, -10), NewsEventNames::FakeWine},
+                {Item(GET_TEXT("IMPORTED_TOYS"), 610), NewsEventNames::ImportToy},
+                {Item(GET_TEXT("FAKE_COSMETICS"), 235), NewsEventNames::FakeMakeUp},
+                {Item(GET_TEXT("SHANGHAI_BABY"), 1000, 5), NewsEventNames::ShanghaiBaby},
+                {Item(GET_TEXT("PIRATED_CD"), 100), NewsEventNames::FakeCD}
+            };
+            cityLocations = {
+                GET_TEXT("LOC_HAIDIAN"), GET_TEXT("LOC_YAYUN"), GET_TEXT("LOC_SANYUAN"),
+                GET_TEXT("LOC_BAJIAO"), GET_TEXT("LOC_CUIWEI"), GET_TEXT("LOC_FUYOU"), GET_TEXT("LOC_YONGANLI"),
+                GET_TEXT("LOC_YUQUAN"), GET_TEXT("LOC_YONGDINGMEN"), GET_TEXT("LOC_FANGZHUANG")
+            };
+            subwayStations = {
+                GET_TEXT("STATION_XIZHIMEN"), GET_TEXT("STATION_JISHUITAN"), GET_TEXT("STATION_DONGZHIMEN"),
+                GET_TEXT("STATION_PINGGUOYUAN"), GET_TEXT("STATION_GONGZUFEN"), GET_TEXT("STATION_FUXINGMEN"), GET_TEXT("STATION_JIANGUOMEN"),
+                GET_TEXT("STATION_CHANGCHUN"), GET_TEXT("STATION_CHAWEN"), GET_TEXT("STATION_BEIJING")
+            };
+            allItems = {
+                {GET_TEXT("IMPORTED_CIGARETTES"), 206}, {GET_TEXT("SMUGGLED_CARS"), 15338}, {GET_TEXT("FAKE_LIQUOR"), 2634, -10}, 
+                {GET_TEXT("IMPORTED_TOYS"), 610}, {GET_TEXT("FAKE_COSMETICS"), 235}, {GET_TEXT("SHANGHAI_BABY"), 1000, +5}, {GET_TEXT("PIRATED_CD"), 100}
+            };
+            market = std::make_shared<Market>(allItems);
+            marketItems = market->newDay();
+        };
+        if (ImGui::Button("中文")) {
+            LANG.setLanguage(Language::Lang::CHINESE);
+            renderButton();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("English")) {
+            LANG.setLanguage(Language::Lang::ENGLISH);
+            renderButton();
+        }
+        
+        ImGui::End();
+    }
+}
+
 void MainPage::RenderMapUI(){
     ImGui::BeginChild("SubwayMap", ImVec2(400, 200), true);
-    ImGui::Text("北京地铁");
+    ImGui::Text("%s", GET_TEXT("SUBWAY_MAP").c_str());  // "北京地铁"
     int buttonPerRow = 4;
     int count = 0;
     auto renderButton = [&](bool &cityOrSubway){
         for(const auto& location: cityOrSubway?cityLocations:subwayStations){
             if(ImGui::Button(location.c_str(), ImVec2(80, 30))){
+                FetchRandomEvent();
                 if(STEP == TOTAL_STEP - 1 && playerInventory.size()){
                     // std::cout<<playerInventory.size()<<std::endl;
                     // popupEvents.push_back(std::make_shared<Event>("明天俺就要回老家了，快把商品卖掉吧！", "回家", std::make_shared<ButtonWithAction>("OK", [&](){
                     //     STEP++;
                     // })));
-                    popupEvents.push_back(std::make_shared<Event>("明天俺就要回老家了，快把商品卖掉吧！", "回家", nullptr));
-                }
+                    popupEvents.push_back(std::make_shared<Event>(GET_TEXT("SELL_BEFORE_HOME").c_str(),  GET_TEXT("GO_HOME").c_str(), nullptr));                }
                 // for(auto & p:inPackageNotInMarket){
                 //     std::cout<<p.first.getName()<<" "<<p.second<<std::endl;
                 // }
@@ -252,12 +324,7 @@ void MainPage::RenderMapUI(){
                         popupEvents.push_back(p.first.getEvent());
                     }
                 }
-                try{
-                    popupEvents.push_back(player->randomEvent());
-                }
-                catch(std::runtime_error &e){
-                    std::cerr<< "failed to generate random event today"<<std::endl;
-                }
+                
                 if(STEP < TOTAL_STEP)textWinHandle->setEvents(popupEvents);
                 // textWinHandle->setEvents(popupEvents);
                 
@@ -270,21 +337,32 @@ void MainPage::RenderMapUI(){
         }
     };
     if(cityOrSubway){
-        if(ImGui::Button("我要坐地铁", ImVec2(164, 50))){
+        if(ImGui::Button(GET_TEXT("TAKE_SUBWAY").c_str(), ImVec2(164, 50))) {  // 我要坐地铁
             cityOrSubway = false;
         }
     }
     else{
-        if(ImGui::Button("我要逛京城", ImVec2(164, 50))){
+        if(ImGui::Button(GET_TEXT("EXPLORE_CITY").c_str(), ImVec2(164, 50))) {  // 我要逛京城
             cityOrSubway = true;
         }
     }
     renderButton(cityOrSubway);
     ImGui::SameLine();
-    if(ImGui::Button("老板来力！（存档）", ImVec2(164, 30))){
+    if(ImGui::Button(GET_TEXT("SAVE_GAME").c_str(), ImVec2(164, 30))) {  // 老板来力！（存档）
 
     }
     ImGui::EndChild();
+
+    if ( randomEventFuture.valid() && randomEventFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready){
+        try{
+            popupEvents.push_back(randomEventFuture.get());
+            textWinHandle->setEvents(popupEvents);
+            popupEvents.clear();
+        }
+        catch (const std::exception &e){
+            std::cerr << "Error starting async task for random event: " << e.what() << std::endl;
+        }
+    }
 }
 
 void MainPage::RenderMainWindow(){
@@ -294,14 +372,14 @@ void MainPage::RenderMainWindow(){
     ImGui::SetNextWindowSize(ImVec2(windowWidth, windowHeight));
     ImGui::SetNextWindowPos(ImVec2(0, 0));
 
-    std::string label = "北京浮生记" + std::to_string(STEP) + "/" + std::to_string(TOTAL_STEP);
+    std::string label = GET_TEXT("GAME_TITLE") + std::to_string(STEP) + "/" + std::to_string(TOTAL_STEP);  // "北京浮生记"
     ImGui::Begin(label.c_str(), NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove);
     ImGui::BeginChild("Market", ImVec2(300, 300), true);
-    ImGui::Text("黑市");
+    ImGui::Text("%s", GET_TEXT("BLACK_MARKET").c_str());  // "黑市"
     ImGui::Separator();
     ImGui::Columns(2);
-    ImGui::Text("商品"); ImGui::NextColumn();
-    ImGui::Text("黑市价格"); ImGui::NextColumn();
+    ImGui::Text("%s", GET_TEXT("GOODS").c_str()); ImGui::NextColumn();  // "商品"
+    ImGui::Text("%s", GET_TEXT("PRICE").c_str()); ImGui::NextColumn();  // "黑市价格"
     ImGui::Separator();
     ImGui::Columns(1);
     char buffer[128];
@@ -330,7 +408,7 @@ void MainPage::RenderMainWindow(){
     ImGui::SameLine();
     ImGui::BeginGroup();
     ImGui::Spacing(); ImGui::Spacing(); 
-    if (ImGui::Button("买进  =>")) {
+    if (ImGui::Button(GET_TEXT("BUY_ARROW").c_str())) {  // 买进  =>
         // std::cout<<marketItems.size()<<std::endl;
         if (selectedMarketIndex >= 0 && selectedMarketIndex < marketItems.size() && marketItems[selectedMarketIndex].getPrice() <= cash) {
             // std::cout<<"here"<<std::endl;
@@ -346,7 +424,7 @@ void MainPage::RenderMainWindow(){
         }
     }
     ImGui::Spacing(); ImGui::Spacing();
-    if (ImGui::Button("<=  卖出")) {
+    if (ImGui::Button(GET_TEXT("SELL_ARROW").c_str())) {  // <=  卖出
         if (selectedPlayerIndex >= 0 && selectedPlayerIndex < playerInventory.size()) {
             marketWinHandle->Open(playerInventory[selectedPlayerIndex].first, false);
             
@@ -362,12 +440,12 @@ void MainPage::RenderMainWindow(){
     ImGui::SameLine();
 
     ImGui::BeginChild("Inventory", ImVec2(250, 300), true);
-    ImGui::Text("您的出租屋");
+    ImGui::Text("%s", GET_TEXT("YOUR_ROOM").c_str());  // 您的出租屋
     ImGui::Separator();
     ImGui::Columns(3);
-    ImGui::Text("商品"); ImGui::NextColumn();
-    ImGui::Text("买进价格"); ImGui::NextColumn();
-    ImGui::Text("数/100"); ImGui::NextColumn();
+    ImGui::Text("%s", GET_TEXT("GOODS").c_str()); ImGui::NextColumn();
+    ImGui::Text("%s", GET_TEXT("BUY_PRICE").c_str()); ImGui::NextColumn();  // 买进价格
+    ImGui::Text("%s/100", GET_TEXT("QUANTITY").c_str()); ImGui::NextColumn();  // 数
     ImGui::Separator();
     ImGui::Columns(1);
     for (int i = 0; i < playerInventory.size(); i++) {
@@ -379,12 +457,15 @@ void MainPage::RenderMainWindow(){
     ImGui::EndChild();
 
     ImGui::BeginChild("PlayerStats", ImVec2(250, 200), true);
-    ImGui::Text("状态");
+    ImGui::Text("%s", GET_TEXT("STATUS").c_str());  // 状态
     ImGui::Separator();
-    ImGui::Text("现金:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0, 1, 0, 1), "%d", player->getCash());
-    ImGui::Text("存款:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(0, 1, 0, 1), "%d", player->getSaving());
-    ImGui::Text("欠债:"); ImGui::SameLine(); ImGui::TextColored(ImVec4(1, 0, 0, 1), "%d", player->getDebt());
-    ImGui::Text("健康: %d  信誉: %d", player->getHealth(), player->getReputation());
+    ImGui::Text("%s:", GET_TEXT("CASH").c_str()); ImGui::SameLine(); 
+    ImGui::TextColored(ImVec4(0, 1, 0, 1), "%d", player->getCash());
+    ImGui::Text("%s:", GET_TEXT("SAVINGS").c_str()); ImGui::SameLine(); 
+    ImGui::TextColored(ImVec4(0, 1, 0, 1), "%d", player->getSaving());
+    ImGui::Text("%s:", GET_TEXT("DEBT").c_str()); ImGui::SameLine(); 
+    ImGui::TextColored(ImVec4(1, 0, 0, 1), "%d", player->getDebt());
+    ImGui::Text("%s: %d  %s: %d", GET_TEXT("HEALTH").c_str(), player->getHealth(), GET_TEXT("REPUTATION").c_str(), player->getReputation());
     ImGui::EndChild();
 
     ImGui::SameLine();
@@ -401,22 +482,22 @@ void MainPage::RenderMainWindow(){
         // 这里我们用 5 个列（column），分别放 5 个按钮
 
         ImGui::TableSetColumnIndex(0);
-        if (ImGui::Button("银行", ImVec2(120, 40))) { 
+        if (ImGui::Button(GET_TEXT("BANK").c_str(), ImVec2(120, 40))) { 
             bankWinHandle->Open();
         }
         ImGui::TableSetColumnIndex(1);
-        if (ImGui::Button("医院", ImVec2(120, 40))) { 
+        if (ImGui::Button(GET_TEXT("HOSPITAL").c_str(), ImVec2(120, 40))) { 
             hospitalWinHandle->Open();
         }
         ImGui::TableSetColumnIndex(2);
-        if (ImGui::Button("邮局", ImVec2(120, 40))) { 
+        if (ImGui::Button(GET_TEXT("POST_OFFICE").c_str(), ImVec2(120, 40))) { 
             postWinHandle->Open();
         }
         ImGui::TableSetColumnIndex(3);
-        if (ImGui::Button("租房中介", ImVec2(120, 40))) { /* TODO: Open Rental Agency */ }
+        if (ImGui::Button(GET_TEXT("RENTAL_AGENCY").c_str(), ImVec2(120, 40))) { }
         ImGui::TableSetColumnIndex(4);
-        if (ImGui::Button("网吧", ImVec2(120, 40))) { /* TODO: Open Internet Café */ }
-
+        if (ImGui::Button(GET_TEXT("INTERNET_CAFE").c_str(), ImVec2(120, 40))) { }
+        
         ImGui::EndTable();
     }
 
@@ -438,26 +519,24 @@ void MainPage::wrapUp(){
     // std::cout<<playerInventory.size()<<std::endl;
     for(auto & p:playerInventory){
         price = market->askPrice(p.first);
-        text = "已将您库存中剩余的" + std::to_string(p.second) + "个" + p.first.getName() + "出售, 获利" + std::to_string((price * p.second)) + "元";
+        text = GET_TEXT("SOLD_REMAINING_ITEMS") + std::to_string(p.second) + GET_TEXT("ITEMS_OF") + p.first.getName() + GET_TEXT("PROFIT") + std::to_string((price * p.second)) + GET_TEXT("YUAN");        
         // textWinHandle->Open(text, p.first.name, std::make_shared<ButtonWithAction>("OK", [player_ = player, &pi = p](){
         //     player_->sell(pi.first, pi.second);
         // }));
         std::cout<<text<<std::endl;
-        popupEvents.push_back(std::make_shared<Event>(p.first.getName(), text, std::make_shared<ButtonWithAction>("OK", [&](){
-            player->sell(p.first, p.second);
-        })));
+        popupEvents.push_back(std::make_shared<Event>(p.first.getName(), text, std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM").c_str(), [&](){
+                player->sell(p.first, p.second);
+            })));
     }
     price = player->getCash() + player->getSaving() - player->getDebt();
-    text = price >= 0? "您最终获利" + std::to_string(price) + "元":"您最终仍欠村长"+std::to_string(-price)+ "元, 村子回不去了，你开始流浪";
+    text = price >= 0 ? GET_TEXT("FINAL_PROFIT") + std::to_string(price) + GET_TEXT("YUAN") : GET_TEXT("FINAL_DEBT") + std::to_string(-price) + GET_TEXT("CANT_GO_HOME");
     // textWinHandle->Open(text, "结局", std::make_shared<ButtonWithAction>("OK", [popup = textWinHandle](){
     //     // popup->Close();
     //     // ImGui::CloseCurrentPopup();
     // }));
-    popupEvents.push_back(std::make_shared<Event>("结局", text, std::make_shared<ButtonWithAction>("OK", [&](){
-        // popup->Close();
-        // ImGui::CloseCurrentPopup();
-        running = false;
-    })));
+    popupEvents.push_back(std::make_shared<Event>(GET_TEXT("ENDING").c_str(), text, std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM").c_str(), [&](){
+            running = false;
+        })));
     textWinHandle->setEvents(popupEvents);
     popupEvents.clear();
 }
@@ -465,6 +544,9 @@ void MainPage::wrapUp(){
 
 
 int main(int argc, char* argv[]) {
+    LANG.initialize();
+    LANG.setLanguage(Language::Lang::ENGLISH);
+    std::cout<<GET_TEXT("IMPORTED_CIGARETTES")<<std::endl;
     MainPage mainPage;    
     return mainPage.run();
 }

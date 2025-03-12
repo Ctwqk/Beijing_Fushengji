@@ -86,6 +86,7 @@ set(SOURCES
     imgui/imgui_tables.cpp
     imgui/backends/imgui_impl_sdl2.cpp
     imgui/backends/imgui_impl_opengl3.cpp
+    utils/Language.cpp
 )
 set(HEADER
     include/Item.h
@@ -103,6 +104,7 @@ set(HEADER
     include/AiApi.h
     external/nlohmann/json.hpp
     utils/util.h
+    utils/Language.h
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/utils)

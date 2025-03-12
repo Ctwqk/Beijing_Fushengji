@@ -1,6 +1,7 @@
 #include "TextPopUp.h"
 #include "Events.h"
 #include "Item.h"
+#include "Language.h"
 
 
 TextPopUp::TextPopUp(){
@@ -19,10 +20,10 @@ void TextPopUp::Render(){
         ImGui::TextWrapped("%s", text.c_str());
         ImGui::Spacing();
         if(!buttons.size()){
-            buttons.push_back(std::make_shared<ButtonWithAction>("OK",[](){}));
+            buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM"), [](){}));
         }
         for (auto& button:buttons){
-            if(ImGui::Button(button?button->label.c_str():"OK", ImVec2(200, 40))) {
+            if(ImGui::Button(button ? button->label.c_str() : GET_TEXT("CONFIRM").c_str(), ImVec2(200, 40))) {
                 if(button)button->action();
                 events.pop_front();
                 if(events.size() ==0) {

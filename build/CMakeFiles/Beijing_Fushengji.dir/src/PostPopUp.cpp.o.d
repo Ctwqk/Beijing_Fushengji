@@ -221,4 +221,5 @@ CMakeFiles/Beijing_Fushengji.dir/src/PostPopUp.cpp.o: \
  /usr/include/c++/11/bits/random.tcc /usr/include/c++/11/numeric \
  /usr/include/c++/11/bits/stl_numeric.h \
  /usr/include/c++/11/pstl/glue_numeric_defs.h \
- /home/taiwei/code/myBeijingHell/include/Events.h
+ /home/taiwei/code/myBeijingHell/include/Events.h \
+ /home/taiwei/code/myBeijingHell/utils/Language.h

@@ -107,12 +107,12 @@ CMakeFiles/Beijing_Fushengji.dir/all: _deps/sdl2-build/CMakeFiles/SDL2main.dir/a
 CMakeFiles/Beijing_Fushengji.dir/all: _deps/sdl2-build/CMakeFiles/SDL2.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Beijing_Fushengji.dir/build.make CMakeFiles/Beijing_Fushengji.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=1,2 "Built target Beijing_Fushengji"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=1,2,3 "Built target Beijing_Fushengji"
 .PHONY : CMakeFiles/Beijing_Fushengji.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Beijing_Fushengji.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/taiwei/code/myBeijingHell/build/CMakeFiles 57
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/taiwei/code/myBeijingHell/build/CMakeFiles 58
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Beijing_Fushengji.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/taiwei/code/myBeijingHell/build/CMakeFiles 0
 .PHONY : CMakeFiles/Beijing_Fushengji.dir/rule
@@ -185,7 +185,7 @@ _deps/sdl2-build/CMakeFiles/SDL2main.dir/clean:
 _deps/sdl2-build/CMakeFiles/SDL2.dir/all: _deps/sdl2-build/CMakeFiles/sdl_headers_copy.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/sdl2-build/CMakeFiles/SDL2.dir/build.make _deps/sdl2-build/CMakeFiles/SDL2.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/sdl2-build/CMakeFiles/SDL2.dir/build.make _deps/sdl2-build/CMakeFiles/SDL2.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42 "Built target SDL2"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43 "Built target SDL2"
 .PHONY : _deps/sdl2-build/CMakeFiles/SDL2.dir/all
 
 # Build rule for subdir invocation for target.
@@ -211,12 +211,12 @@ _deps/sdl2-build/CMakeFiles/SDL2.dir/clean:
 _deps/sdl2-build/CMakeFiles/SDL2-static.dir/all: _deps/sdl2-build/CMakeFiles/sdl_headers_copy.dir/all
 	$(MAKE) $(MAKESILENT) -f _deps/sdl2-build/CMakeFiles/SDL2-static.dir/build.make _deps/sdl2-build/CMakeFiles/SDL2-static.dir/depend
 	$(MAKE) $(MAKESILENT) -f _deps/sdl2-build/CMakeFiles/SDL2-static.dir/build.make _deps/sdl2-build/CMakeFiles/SDL2-static.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82 "Built target SDL2-static"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/taiwei/code/myBeijingHell/build/CMakeFiles --progress-num=44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82 "Built target SDL2-static"
 .PHONY : _deps/sdl2-build/CMakeFiles/SDL2-static.dir/all
 
 # Build rule for subdir invocation for target.
 _deps/sdl2-build/CMakeFiles/SDL2-static.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/taiwei/code/myBeijingHell/build/CMakeFiles 55
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/taiwei/code/myBeijingHell/build/CMakeFiles 54
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/sdl2-build/CMakeFiles/SDL2-static.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/taiwei/code/myBeijingHell/build/CMakeFiles 0
 .PHONY : _deps/sdl2-build/CMakeFiles/SDL2-static.dir/rule

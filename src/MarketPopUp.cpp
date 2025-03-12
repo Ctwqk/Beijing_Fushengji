@@ -1,17 +1,20 @@
 #include "MarketPopUp.h"
 #include "Player.h"
 #include "Market.h"
+#include "Language.h"
+
+
 void MarketPopUp::Render(){
     if (isOpen){
-        ImGui::OpenPopup("商店");
+        ImGui::OpenPopup(GET_TEXT("MARKET_TITLE").c_str());
     }
-    if (ImGui::BeginPopupModal("商店", NULL, ImGuiWindowFlags_AlwaysAutoResize)){
+    if (ImGui::BeginPopupModal(GET_TEXT("MARKET_TITLE").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)){
         ImGui::InputInt("##", &quantity, 1, 5);
         if(quantity < 0) quantity = 0;
         if(quantity>totalNumber) quantity = totalNumber;
         ImGui::Spacing();
         // std::cout<<"hhh"<<std::endl;
-        if(ImGui::Button("确定", ImVec2(100,40))) {
+        if(ImGui::Button(GET_TEXT("CONFIRM").c_str(), ImVec2(100,40))) {
             try{
                 if(isBuy)player->buy(curItem, quantity);
                 else player->sell(curItem, quantity);
@@ -29,7 +32,7 @@ void MarketPopUp::Render(){
         //     errorWin->Render();
         // }
         ImGui::SameLine();
-        if(ImGui::Button("取消", ImVec2(100, 40))) {
+        if(ImGui::Button(GET_TEXT("CANCEL").c_str(), ImVec2(100, 40))) {
             Close();
             ImGui::CloseCurrentPopup();
         }
@@ -56,9 +59,9 @@ void MarketPopUp::Open(Item &i, bool iB){
 MarketPopUp::MarketPopUp(std::shared_ptr<Player> p):player(p){
     availableSpace = p->getSpace();
     totalCash = p->getCash();
-    noMoney = "没有足够金钱购买";
-    noSpace = "没有足够空间存放，租赁公寓解锁更多空间";
-    label = "购买失败";
+    noMoney = GET_TEXT("NOT_ENOUGH_MONEY");
+    noSpace = GET_TEXT("NOT_ENOUGH_SPACE");
+    label = GET_TEXT("PURCHASE_FAILED");
     if(totalNumber > availableSpace) totalNumber = availableSpace;
 }
 

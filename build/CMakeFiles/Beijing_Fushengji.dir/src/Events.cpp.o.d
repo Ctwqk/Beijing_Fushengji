@@ -335,4 +335,5 @@ CMakeFiles/Beijing_Fushengji.dir/src/Events.cpp.o: \
  /usr/include/nlohmann/detail/macro_unscope.hpp \
  /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
  /home/taiwei/code/myBeijingHell/include/Player.h \
- /home/taiwei/code/myBeijingHell/include/Item.h
+ /home/taiwei/code/myBeijingHell/include/Item.h \
+ /home/taiwei/code/myBeijingHell/utils/Language.h

@@ -2,6 +2,7 @@
 #include "Events.h"
 #include "util.h"
 #include "Button.h"
+#include "Language.h"
 
 AiApi::AiApi(fs::path &ap, std::string ru, std::string mn, std::string sp):api_path(ap), requestUrl(ru), modelName(mn), systemPrompt(sp){
     requestBody["model"] = mn;
@@ -60,6 +61,7 @@ std::string AiApi::run(std::string userInput){
         }
         catch(std::exception &e){
             std::cerr << "failed in parsing json" << std::endl;
+            throw;
         }
     }
     return "";
@@ -120,49 +122,61 @@ void AiApi::setSystemPrompt(std::string sp){
 // }
 
 std::vector<std::vector<std::string>> AiApi::generateRandomEvent(int cash, int health, int reputation, const std::string &lifeStory) {
-    // 第一步：生成事件/问题
+    // First step: generate event/problem
     std::string systemPrompt = "";
-    std::string eventPrompt =
-        "作为21世纪初北京生存事件生成器，请结合人物故事和当前状态（现金，健康，声誉）生成一个事件或问题，格式为："
-        "事件标题[5字]|事件描述[30字]，不要包含其他符号。示例：\n"
-        "黑中介陷阱|承诺高薪后扣押身份证逼交押金";
-    std::string eventInput = lifeStory + "\n当前状态：现金：" + std::to_string(cash) +
-                             "，健康：" + std::to_string(health) + "，声誉：" + std::to_string(reputation) +
-                             "\n" + eventPrompt;
-    std::string eventResponse = run(eventInput);
-    std::vector<std::string> eventParts;
-    split(eventResponse, '|', eventParts);
-    if(eventParts.size() != 2){
-        throw std::runtime_error("事件格式错误：预期2部分，但实际获得 " + std::to_string(eventParts.size()) + " 部分");
-    }
-    
-    std::string optionsPrompt =
-        "作为21世纪初北京生存事件生成器，请根据上面的事件和当前状态及人物故事生成三个选项，每个选项格式为："
-        "选项描述[10字]|金钱影响[±200-±800]|健康影响[±5-±20]|声誉影响[±10-±30]，"
-        "各选项用#分隔，不要包含换行或其它符号。示例：\n"
-        "反抗被打|-300|-15|+5#妥协交钱|+0|-5|-20#报警求助|+500|+0|+30";
-    std::string optionsInput = lifeStory + "\n当前状态：现金：" + std::to_string(cash) +
-                               "，健康：" + std::to_string(health) + "，声誉：" + std::to_string(reputation) +
-                               "\n事件：" + eventResponse + "\n" + optionsPrompt;
-    std::string optionsResponse = run(optionsInput);
-    
-    std::vector<std::vector<std::string>> params;
-    params.push_back(eventParts);
-    
-    std::vector<std::string> optionParts;
-    split(optionsResponse, '#', optionParts);
-    if(optionParts.size() != 3){
-        throw std::runtime_error("选项数量错误：预期3个选项，但实际获得 " + std::to_string(optionParts.size()));
-    }
-    for(auto & opt : optionParts){
-        std::vector<std::string> optDetails;
-        split(opt, '|', optDetails);
-        if(optDetails.size() != 4){
-            throw std::runtime_error("选项格式错误：预期4部分，但实际获得 " + std::to_string(optDetails.size()));
+    std::string eventPrompt = GET_TEXT("AI_EVENT_PROMPT");
+    std::string eventInput = lifeStory + "\n" + 
+                            GET_TEXT("CURRENT_STATUS") + ": " +
+                            GET_TEXT("CASH") + ": " + std::to_string(cash) + ", " +
+                            GET_TEXT("HEALTH") + ": " + std::to_string(health) + ", " +
+                            GET_TEXT("REPUTATION") + ": " + std::to_string(reputation) +
+                            "\n" + eventPrompt;
+    try{
+        std::string eventResponse = run(eventInput);
+        std::vector<std::string> eventParts;
+        split(eventResponse, '|', eventParts);
+        if(eventParts.size() != 2){
+            throw std::runtime_error(GET_TEXT("EVENT_FORMAT_ERROR") + ": " + 
+                                GET_TEXT("EXPECTED_TWO_PARTS") + ", " + 
+                                GET_TEXT("BUT_GOT") + " " + std::to_string(eventParts.size()));
         }
-        params.push_back(optDetails);
+        
+        std::string optionsPrompt = GET_TEXT("AI_OPTIONS_PROMPT");
+        std::string optionsInput = lifeStory + "\n" +
+                                GET_TEXT("CURRENT_STATUS") + ": " +
+                                GET_TEXT("CASH") + ": " + std::to_string(cash) + ", " +
+                                GET_TEXT("HEALTH") + ": " + std::to_string(health) + ", " +
+                                GET_TEXT("REPUTATION") + ": " + std::to_string(reputation) +
+                                "\n" + GET_TEXT("EVENT") + ": " + eventResponse + "\n" + optionsPrompt;
+        
+        std::string optionsResponse = run(optionsInput);
+        
+        std::vector<std::vector<std::string>> params;
+        params.push_back(eventParts);
+        
+        std::vector<std::string> optionParts;
+        split(optionsResponse, '#', optionParts);
+        if(optionParts.size() != 3){
+            throw std::runtime_error(GET_TEXT("OPTIONS_COUNT_ERROR") + ": " +
+                                GET_TEXT("EXPECTED_THREE_OPTIONS") + ", " +
+                                GET_TEXT("BUT_GOT") + " " + std::to_string(optionParts.size()));
+        }
+        
+        for(auto & opt : optionParts){
+            std::vector<std::string> optDetails;
+            split(opt, '|', optDetails);
+            if(optDetails.size() != 4){
+                throw std::runtime_error(GET_TEXT("OPTION_FORMAT_ERROR") + ": " +
+                                    GET_TEXT("EXPECTED_FOUR_PARTS") + ", " +
+                                    GET_TEXT("BUT_GOT") + " " + std::to_string(optDetails.size()));
+            }
+            params.push_back(optDetails);
+        }
+        
+        clearHistory();
+        return params;
     }
-    
-    clearHistory();
-    return params;
+    catch(const std::exception &e){
+        throw;
+    }
 }

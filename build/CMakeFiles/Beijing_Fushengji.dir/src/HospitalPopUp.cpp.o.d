@@ -224,4 +224,5 @@ CMakeFiles/Beijing_Fushengji.dir/src/HospitalPopUp.cpp.o: \
  /home/taiwei/code/myBeijingHell/include/TextPopUp.h \
  /usr/include/c++/11/deque /usr/include/c++/11/bits/stl_deque.h \
  /usr/include/c++/11/bits/deque.tcc \
- /home/taiwei/code/myBeijingHell/include/TextPopUp.h
+ /home/taiwei/code/myBeijingHell/include/TextPopUp.h \
+ /home/taiwei/code/myBeijingHell/utils/Language.h
