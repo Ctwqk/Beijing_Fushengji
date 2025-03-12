@@ -9,7 +9,9 @@
                 "${workspaceFolder}/imgui/backends",
                 "${workspaceFolder}/src",
                 "${workspaceFolder}/external/SDL2/include",
-                "${workspaceFolder}/include"
+                "${workspaceFolder}/external/nlohmann",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/utils"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

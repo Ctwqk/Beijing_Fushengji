@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/taiwei/code/myBeijingHell/imgui -I/home/taiwei/code/myBeijingHell/imgui/backends -I/home/taiwei/code/myBeijingHell/external/nlohmann -I/home/taiwei/code/myBeijingHell/include -I/home/taiwei/code/myBeijingHell/build/_deps/sdl2-build/include -I/home/taiwei/code/myBeijingHell/build/_deps/sdl2-build/include-config-
+CXX_INCLUDES = -I/home/taiwei/code/myBeijingHell/imgui -I/home/taiwei/code/myBeijingHell/imgui/backends -I/home/taiwei/code/myBeijingHell/external/nlohmann -I/home/taiwei/code/myBeijingHell/include -I/home/taiwei/code/myBeijingHell/utils -I/home/taiwei/code/myBeijingHell/build/_deps/sdl2-build/include -I/home/taiwei/code/myBeijingHell/build/_deps/sdl2-build/include-config-
 
 CXX_FLAGS = -std=gnu++17
 

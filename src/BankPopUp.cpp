@@ -20,6 +20,7 @@ void BankPopUp::Render(){
         selectWin->Close();
         ImGui::OpenPopup("银行");
     }
+    // ImGui::SetNextWindowSize(ImVec2(400, 300));
     if(ImGui::BeginPopupModal("银行", NULL, ImGuiWindowFlags_AlwaysAutoResize)){
         ImGui::InputInt("##", &quantity, 1, 5);
         if(quantity < 0) quantity = 0;

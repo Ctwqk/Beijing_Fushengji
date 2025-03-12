@@ -28,7 +28,7 @@ void HospitalPopUp::Render(){
                 Close();
             }
             ImGui::SameLine();
-            if(ImGui::Button("你们太黑了！告你们去！", ImVec2(100, 40))){
+            if(ImGui::Button("你们太黑了！告你们去！", ImVec2(200, 40))){
                 ImGui::CloseCurrentPopup();
                 Close();
             }

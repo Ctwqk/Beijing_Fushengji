@@ -4,11 +4,7 @@
 
 
 TextPopUp::TextPopUp(){
-    button = new ButtonWithAction("OK", [&](){
-        events.pop_back();
-        if(events.size() == 0) Close();
-        ImGui::CloseCurrentPopup();
-    });
+    
 }
 
 void TextPopUp::Render(){
@@ -17,17 +13,22 @@ void TextPopUp::Render(){
         ImGui::OpenPopup(label.c_str());
         label = events.front()->label;
         text = events.front()->text;
-        if(events.front()->button) button = events.front()->button;
+        if(events.front()->buttons.size()) buttons = events.front()->buttons;
     }
     if(ImGui::BeginPopupModal(label.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)){
         ImGui::TextWrapped("%s", text.c_str());
         ImGui::Spacing();
-        if (ImGui::Button(button?button->label.c_str():"OK", ImVec2(100, 40))) {
-            if(button)button->action();
-            events.pop_front();
-            if(events.size() ==0) {
-                Close();
-                ImGui::CloseCurrentPopup();
+        if(!buttons.size()){
+            buttons.push_back(std::make_shared<ButtonWithAction>("OK",[](){}));
+        }
+        for (auto& button:buttons){
+            if(ImGui::Button(button?button->label.c_str():"OK", ImVec2(200, 40))) {
+                if(button)button->action();
+                events.pop_front();
+                if(events.size() ==0) {
+                    Close();
+                    ImGui::CloseCurrentPopup();
+                }
             }
         }
         ImGui::EndPopup();
@@ -43,8 +44,7 @@ void TextPopUp::setEvents(std::vector<std::shared_ptr<Event>> &e){
     }
 }
 
-void TextPopUp::Open(std::string t, std::string l, ButtonWithAction *b){
+void TextPopUp::Open(std::string t, std::string l, std::shared_ptr<ButtonWithAction>b){
     events.push_back(std::make_shared<Event>(l, t, b));
-    button = nullptr;
     isOpen = true;
 }

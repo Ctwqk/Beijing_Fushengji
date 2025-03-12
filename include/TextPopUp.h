@@ -13,12 +13,13 @@ class TextPopUp : public PopUp{
     private:
         std::string text;
         std::string label;
-        ButtonWithAction* button;
+        std::vector<std::shared_ptr<ButtonWithAction>> buttons;
         std::deque<std::shared_ptr<Event>> events;
+        int buttonPerRow = 3;
     public:
         TextPopUp();
         void Render();
-        void Open(std::string text, std::string label, ButtonWithAction *b = nullptr);
+        void Open(std::string text, std::string label, std::shared_ptr<ButtonWithAction>b = nullptr);
         void setEvents(std::vector<std::shared_ptr<Event>> &e);
 };
 

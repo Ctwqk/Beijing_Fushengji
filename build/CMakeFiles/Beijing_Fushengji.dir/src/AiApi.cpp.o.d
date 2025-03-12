@@ -311,4 +311,20 @@ CMakeFiles/Beijing_Fushengji.dir/src/AiApi.cpp.o: \
  /usr/include/nlohmann/detail/conversions/to_chars.hpp \
  /usr/include/nlohmann/ordered_map.hpp \
  /usr/include/nlohmann/detail/macro_unscope.hpp \
- /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp
+ /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
+ /home/taiwei/code/myBeijingHell/include/Events.h \
+ /usr/include/c++/11/random /usr/include/c++/11/bits/random.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/opt_random.h \
+ /usr/include/c++/11/bits/random.tcc \
+ /home/taiwei/code/myBeijingHell/include/Button.h \
+ /home/taiwei/code/myBeijingHell/include/TextPopUp.h \
+ /home/taiwei/code/myBeijingHell/include/PopUp.h \
+ /home/taiwei/code/myBeijingHell/imgui/imgui.h \
+ /home/taiwei/code/myBeijingHell/imgui/imconfig.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/float.h \
+ /home/taiwei/code/myBeijingHell/imgui/backends/imgui_impl_sdl2.h \
+ /home/taiwei/code/myBeijingHell/imgui/backends/imgui_impl_opengl3.h \
+ /usr/include/c++/11/deque /usr/include/c++/11/bits/stl_deque.h \
+ /usr/include/c++/11/bits/deque.tcc \
+ /home/taiwei/code/myBeijingHell/utils/util.h \
+ /home/taiwei/code/myBeijingHell/include/Button.h

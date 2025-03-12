@@ -11,7 +11,9 @@
 #include <memory>
 
 class Item;
-
+// class AiApi;
+class Event;
+class Player;
 
 enum class GoodEventName{
     OldFriendCar,
@@ -46,21 +48,25 @@ class TextPopUp; // Forward declaration
 
 struct Event {
 private:
+    
     std::mt19937 gen;
     std::uniform_real_distribution<double> dist;
     std::shared_ptr<TextPopUp> textWin;
-
+    std::shared_ptr<Player> player;
     bool goodThingHappen();
     Item* item;
 
 public:
+    
     std::string text;
     std::string label;
-    ButtonWithAction* button;
+    std::vector<std::shared_ptr<ButtonWithAction>> buttons;
     void setTextPopUp(const std::shared_ptr<TextPopUp> &tp);
-
-    Event(const std::string& l, const std::string& t, ButtonWithAction* b);
+    Event(const std::string& l, const std::string& t, std::vector<std::shared_ptr<ButtonWithAction>> bs);
     Event(Item* it);
+    Event(const std::string& l, const std::string& t, std::shared_ptr<ButtonWithAction> b);
+    // Event(const std::shared_ptr<Player> &p);
+
 };
 
 #endif // EVENTS_H

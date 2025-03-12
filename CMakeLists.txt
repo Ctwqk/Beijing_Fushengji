@@ -59,6 +59,12 @@ find_package(OpenGL REQUIRED)
 include_directories(${CMAKE_SOURCE_DIR}/imgui)
 include_directories(${CMAKE_SOURCE_DIR}/imgui/backends)
 
+#nlohmann
+include_directories(${CMAKE_SOURCE_DIR}/external/nlohmann)
+
+#CURL
+find_package(CURL REQUIRED)
+include_directories(${CURL_INCLUDE_DIRS})
 
 # Source Files
 set(SOURCES
@@ -73,6 +79,7 @@ set(SOURCES
     src/SelectPopUp.cpp
     src/PostPopUp.cpp
     src/Events.cpp
+    src/AiApi.cpp
     imgui/imgui.cpp
     imgui/imgui_draw.cpp
     imgui/imgui_widgets.cpp
@@ -93,9 +100,12 @@ set(HEADER
     include/SelectPopUp.h
     include/BankPopUp.h
     include/PostPopUp.h
+    include/AiApi.h
+    external/nlohmann/json.hpp
+    utils/util.h
 )
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/utils)
 
 # Platform-Specific Dependencies
 if(WIN32)
@@ -116,4 +126,4 @@ endif()
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER})
 
 # Link Libraries
-target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2::SDL2main ${PLATFORM_LIBS} ${GLEW_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2::SDL2main ${PLATFORM_LIBS} ${GLEW_LIBRARIES} CURL::libcurl)
