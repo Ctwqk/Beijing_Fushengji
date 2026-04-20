@@ -1,3 +1,0 @@
-/home/taiwei/code/myBeijingHell/build-windows/_deps/sdl2-subbuild/CMakeFiles/sdl2-populate.dir
-/home/taiwei/code/myBeijingHell/build-windows/_deps/sdl2-subbuild/CMakeFiles/edit_cache.dir
-/home/taiwei/code/myBeijingHell/build-windows/_deps/sdl2-subbuild/CMakeFiles/rebuild_cache.dir
