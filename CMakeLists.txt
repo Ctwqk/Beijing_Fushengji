@@ -1,131 +1,81 @@
-cmake_minimum_required(VERSION 3.10)
-project(Beijing_Fushengji)
+cmake_minimum_required(VERSION 3.16)
+project(Beijing_Fushengji VERSION 1.0.0 LANGUAGES C CXX)
 
-# Set C++ Standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
 
+option(FSJ_FETCH_DEPENDENCIES "Download SDL2 / nlohmann_json when no system copy is found" ON)
 
 include(FetchContent)
 
-# Fetch SDL2
-set(SDL2_SOURCE_DIR ${CMAKE_SOURCE_DIR}/external/SDL2)
-FetchContent_Declare(
-    SDL2
-    GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-    GIT_TAG release-2.26.5
-    SOURCE_DIR ${SDL2_SOURCE_DIR}
-)
-FetchContent_MakeAvailable(SDL2)
-
-#build and link GLEW
-# set(GLEW_SOURCE_DIR ${CMAKE_SOURCE_DIR}/external/GLEW)
-
-# execute_process(    
-#     COMMAND chmod +x ${GLEW_SOURCE_DIR}/cmake-testbuild.sh
-#     COMMAND ${GLEW_SOURCE_DIR}/cmake-testbuild.sh
-#     WORKING_DIRECTORY ${GLEW_SOURCE_DIR}
-# )
-
-# set(GLEW_INCLUDE_DIRS ${GLEW_SOURCE_DIR}/out/include)
-# include_directories(${GLEW_INCLUDE_DIRS})
-
-# set(GLEW_LIBRARIES ${GLEW_SOURCE_DIR}/out/lib/libGLEW.a)
-# link_directories(${GLEW_SOURCE_DIR}/out/lib)
-
-# set(GLEW_SOURCE_DIR ${CMAKE_SOURCE_DIR}/external/GLEW)
-# FetchContent_Declare(
-#     GLEW
-#     GIT_REPOSITORY https://github.com/nigels-com/glew.git
-#     GIT_TAG glew-2.2.0
-#     SOURCE_DIR ${GLEW_SOURCE_DIR}
-# )
-# FetchContent_MakeAvailable(GLEW)
-
-if(WIN32 OR MINGW)
-    set(GLEW_ROOT ${CMAKE_SOURCE_DIR}/external/glew-2.2.0)
-    set(GLEW_INCLUDE_DIRS ${GLEW_ROOT}/include)
-    set(GLEW_LIBRARIES ${GLEW_ROOT}/lib/libglew32.a)  
-
-else()
-    find_package(GLEW REQUIRED)
+# --- SDL2 ------------------------------------------------------------------
+find_package(SDL2 CONFIG QUIET)
+if(NOT SDL2_FOUND)
+  if(NOT FSJ_FETCH_DEPENDENCIES)
+    message(FATAL_ERROR "SDL2 not found (install libsdl2-dev or enable FSJ_FETCH_DEPENDENCIES)")
+  endif()
+  message(STATUS "SDL2 not found on the system, fetching it")
+  set(SDL_SHARED OFF CACHE BOOL "" FORCE)
+  set(SDL_STATIC ON CACHE BOOL "" FORCE)
+  set(SDL_TEST OFF CACHE BOOL "" FORCE)
+  FetchContent_Declare(SDL2
+    URL https://github.com/libsdl-org/SDL/releases/download/release-2.30.9/SDL2-2.30.9.tar.gz)
+  FetchContent_MakeAvailable(SDL2)
 endif()
 
-
-#Find OpenGL
+# --- OpenGL, libcurl, nlohmann_json -----------------------------------------
 find_package(OpenGL REQUIRED)
-
-#ImGui
-include_directories(${CMAKE_SOURCE_DIR}/imgui)
-include_directories(${CMAKE_SOURCE_DIR}/imgui/backends)
-
-#nlohmann
-include_directories(${CMAKE_SOURCE_DIR}/external/nlohmann)
-
-#CURL
 find_package(CURL REQUIRED)
-include_directories(${CURL_INCLUDE_DIRS})
-
-# Source Files
-set(SOURCES
-    src/main.cpp
-    src/Market.cpp
-    src/Player.cpp
-    src/MarketPopUp.cpp
-    src/TextPopUp.cpp
-    src/HospitalPopUp.cpp
-    src/PopUp.cpp
-    src/BankPopUp.cpp
-    src/SelectPopUp.cpp
-    src/PostPopUp.cpp
-    src/Events.cpp
-    src/AiApi.cpp
-    imgui/imgui.cpp
-    imgui/imgui_draw.cpp
-    imgui/imgui_widgets.cpp
-    imgui/imgui_tables.cpp
-    imgui/backends/imgui_impl_sdl2.cpp
-    imgui/backends/imgui_impl_opengl3.cpp
-    utils/Language.cpp
-)
-set(HEADER
-    include/Item.h
-    include/Market.h
-    include/MarketPopUp.h
-    include/Player.h
-    include/PopUp.h
-    include/Events.h
-    include/TextPopUp.h
-    include/Button.h
-    include/HospitalPopUp.h
-    include/SelectPopUp.h
-    include/BankPopUp.h
-    include/PostPopUp.h
-    include/AiApi.h
-    external/nlohmann/json.hpp
-    utils/util.h
-    utils/Language.h
-)
-
-include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/utils)
-
-# Platform-Specific Dependencies
-if(WIN32)
-    set(PLATFORM_LIBS opengl32)
-    include_directories(${GLEW_INCLUDE_DIRS})
-    link_libraries(${GLEW_LIBRARIES})
-elseif(APPLE)
-    find_library(OpenGL_LIBRARY OpenGL)
-    set(PLATFORM_LIBS ${OpenGL_LIBRARY})
-    include_directories(${GLEW_INCLUDE_DIRS})
-    link_libraries(${GLEW_LIBRARIES})
-elseif(UNIX)
-    find_package(OpenGL REQUIRED)
-    set(PLATFORM_LIBS ${OPENGL_gl_LIBRARY})
+find_package(nlohmann_json 3.9 QUIET)
+if(NOT nlohmann_json_FOUND)
+  if(NOT FSJ_FETCH_DEPENDENCIES)
+    message(FATAL_ERROR "nlohmann_json not found (install nlohmann-json3-dev or enable FSJ_FETCH_DEPENDENCIES)")
+  endif()
+  message(STATUS "nlohmann_json not found on the system, fetching it")
+  FetchContent_Declare(nlohmann_json
+    URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
+  FetchContent_MakeAvailable(nlohmann_json)
 endif()
 
-# Add Executable
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER})
+# --- Dear ImGui (vendored, trimmed to what the game uses) ---------------------
+add_library(imgui STATIC
+  third_party/imgui/imgui.cpp
+  third_party/imgui/imgui_draw.cpp
+  third_party/imgui/imgui_tables.cpp
+  third_party/imgui/imgui_widgets.cpp
+  third_party/imgui/backends/imgui_impl_sdl2.cpp
+  third_party/imgui/backends/imgui_impl_opengl3.cpp)
+target_include_directories(imgui PUBLIC third_party/imgui third_party/imgui/backends)
+target_link_libraries(imgui PUBLIC SDL2::SDL2 OpenGL::GL ${CMAKE_DL_LIBS})
 
-# Link Libraries
-target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2::SDL2main ${PLATFORM_LIBS} ${GLEW_LIBRARIES} CURL::libcurl)
+# --- Game -------------------------------------------------------------------
+add_executable(Beijing_Fushengji
+  src/ui/main.cpp
+  src/ui/PopUp.cpp
+  src/ui/BankPopUp.cpp
+  src/ui/HospitalPopUp.cpp
+  src/ui/MarketPopUp.cpp
+  src/ui/PostPopUp.cpp
+  src/ui/SelectPopUp.cpp
+  src/ui/TextPopUp.cpp
+  src/core/Events.cpp
+  src/core/Language.cpp
+  src/core/Market.cpp
+  src/core/Player.cpp
+  src/ai/AiApi.cpp)
+target_include_directories(Beijing_Fushengji PRIVATE src/core src/ui src/ai)
+target_link_libraries(Beijing_Fushengji PRIVATE imgui SDL2::SDL2 CURL::libcurl nlohmann_json::nlohmann_json)
+if(TARGET SDL2::SDL2main)
+  target_link_libraries(Beijing_Fushengji PRIVATE SDL2::SDL2main)
+endif()
+
+# The CJK font is looked up next to the executable at run time.
+add_custom_command(TARGET Beijing_Fushengji POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:Beijing_Fushengji>/Font
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+          ${CMAKE_CURRENT_SOURCE_DIR}/Font/wqy-zenhei.ttc
+          $<TARGET_FILE_DIR:Beijing_Fushengji>/Font/wqy-zenhei.ttc)

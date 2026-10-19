@@ -31,3 +31,14 @@ Testing/
 *.exe
 *.out
 a.out
+
+# Local configuration / secrets
+.env
+*.pem
+
+# Misc build trees
+build*/
+out/
+*.user
+*.vcxproj.user
+.vs/
