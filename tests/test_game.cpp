@@ -48,7 +48,8 @@ TEST(Game, EachDayAccruesInterestAndRerollsTheMarket) {
     EXPECT_EQ(g.player()->getDebt(), 5250);
     EXPECT_EQ(g.player()->getSaving(), 1040);
     bool changed = false;
-    for (size_t i = 0; i < before.size(); ++i) changed = changed || before[i].getPrice() != g.market()->getItems()[i].getPrice();
+    for (size_t i = 0; i < before.size(); ++i)
+        changed = changed || before[i].getPrice() != g.market()->getItems()[i].getPrice();
     EXPECT_TRUE(changed);
 }
 
@@ -124,7 +125,8 @@ TEST(Game, FinishSellsTheStockAndSettlesTheAccounts) {
     auto ending = g.finish();
     EXPECT_FALSE(ending.died);
     EXPECT_EQ(ending.netWorth, expected);
-    EXPECT_EQ(ending.netWorth, static_cast<long long>(g.player()->getCash()) + g.player()->getSaving() - g.player()->getDebt());
+    EXPECT_EQ(ending.netWorth,
+              static_cast<long long>(g.player()->getCash()) + g.player()->getSaving() - g.player()->getDebt());
     ASSERT_EQ(ending.sales.size(), 1u);
     EXPECT_EQ(ending.sales[0].quantity, n);
     EXPECT_TRUE(g.player()->getHoldings().empty());

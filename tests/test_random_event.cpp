@@ -18,7 +18,8 @@ const char *kValid = R"({
 
 bool hasCjk(const std::string &s) {
     for (unsigned char c : s)
-        if (c >= 0xE4 && c <= 0xE9) return true;  // lead bytes of the common CJK block
+        if (c >= 0xE4 && c <= 0xE9)
+            return true;  // lead bytes of the common CJK block
     return false;
 }
 
@@ -97,8 +98,10 @@ TEST(ParseRandomEvent, RejectsUnusableReplies) {
     EXPECT_THROW(parseRandomEvent("{not json}"), std::runtime_error);
     EXPECT_THROW(parseRandomEvent(R"({"title":"T","description":"D"})"), std::runtime_error);
     EXPECT_THROW(parseRandomEvent(R"({"title":"T","description":"D","options":[{"text":"only one"}]})"), std::runtime_error);
-    EXPECT_THROW(parseRandomEvent(R"({"title":"","description":"D","options":[{"text":"a"},{"text":"b"}]})"), std::runtime_error);
-    EXPECT_THROW(parseRandomEvent(R"({"title":"T","description":"D","options":[{"cash":1},{"text":"b"}]})"), std::runtime_error);
+    EXPECT_THROW(parseRandomEvent(R"({"title":"","description":"D","options":[{"text":"a"},{"text":"b"}]})"),
+                 std::runtime_error);
+    EXPECT_THROW(parseRandomEvent(R"({"title":"T","description":"D","options":[{"cash":1},{"text":"b"}]})"),
+                 std::runtime_error);
     EXPECT_THROW(parseRandomEvent(R"({"title":"T","description":"D","options":"nope"})"), std::runtime_error);
 }
 

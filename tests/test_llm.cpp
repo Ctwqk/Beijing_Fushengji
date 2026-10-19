@@ -16,7 +16,8 @@ struct FakeBackend : ChatBackend {
     std::string complete(const std::string &s, const std::string &u) override {
         lastSystem = s;
         lastUser = u;
-        if (fail) throw std::runtime_error("HTTP 401");
+        if (fail)
+            throw std::runtime_error("HTTP 401");
         return reply;
     }
     std::string name() const override { return "fake-model"; }

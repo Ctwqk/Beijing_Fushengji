@@ -22,18 +22,51 @@ TEST(Language, FormatUsesTheCurrentLanguage) {
     LANG.setLanguage(Language::Lang::ENGLISH);
 }
 
-TEST(Language, UnknownKeysFallBackToTheKey) { EXPECT_EQ(GET_TEXT("NO_SUCH_KEY"), "NO_SUCH_KEY"); }
+TEST(Language, UnknownKeysFallBackToTheKey) {
+    EXPECT_EQ(GET_TEXT("NO_SUCH_KEY"), "NO_SUCH_KEY");
+}
 
 TEST(Language, EveryKeyTheGameUsesIsTranslatedBothWays) {
-    std::vector<std::string> keys = {"GAME_TITLE", "BLACK_MARKET", "GOODS", "PRICE", "YOUR_ROOM", "STATUS", "CASH", "SAVINGS",
-                                     "DEBT", "HEALTH", "REPUTATION", "BANK", "HOSPITAL", "POST_OFFICE", "RENTAL_AGENCY",
-                                     "INTERNET_CAFE", "CONFIRM", "CANCEL", "BUY", "SELL", "NEWS_EVENT", "ENDING",
-                                     "FINAL_PROFIT", "FINAL_DEBT", "DEAD_ENDING", "SOLD_REMAINING", "DAY_COUNTER",
-                                     "LIFE_BACKGROUND", "AI_SYSTEM_PROMPT", "NOT_ENOUGH_MONEY", "NOT_ENOUGH_SPACE",
-                                     "NOT_ENOUGH_STOCK", "NOT_ON_SALE", "SELECT_FIRST", "HEALTHY", "NO_DEBT"};
+    std::vector<std::string> keys = {"GAME_TITLE",
+                                     "BLACK_MARKET",
+                                     "GOODS",
+                                     "PRICE",
+                                     "YOUR_ROOM",
+                                     "STATUS",
+                                     "CASH",
+                                     "SAVINGS",
+                                     "DEBT",
+                                     "HEALTH",
+                                     "REPUTATION",
+                                     "BANK",
+                                     "HOSPITAL",
+                                     "POST_OFFICE",
+                                     "RENTAL_AGENCY",
+                                     "INTERNET_CAFE",
+                                     "CONFIRM",
+                                     "CANCEL",
+                                     "BUY",
+                                     "SELL",
+                                     "NEWS_EVENT",
+                                     "ENDING",
+                                     "FINAL_PROFIT",
+                                     "FINAL_DEBT",
+                                     "DEAD_ENDING",
+                                     "SOLD_REMAINING",
+                                     "DAY_COUNTER",
+                                     "LIFE_BACKGROUND",
+                                     "AI_SYSTEM_PROMPT",
+                                     "NOT_ENOUGH_MONEY",
+                                     "NOT_ENOUGH_SPACE",
+                                     "NOT_ENOUGH_STOCK",
+                                     "NOT_ON_SALE",
+                                     "SELECT_FIRST",
+                                     "HEALTHY",
+                                     "NO_DEBT"};
     for (int i = 0; i < 10; ++i) {
-        keys.push_back(std::string("LOC_") + std::vector<std::string>{"HAIDIAN", "YAYUN", "SANYUAN", "BAJIAO", "CUIWEI", "FUYOU", "YONGANLI",
-                                                                        "YUQUAN", "YONGDINGMEN", "FANGZHUANG"}[static_cast<size_t>(i)]);
+        keys.push_back(std::string("LOC_") + std::vector<std::string>{"HAIDIAN", "YAYUN", "SANYUAN", "BAJIAO", "CUIWEI",
+                                                                      "FUYOU", "YONGANLI", "YUQUAN", "YONGDINGMEN",
+                                                                      "FANGZHUANG"}[static_cast<size_t>(i)]);
     }
     for (const Item &item : defaultItems()) {
         keys.push_back(item.getKey());

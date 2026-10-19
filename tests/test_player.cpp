@@ -77,7 +77,7 @@ TEST_F(PlayerTrade, NotEnoughCashAndNotEnoughSpaceReportTheRightReason) {
 }
 
 TEST_F(PlayerTrade, MaxAffordableIsLimitedByCashAndSpace) {
-    EXPECT_EQ(player.maxAffordable(cd), 20);   // 2000 / 100
+    EXPECT_EQ(player.maxAffordable(cd), 20);  // 2000 / 100
     EXPECT_EQ(player.maxAffordable(car), 0);
     player.setCash(100000);
     EXPECT_EQ(player.maxAffordable(cd), 100);  // space bound
@@ -100,7 +100,8 @@ TEST_F(PlayerTrade, GoodsNotOnSaleCannotBeBought) {
     player.setMarket(sparse);
     int rejected = 0;
     for (const Item &i : sparse->getItems()) {
-        if (sparse->isAvailable(i)) continue;
+        if (sparse->isAvailable(i))
+            continue;
         try {
             player.buy(i, 1);
             FAIL() << i.getKey() << " is not on sale";

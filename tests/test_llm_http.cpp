@@ -29,8 +29,9 @@ AiConfig configFor(const std::string &mode, const std::string &key = "test-key")
     return cfg;
 }
 
-#define REQUIRE_MOCK()                                  \
-    if (mockUrl().empty()) GTEST_SKIP() << "FSJ_MOCK_URL is not set (run through run_with_mock_server.py)"
+#define REQUIRE_MOCK()     \
+    if (mockUrl().empty()) \
+    GTEST_SKIP() << "FSJ_MOCK_URL is not set (run through run_with_mock_server.py)"
 
 }  // namespace
 
