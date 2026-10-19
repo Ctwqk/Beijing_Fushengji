@@ -136,3 +136,9 @@ if(FSJ_BUILD_APP)
   install(TARGETS Beijing_Fushengji RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
   install(DIRECTORY Font/ DESTINATION share/beijing-fushengji/Font)
 endif()
+
+# --- Tests ------------------------------------------------------------------------------
+if(FSJ_BUILD_TESTS)
+  enable_testing()
+  add_subdirectory(tests)
+endif()
