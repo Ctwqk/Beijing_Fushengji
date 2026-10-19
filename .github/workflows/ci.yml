@@ -31,16 +31,17 @@ jobs:
       - name: Unit and integration tests
         run: ctest --test-dir build --output-on-failure
 
-      - name: Smoke test the GUI (Xvfb + Mesa software rendering)
-        env:
-          LIBGL_ALWAYS_SOFTWARE: "1"
-        run: |
-          # The game must start, render and keep running; `timeout` ends it after 8 s (exit code 124).
-          set +e
-          xvfb-run -a -s "-screen 0 760x660x24" timeout 8 build/Beijing_Fushengji --lang zh --offline --seed 1
-          status=$?
-          set -e
-          test "$status" -eq 124
+      - name: GUI regression tests (Xvfb + Mesa software rendering)
+        timeout-minutes: 2
+        run: python3 tests/test_gui.py build/Beijing_Fushengji build/gui-test
+
+      - name: Upload GUI evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gui-test-screenshots
+          path: build/gui-test/**/*.png
+          if-no-files-found: ignore
 
   linux-offline-only:
     name: Linux (built without libcurl)

@@ -236,6 +236,8 @@ void Language::initialize() {
     textMap["NO_DEBT"] = {"您现在没有欠债", "You do not owe anything right now"};
     textMap["EVENT_SOURCE_AI"] = {"随机事件：{0}", "Random events: {0}"};
     textMap["EVENT_SOURCE_OFFLINE"] = {"随机事件：离线", "Random events: offline"};
+    textMap["EVENT_PENDING"] = {"正在生成事件，请稍候再出发……",
+                                "Generating an event... travel will resume after your choice."};
     textMap["COMING_SOON"] = {"（敬请期待）", " (coming soon)"};
     textMap["NOT_ON_SALE"] = {"今天没有这种货", "That good is not on sale today"};
     textMap["NOT_ENOUGH_STOCK"] = {"您没有这么多货", "You do not hold that many"};

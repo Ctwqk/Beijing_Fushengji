@@ -131,8 +131,11 @@ std::string truncateUtf8(const std::string &s, std::size_t maxBytes) {
 
 // Reads an integer from a JSON number or a string like "+300" / "-15点".
 int jsonToInt(const nlohmann::json &v) {
-    if (v.is_number())
-        return clampInt(std::llround(v.get<double>()), -1000000, 1000000);
+    if (v.is_number()) {
+        // Clamp while still floating point: llround itself cannot represent 1e100.
+        const double bounded = std::clamp(v.get<double>(), -1000000.0, 1000000.0);
+        return static_cast<int>(std::llround(bounded));
+    }
     if (v.is_string()) {
         const std::string s = trim(v.get<std::string>());
         std::size_t i = 0;

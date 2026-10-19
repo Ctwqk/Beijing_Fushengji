@@ -8,6 +8,7 @@
 #include <imgui_impl_sdl2.h>
 
 #include <cfloat>
+#include <charconv>
 #include <chrono>
 #include <cstdlib>
 #include <cstring>
@@ -50,7 +51,7 @@ void printUsage(const char *argv0) {
               << "  --lang zh|en     skip the language selector\n"
               << "  --seed N         seed the random number generators (reproducible games)\n"
               << "  --offline        never contact an LLM, use the built-in random events\n"
-              << "  --days N         length of the game in days (default 40)\n"
+              << "  --days N         length of the game in days (1-40, default 40)\n"
               << "  --font PATH      CJK font file (also: FUSHENGJI_FONT)\n"
               << "  --help           show this help\n\n"
               << "LLM events are configured through FUSHENGJI_AI_API_KEY, FUSHENGJI_AI_BASE_URL,\n"
@@ -94,15 +95,22 @@ bool parseArgs(int argc, char **argv, Options &opt, int &exitCode) {
             const char *v = value("--seed");
             if (!v)
                 return false;
-            opt.seed = static_cast<std::uint32_t>(std::strtoul(v, nullptr, 10));
+            const char *end = v + std::strlen(v);
+            const auto parsed = std::from_chars(v, end, opt.seed);
+            if (parsed.ec != std::errc{} || parsed.ptr != end) {
+                std::cerr << "--seed must be an integer from 0 to 4294967295\n";
+                exitCode = 2;
+                return false;
+            }
             opt.haveSeed = true;
         } else if (a == "--days") {
             const char *v = value("--days");
             if (!v)
                 return false;
-            opt.days = std::atoi(v);
-            if (opt.days < 1) {
-                std::cerr << "--days must be at least 1\n";
+            const char *end = v + std::strlen(v);
+            const auto parsed = std::from_chars(v, end, opt.days);
+            if (parsed.ec != std::errc{} || parsed.ptr != end || opt.days < 1 || opt.days > 40) {
+                std::cerr << "--days must be an integer from 1 to 40\n";
                 exitCode = 2;
                 return false;
             }
@@ -423,7 +431,7 @@ void MainPage::pollRandomEvent() {
 }
 
 void MainPage::travel() {
-    if (game->isOver())
+    if (game->isOver() || pendingEvent.valid() || textWin->IsOpen())
         return;
     const Game::DayReport report = game->advanceDay();
     std::vector<std::shared_ptr<Event>> popups;
@@ -467,7 +475,7 @@ void MainPage::renderMapUI() {
         showCity = !showCity;
     ImGui::Spacing();
 
-    const bool locked = game->isOver();
+    const bool locked = game->isOver() || pendingEvent.valid() || textWin->IsOpen();
     ImGui::BeginDisabled(locked);
     const int perRow = 3;
     const float buttonWidth =
@@ -662,8 +670,10 @@ void MainPage::renderMainWindow() {
         ImGui::EndTable();
     }
 
-    ImGui::TextDisabled("%s",
-                        LANG.format(events.ai ? "EVENT_SOURCE_AI" : "EVENT_SOURCE_OFFLINE", {events.description}).c_str());
+    ImGui::TextDisabled(
+        "%s", pendingEvent.valid()
+                  ? GET_TEXT("EVENT_PENDING").c_str()
+                  : LANG.format(events.ai ? "EVENT_SOURCE_AI" : "EVENT_SOURCE_OFFLINE", {events.description}).c_str());
 
     // The game is over (last day reached or the player died): once every pending
     // message has been dismissed, settle the accounts and show the ending.

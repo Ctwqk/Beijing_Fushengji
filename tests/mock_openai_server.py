@@ -61,7 +61,11 @@ class Handler(BaseHTTPRequestHandler):
         elif mode == "garbage":
             self._send(200, chat_reply("I'm sorry, I can't write events."))
         elif mode == "unauthorized":
-            self._send(401, {"error": {"message": "Incorrect API key provided", "type": "invalid_request_error"}})
+            # Some providers echo rejected credentials. Error reporting must not log them.
+            self._send(401, {"error": {"message": "Incorrect API key provided: " +
+                                     self.headers.get("Authorization", ""), "type": "invalid_request_error"}})
+        elif mode == "error200":
+            self._send(200, {"error": {"message": "Rejected: " + self.headers.get("Authorization", "")}})
         elif mode == "badgateway":
             self._send(502, b"<html><body>502 Bad Gateway</body></html>", "text/html")
         elif mode == "slow":

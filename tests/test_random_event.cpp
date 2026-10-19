@@ -86,6 +86,18 @@ TEST(ParseRandomEvent, ClampsOutrageousOutcomes) {
     EXPECT_EQ(ev.options[1].dReputation, -EventLimits::MAX_REPUTATION);
 }
 
+TEST(ParseRandomEvent, ClampsNumbersBeyondTheIntegerRangeWithoutChangingTheirSign) {
+    RandomEvent ev = parseRandomEvent(R"({"title":"T","description":"D","options":[
+        {"text":"a","cash":1e100,"health":18446744073709551615,"reputation":1e100},
+        {"text":"b","cash":-1e100,"health":-1e100,"reputation":-1e100}]})");
+    EXPECT_EQ(ev.options[0].dCash, 1000);
+    EXPECT_EQ(ev.options[0].dHealth, 25);
+    EXPECT_EQ(ev.options[0].dReputation, 40);
+    EXPECT_EQ(ev.options[1].dCash, -1000);
+    EXPECT_EQ(ev.options[1].dHealth, -25);
+    EXPECT_EQ(ev.options[1].dReputation, -40);
+}
+
 TEST(ParseRandomEvent, KeepsAtMostThreeOptions) {
     RandomEvent ev = parseRandomEvent(R"({"title":"T","description":"D","options":[
         {"text":"1"},{"text":"2"},{"text":"3"},{"text":"4"},{"text":"5"}]})");

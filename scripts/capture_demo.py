@@ -51,7 +51,13 @@ class Demo:
 
     def close(self):
         self.game.terminate()
+        try:
+            self.game.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            self.game.kill()
+            self.game.wait()
         self.xvfb.terminate()
+        self.xvfb.wait(timeout=5)
 
     # --- input -----------------------------------------------------------------
     def click(self, pos, wait=0.45):

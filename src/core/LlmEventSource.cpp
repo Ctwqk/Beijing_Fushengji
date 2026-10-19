@@ -25,15 +25,9 @@ std::string parseChatResponse(const std::string &text) {
         throw std::runtime_error("response is not valid JSON");
     }
     if (j.is_object() && j.contains("error")) {
-        std::string msg = "API error";
-        const auto &err = j["error"];
-        if (err.is_object() && err.contains("message") && err["message"].is_string())
-            msg += ": " + err["message"].get<std::string>();
-        else if (err.is_string())
-            msg += ": " + err.get<std::string>();
-        if (msg.size() > 300)
-            msg.resize(300);
-        throw std::runtime_error(msg);
+        // A provider may echo rejected credentials in its error body. Keep it
+        // out of exceptions and logs; the transport still supplies HTTP status.
+        throw std::runtime_error("API error (provider details omitted)");
     }
     try {
         const auto &content = j.at("choices").at(0).at("message").at("content");

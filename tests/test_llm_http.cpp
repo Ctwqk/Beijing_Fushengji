@@ -62,8 +62,21 @@ TEST(CurlChatClient, ReportsApiErrorsWithoutLeakingTheKey) {
     } catch (const std::runtime_error &e) {
         const std::string msg = e.what();
         EXPECT_NE(msg.find("401"), std::string::npos) << msg;
-        EXPECT_NE(msg.find("Incorrect API key"), std::string::npos) << msg;
+        EXPECT_NE(msg.find("API error"), std::string::npos) << msg;
         EXPECT_EQ(msg.find("super-secret-key"), std::string::npos);
+    }
+}
+
+TEST(EventSourceFactory, DoesNotLogCredentialsEchoedInProviderErrors) {
+    REQUIRE_MOCK();
+    for (const char *mode : {"unauthorized", "error200"}) {
+        EventSourceSetup setup = makeEventSource(configFor(mode, "test-rejected-credential"), 1);
+        testing::internal::CaptureStderr();
+        const RandomEvent ev = setup.source->generate(EventContext{});
+        const std::string log = testing::internal::GetCapturedStderr();
+        EXPECT_EQ(ev.options.size(), 3u);
+        EXPECT_NE(log.find("offline"), std::string::npos);
+        EXPECT_EQ(log.find("test-rejected-credential"), std::string::npos);
     }
 }
 

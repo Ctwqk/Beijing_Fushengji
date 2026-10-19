@@ -82,7 +82,8 @@ TEST(ChatProtocol, ResponseParsing) {
         parseChatResponse(R"({"error":{"message":"Incorrect API key provided","type":"invalid_request_error"}})");
         FAIL();
     } catch (const std::runtime_error &e) {
-        EXPECT_NE(std::string(e.what()).find("Incorrect API key"), std::string::npos);
+        EXPECT_NE(std::string(e.what()).find("API error"), std::string::npos);
+        EXPECT_EQ(std::string(e.what()).find("Incorrect API key"), std::string::npos);
     }
 }
 

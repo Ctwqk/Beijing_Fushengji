@@ -25,9 +25,14 @@ target_link_libraries(fsj_tests PRIVATE fsj_core GTest::gtest)
 fsj_enable_warnings(fsj_tests)
 gtest_discover_tests(fsj_tests DISCOVERY_MODE PRE_TEST)
 
+find_package(Python3 COMPONENTS Interpreter)
+if(FSJ_BUILD_APP AND Python3_Interpreter_FOUND)
+  add_test(NAME cli_arguments
+    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test_cli.py $<TARGET_FILE:Beijing_Fushengji>)
+endif()
+
 # End-to-end check of the libcurl client against a local mock OpenAI server.
 if(FSJ_HAVE_CURL)
-  find_package(Python3 COMPONENTS Interpreter)
   if(Python3_Interpreter_FOUND)
     add_executable(fsj_llm_http_test test_llm_http.cpp test_main.cpp)
     target_link_libraries(fsj_llm_http_test PRIVATE fsj_ai fsj_core GTest::gtest)

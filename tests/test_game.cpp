@@ -68,6 +68,7 @@ TEST(Game, EndsAfterTheLastDayAndRefusesFurtherMoves) {
 TEST(Game, RandomEventsFollowTheConfiguredChance) {
     auto count = [](double chance) {
         GameConfig cfg = config(4, 1000);
+        cfg.startDebt = 0;  // sample event rolls without compounding money past the supported 40-day game
         cfg.randomEventChance = chance;
         Game g(cfg);
         int due = 0;
