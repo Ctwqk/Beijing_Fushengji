@@ -12,7 +12,8 @@ constexpr const char *kPopupId = "###fsj_post";
 
 void PostPopUp::Open() {
     if (player->getDebt() <= 0) {
-        if (errorWin) errorWin->Open(GET_TEXT("NO_DEBT"), GET_TEXT("POST_OFFICE_TITLE"));
+        if (errorWin)
+            errorWin->Open(GET_TEXT("NO_DEBT"), GET_TEXT("POST_OFFICE_TITLE"));
         return;
     }
     maxMoney = std::max(0, std::min(player->getCash(), player->getDebt()));
@@ -28,8 +29,10 @@ void PostPopUp::Render() {
                     player->getDebt());
         ImGui::SetNextItemWidth(200);
         ImGui::InputInt("##repay", &quantity, 1, 100);
-        if (quantity < 0) quantity = 0;
-        if (quantity > maxMoney) quantity = maxMoney;
+        if (quantity < 0)
+            quantity = 0;
+        if (quantity > maxMoney)
+            quantity = maxMoney;
         ImGui::Spacing();
         ImGui::BeginDisabled(quantity == 0);
         if (ImGui::Button(GET_TEXT("CONFIRM").c_str(), ImVec2(100, 40))) {

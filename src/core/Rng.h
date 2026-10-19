@@ -28,7 +28,8 @@ public:
 
     // Uniform integer in [lo, hi].
     int range(int lo, int hi) {
-        if (hi <= lo) return lo;
+        if (hi <= lo)
+            return lo;
         const double span = static_cast<double>(static_cast<long long>(hi) - lo + 1);
         return lo + static_cast<int>(uniform() * span);
     }

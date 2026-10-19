@@ -13,13 +13,15 @@ Player::Player(int h, int c, int d, int s, int r, int sp)
 
 Player::Holding *Player::findHolding(const Item &i) {
     for (auto &h : holdings)
-        if (h.item == i) return &h;
+        if (h.item == i)
+            return &h;
     return nullptr;
 }
 
 const Player::Holding *Player::findHolding(const Item &i) const {
     for (const auto &h : holdings)
-        if (h.item == i) return &h;
+        if (h.item == i)
+            return &h;
     return nullptr;
 }
 
@@ -34,13 +36,16 @@ int Player::maxAffordable(const Item &i) const {
 }
 
 void Player::buy(const Item &i, int count) {
-    if (count <= 0) throw TradeError(TradeError::Reason::InvalidQuantity, "quantity must be positive");
+    if (count <= 0)
+        throw TradeError(TradeError::Reason::InvalidQuantity, "quantity must be positive");
     if (market && !market->isAvailable(i))
         throw TradeError(TradeError::Reason::NotOnSale, i.getKey() + " is not on sale today");
     const int price = market ? market->askPrice(i) : i.getPrice();
     const long long cost = static_cast<long long>(price) * count;
-    if (cost > cash) throw TradeError(TradeError::Reason::NotEnoughCash, "not enough money");
-    if (count > space) throw TradeError(TradeError::Reason::NotEnoughSpace, "not enough space");
+    if (cost > cash)
+        throw TradeError(TradeError::Reason::NotEnoughCash, "not enough money");
+    if (count > space)
+        throw TradeError(TradeError::Reason::NotEnoughSpace, "not enough space");
 
     cash -= static_cast<int>(cost);
     space -= count;
@@ -57,9 +62,11 @@ void Player::buy(const Item &i, int count) {
 }
 
 void Player::sell(const Item &i, int count) {
-    if (count <= 0) throw TradeError(TradeError::Reason::InvalidQuantity, "quantity must be positive");
+    if (count <= 0)
+        throw TradeError(TradeError::Reason::InvalidQuantity, "quantity must be positive");
     Holding *h = findHolding(i);
-    if (!h || h->quantity < count) throw TradeError(TradeError::Reason::NotEnoughStock, "not enough item to sell");
+    if (!h || h->quantity < count)
+        throw TradeError(TradeError::Reason::NotEnoughStock, "not enough item to sell");
     const int price = market ? market->askPrice(i) : i.getPrice();
 
     // Remove the cost basis proportionally so the average cost of the rest is unchanged.
@@ -90,19 +97,22 @@ std::vector<Player::Sale> Player::liquidate() {
 }
 
 void Player::deposit(int amount) {
-    if (amount < 0 || amount > cash) throw std::invalid_argument("invalid deposit amount");
+    if (amount < 0 || amount > cash)
+        throw std::invalid_argument("invalid deposit amount");
     cash -= amount;
     saving += amount;
 }
 
 void Player::withdraw(int amount) {
-    if (amount < 0 || amount > saving) throw std::invalid_argument("invalid withdrawal amount");
+    if (amount < 0 || amount > saving)
+        throw std::invalid_argument("invalid withdrawal amount");
     saving -= amount;
     cash += amount;
 }
 
 void Player::repayDebt(int amount) {
-    if (amount < 0 || amount > cash || amount > debt) throw std::invalid_argument("invalid repayment amount");
+    if (amount < 0 || amount > cash || amount > debt)
+        throw std::invalid_argument("invalid repayment amount");
     cash -= amount;
     debt -= amount;
 }
@@ -112,9 +122,11 @@ int Player::maxHealable() const {
 }
 
 void Player::heal(int points) {
-    if (points < 0 || points > UPPER_LIMIT - health) throw std::invalid_argument("invalid heal amount");
+    if (points < 0 || points > UPPER_LIMIT - health)
+        throw std::invalid_argument("invalid heal amount");
     const long long cost = static_cast<long long>(points) * PRICE_PER_HEALTH;
-    if (cost > cash) throw TradeError(TradeError::Reason::NotEnoughCash, "not enough money for treatment");
+    if (cost > cash)
+        throw TradeError(TradeError::Reason::NotEnoughCash, "not enough money for treatment");
     cash -= static_cast<int>(cost);
     setHealth(health + points);
 }

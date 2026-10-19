@@ -24,7 +24,8 @@ std::string AiConfig::chatCompletionsUrl() const {
     std::string url = baseUrl;
     while (!url.empty() && url.back() == '/') url.pop_back();
     const std::string suffix = "/chat/completions";
-    if (url.size() >= suffix.size() && url.compare(url.size() - suffix.size(), suffix.size(), suffix) == 0) return url;
+    if (url.size() >= suffix.size() && url.compare(url.size() - suffix.size(), suffix.size(), suffix) == 0)
+        return url;
     return url + suffix;
 }
 
@@ -35,11 +36,13 @@ AiConfig AiConfig::fromEnv(const Getenv &getenv) {
         cfg.baseUrl = v;
         cfg.baseUrlFromEnv = true;
     }
-    if (std::string v = valueOf(getenv, "FUSHENGJI_AI_MODEL"); !v.empty()) cfg.model = v;
+    if (std::string v = valueOf(getenv, "FUSHENGJI_AI_MODEL"); !v.empty())
+        cfg.model = v;
     if (std::string v = valueOf(getenv, "FUSHENGJI_AI_TIMEOUT"); !v.empty()) {
         char *end = nullptr;
         long t = std::strtol(v.c_str(), &end, 10);
-        if (end != v.c_str() && *end == '\0' && t > 0 && t <= 600) cfg.timeoutSeconds = static_cast<int>(t);
+        if (end != v.c_str() && *end == '\0' && t > 0 && t <= 600)
+            cfg.timeoutSeconds = static_cast<int>(t);
     }
     cfg.forceOffline = isTruthy(valueOf(getenv, "FUSHENGJI_OFFLINE"));
     return cfg;

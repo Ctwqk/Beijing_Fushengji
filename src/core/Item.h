@@ -11,8 +11,7 @@
 class Item {
 public:
     Item() = default;
-    Item(std::string key, int basePrice, int reputationPrice = 0, std::string newsUpKey = "",
-         std::string newsDownKey = "");
+    Item(std::string key, int basePrice, int reputationPrice = 0, std::string newsUpKey = "", std::string newsDownKey = "");
 
     const std::string &getKey() const { return key_; }
     std::string getName() const;  // localised

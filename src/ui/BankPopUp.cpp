@@ -8,28 +8,26 @@ constexpr const char *kPopupId = "###fsj_bank";
 }
 
 BankPopUp::BankPopUp(std::shared_ptr<Player> p) : player(std::move(p)) {
-    std::vector<ButtonWithAction> buttons = {
-        {GET_TEXT("DEPOSIT"),
-         [this]() {
-             isSaving = true;
-             maxMoney = player->getCash();
-             quantity = maxMoney;
-             stage = Stage::ChooseAmount;
-             ImGui::CloseCurrentPopup();
-         }},
-        {GET_TEXT("WITHDRAW"),
-         [this]() {
-             isSaving = false;
-             maxMoney = player->getSaving();
-             quantity = maxMoney;
-             stage = Stage::ChooseAmount;
-             ImGui::CloseCurrentPopup();
-         }},
-        {GET_TEXT("CANCEL"),
-         [this]() {
-             ImGui::CloseCurrentPopup();
-             Close();
-         }}};
+    std::vector<ButtonWithAction> buttons = {{GET_TEXT("DEPOSIT"),
+                                              [this]() {
+                                                  isSaving = true;
+                                                  maxMoney = player->getCash();
+                                                  quantity = maxMoney;
+                                                  stage = Stage::ChooseAmount;
+                                                  ImGui::CloseCurrentPopup();
+                                              }},
+                                             {GET_TEXT("WITHDRAW"),
+                                              [this]() {
+                                                  isSaving = false;
+                                                  maxMoney = player->getSaving();
+                                                  quantity = maxMoney;
+                                                  stage = Stage::ChooseAmount;
+                                                  ImGui::CloseCurrentPopup();
+                                              }},
+                                             {GET_TEXT("CANCEL"), [this]() {
+                                                  ImGui::CloseCurrentPopup();
+                                                  Close();
+                                              }}};
     selectWin = std::make_unique<SelectPopUp>(buttons, 3);
 }
 
@@ -48,7 +46,8 @@ void BankPopUp::Render() {
         selectWin->Render();
         return;
     }
-    if (stage != Stage::ChooseAmount) return;
+    if (stage != Stage::ChooseAmount)
+        return;
 
     EnsureImGuiPopupOpen(kPopupId);
     const std::string title = GET_TEXT("BANK_TITLE") + kPopupId;
@@ -57,8 +56,10 @@ void BankPopUp::Render() {
                     player->getSaving());
         ImGui::SetNextItemWidth(200);
         ImGui::InputInt("##amount", &quantity, 1, 100);
-        if (quantity < 0) quantity = 0;
-        if (quantity > maxMoney) quantity = maxMoney;
+        if (quantity < 0)
+            quantity = 0;
+        if (quantity > maxMoney)
+            quantity = maxMoney;
         ImGui::Spacing();
         ImGui::BeginDisabled(quantity == 0);
         if (ImGui::Button(GET_TEXT("CONFIRM").c_str(), ImVec2(100, 40))) {

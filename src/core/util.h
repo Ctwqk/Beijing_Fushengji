@@ -18,7 +18,8 @@ inline void split(const std::string &input, char delim, std::vector<std::string>
             item.push_back(c);
         }
     }
-    if (!item.empty()) result.push_back(item);
+    if (!item.empty())
+        result.push_back(item);
 }
 
 inline std::string trim(const std::string &s) {

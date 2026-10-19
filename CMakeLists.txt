@@ -15,6 +15,9 @@ option(FSJ_FETCH_DEPENDENCIES "Download SDL2 / nlohmann_json / GoogleTest when n
 option(FSJ_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
 
 include(FetchContent)
+if(POLICY CMP0135)
+  cmake_policy(SET CMP0135 NEW)  # downloaded archives get the extraction time as timestamp
+endif()
 
 # --- Compiler settings -----------------------------------------------------------
 if(MSVC)
@@ -95,6 +98,17 @@ if(FSJ_BUILD_APP)
     FetchContent_Declare(SDL2
       URL https://github.com/libsdl-org/SDL/releases/download/release-2.30.9/SDL2-2.30.9.tar.gz)
     FetchContent_MakeAvailable(SDL2)
+    # Depending on the SDL version the static-only build exposes different target names.
+    if(NOT TARGET SDL2::SDL2)
+      if(TARGET SDL2-static)
+        add_library(SDL2::SDL2 ALIAS SDL2-static)
+      elseif(TARGET SDL2)
+        add_library(SDL2::SDL2 ALIAS SDL2)
+      endif()
+    endif()
+    if(NOT TARGET SDL2::SDL2main AND TARGET SDL2main)
+      add_library(SDL2::SDL2main ALIAS SDL2main)
+    endif()
   endif()
   find_package(OpenGL REQUIRED)
 

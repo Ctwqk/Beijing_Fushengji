@@ -26,16 +26,16 @@ struct GameConfig {
 class Game {
 public:
     struct DayReport {
-        int day = 0;                             // days elapsed after this move
-        std::vector<Market::NewsEvent> news;     // price shocks of the new day
-        bool randomEventDue = false;             // the UI should fetch a random life event
-        bool lastDay = false;                    // the next move ends the game
-        bool over = false;                       // the game has ended (calendar ran out or player died)
+        int day = 0;                          // days elapsed after this move
+        std::vector<Market::NewsEvent> news;  // price shocks of the new day
+        bool randomEventDue = false;          // the UI should fetch a random life event
+        bool lastDay = false;                 // the next move ends the game
+        bool over = false;                    // the game has ended (calendar ran out or player died)
     };
     struct Ending {
         bool died = false;
-        long long netWorth = 0;                  // cash + savings - debt after selling the stock
-        std::vector<Player::Sale> sales;         // what had to be sold off
+        long long netWorth = 0;           // cash + savings - debt after selling the stock
+        std::vector<Player::Sale> sales;  // what had to be sold off
     };
 
     explicit Game(GameConfig cfg = {}, std::vector<Item> items = defaultItems());

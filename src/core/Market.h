@@ -12,8 +12,8 @@ struct MarketConfig {
     double availability = 0.6;  // chance a given good is on sale on a given day
     double minFactor = 0.5;     // daily price = basePrice * uniform(minFactor, maxFactor)
     double maxFactor = 1.5;
-    double newsChance = 0.08;   // chance a listed good is hit by a news event
-    int newsMultiplier = 5;     // news multiplies (or divides) the day's price by this
+    double newsChance = 0.08;  // chance a listed good is hit by a news event
+    int newsMultiplier = 5;    // news multiplies (or divides) the day's price by this
 };
 
 // The black market: every day each good gets a fresh price around its baseline,
@@ -22,7 +22,7 @@ struct MarketConfig {
 class Market {
 public:
     struct NewsEvent {
-        Item item;      // the good, carrying its post-event price
+        Item item;  // the good, carrying its post-event price
         bool priceUp;
         std::string textKey;
         int oldPrice;

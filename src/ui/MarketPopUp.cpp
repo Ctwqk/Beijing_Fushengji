@@ -10,11 +10,16 @@ constexpr const char *kPopupId = "###fsj_market";
 
 std::string tradeErrorText(const TradeError &e) {
     switch (e.reason()) {
-        case TradeError::Reason::NotEnoughCash: return GET_TEXT("NOT_ENOUGH_MONEY");
-        case TradeError::Reason::NotEnoughSpace: return GET_TEXT("NOT_ENOUGH_SPACE");
-        case TradeError::Reason::NotEnoughStock: return GET_TEXT("NOT_ENOUGH_STOCK");
-        case TradeError::Reason::NotOnSale: return GET_TEXT("NOT_ON_SALE");
-        default: return GET_TEXT("TRADE_FAILED");
+        case TradeError::Reason::NotEnoughCash:
+            return GET_TEXT("NOT_ENOUGH_MONEY");
+        case TradeError::Reason::NotEnoughSpace:
+            return GET_TEXT("NOT_ENOUGH_SPACE");
+        case TradeError::Reason::NotEnoughStock:
+            return GET_TEXT("NOT_ENOUGH_STOCK");
+        case TradeError::Reason::NotOnSale:
+            return GET_TEXT("NOT_ON_SALE");
+        default:
+            return GET_TEXT("TRADE_FAILED");
     }
 }
 }  // namespace
@@ -28,12 +33,15 @@ void MarketPopUp::Open(const Item &i, bool buying) {
         if (maxQuantity == 0) {
             // Explain why instead of opening a dialog that cannot be confirmed.
             const bool noCash = player->getCash() < i.getPrice();
-            if (errorWin) errorWin->Open(noCash ? GET_TEXT("NOT_ENOUGH_MONEY") : GET_TEXT("NOT_ENOUGH_SPACE"), GET_TEXT("PURCHASE_FAILED"));
+            if (errorWin)
+                errorWin->Open(noCash ? GET_TEXT("NOT_ENOUGH_MONEY") : GET_TEXT("NOT_ENOUGH_SPACE"),
+                               GET_TEXT("PURCHASE_FAILED"));
             return;
         }
     } else {
         maxQuantity = player->getItemNumber(i);
-        if (maxQuantity == 0) return;
+        if (maxQuantity == 0)
+            return;
     }
     quantity = maxQuantity;
     isOpen = true;
@@ -47,9 +55,12 @@ void MarketPopUp::Render() {
         ImGui::SetNextItemWidth(200);
         ImGui::InputInt("##quantity", &quantity, 1, 10);
         ImGui::SameLine();
-        if (ImGui::Button(GET_TEXT("MAX").c_str())) quantity = maxQuantity;
-        if (quantity < 0) quantity = 0;
-        if (quantity > maxQuantity) quantity = maxQuantity;
+        if (ImGui::Button(GET_TEXT("MAX").c_str()))
+            quantity = maxQuantity;
+        if (quantity < 0)
+            quantity = 0;
+        if (quantity > maxQuantity)
+            quantity = maxQuantity;
         ImGui::Text("= %lld %s", static_cast<long long>(quantity) * unitPrice, GET_TEXT("YUAN").c_str());
         ImGui::Spacing();
 
@@ -61,7 +72,8 @@ void MarketPopUp::Render() {
                 else
                     player->sell(curItem, quantity);
             } catch (const TradeError &e) {
-                if (errorWin) errorWin->Open(tradeErrorText(e), GET_TEXT("TRADE_ERROR_TITLE"));
+                if (errorWin)
+                    errorWin->Open(tradeErrorText(e), GET_TEXT("TRADE_ERROR_TITLE"));
             }
             ImGui::CloseCurrentPopup();
             Close();

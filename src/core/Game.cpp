@@ -8,16 +8,18 @@
 Game::Game(GameConfig cfg, std::vector<Item> items) : cfg_(cfg), rng_(cfg.seed) {
     // The market gets its own stream so that trading never shifts the calendar rolls.
     market_ = std::make_shared<Market>(std::move(items), rng_.next());
-    player_ = std::make_shared<Player>(cfg_.startHealth, cfg_.startCash, cfg_.startDebt, 0, cfg_.startReputation,
-                                       cfg_.startSpace);
+    player_ =
+        std::make_shared<Player>(cfg_.startHealth, cfg_.startCash, cfg_.startDebt, 0, cfg_.startReputation, cfg_.startSpace);
     player_->setMarket(market_);
     const int interestPercent = static_cast<int>(std::lround((Player::DEBT_RATING - 1.0) * 100.0));
     player_->setLifeStory(Language::getInstance().format(
-        "LIFE_BACKGROUND", {std::to_string(cfg_.startCash), std::to_string(cfg_.startDebt), std::to_string(interestPercent)}));
+        "LIFE_BACKGROUND",
+        {std::to_string(cfg_.startCash), std::to_string(cfg_.startDebt), std::to_string(interestPercent)}));
 }
 
 Game::DayReport Game::advanceDay() {
-    if (isOver()) throw std::logic_error("the game is already over");
+    if (isOver())
+        throw std::logic_error("the game is already over");
     ++day_;
     player_->newDay();
     DayReport report;

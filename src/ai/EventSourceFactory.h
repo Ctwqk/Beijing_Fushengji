@@ -11,7 +11,7 @@
 
 struct EventSourceSetup {
     std::shared_ptr<RandomEventSource> source;
-    std::string description;  // e.g. "AI (gpt-4o-mini)" or "offline"; safe to show in the UI
+    std::string description;       // e.g. "AI (gpt-4o-mini)" or "offline"; safe to show in the UI
     bool ai = false;               // true when the LLM is in use
     std::function<void()> cancel;  // aborts in-flight LLM requests (no-op for offline)
 };

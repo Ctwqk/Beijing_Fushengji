@@ -16,7 +16,8 @@ size_t writeCallback(void *contents, size_t size, size_t nmemb, void *userp) {
     auto *buffer = static_cast<std::string *>(userp);
     const size_t total = size * nmemb;
     // Refuse absurdly large bodies instead of growing without bound.
-    if (buffer->size() + total > (4u << 20)) return 0;
+    if (buffer->size() + total > (4u << 20))
+        return 0;
     buffer->append(static_cast<char *>(contents), total);
     return total;
 }
@@ -30,18 +31,23 @@ struct CurlHandle {
     curl_slist *headers = nullptr;
     ~CurlHandle() {
         curl_slist_free_all(headers);
-        if (easy) curl_easy_cleanup(easy);
+        if (easy)
+            curl_easy_cleanup(easy);
     }
 };
 
 }  // namespace
 
-CurlChatClient::CurlChatClient(AiConfig config) : config_(std::move(config)) { ensureCurlInitialised(); }
+CurlChatClient::CurlChatClient(AiConfig config) : config_(std::move(config)) {
+    ensureCurlInitialised();
+}
 
 std::string CurlChatClient::complete(const std::string &systemPrompt, const std::string &userPrompt) {
-    if (cancelled_) throw std::runtime_error("request cancelled");
+    if (cancelled_)
+        throw std::runtime_error("request cancelled");
     CurlHandle h;
-    if (!h.easy) throw std::runtime_error("curl_easy_init failed");
+    if (!h.easy)
+        throw std::runtime_error("curl_easy_init failed");
 
     const std::string url = config_.chatCompletionsUrl();
     const std::string payload = buildChatRequestBody(config_.model, systemPrompt, userPrompt);

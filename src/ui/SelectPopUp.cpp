@@ -23,7 +23,8 @@ void SelectPopUp::Render() {
                 selections[i].action();
                 break;  // the action may close this popup
             }
-            if (++count % buttonPerRow != 0) ImGui::SameLine();
+            if (++count % buttonPerRow != 0)
+                ImGui::SameLine();
         }
         ImGui::EndPopup();
     }

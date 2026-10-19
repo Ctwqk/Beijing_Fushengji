@@ -22,7 +22,8 @@ struct Event {
         : label(std::move(l)), text(std::move(t)), buttons(std::move(bs)) {}
     Event(std::string l, std::string t, std::shared_ptr<ButtonWithAction> b = nullptr)
         : label(std::move(l)), text(std::move(t)) {
-        if (b) buttons.push_back(std::move(b));
+        if (b)
+            buttons.push_back(std::move(b));
     }
 };
 

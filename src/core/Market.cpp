@@ -25,7 +25,8 @@ std::vector<Market::NewsEvent> Market::newDay() {
     }
     for (std::size_t i = 0; i < items_.size(); ++i) {
         Item &item = items_[i];
-        if (!available_[i] || item.getNewsUpKey().empty() || !rng_.chance(cfg_.newsChance)) continue;
+        if (!available_[i] || item.getNewsUpKey().empty() || !rng_.chance(cfg_.newsChance))
+            continue;
         bool up = rng_.chance(0.5);
         int oldPrice = item.getPrice();
         item.setPrice(up ? oldPrice * cfg_.newsMultiplier : oldPrice / cfg_.newsMultiplier);
@@ -37,13 +38,15 @@ std::vector<Market::NewsEvent> Market::newDay() {
 std::vector<Item> Market::getAvailableItems() const {
     std::vector<Item> out;
     for (std::size_t i = 0; i < items_.size(); ++i)
-        if (available_[i]) out.push_back(items_[i]);
+        if (available_[i])
+            out.push_back(items_[i]);
     return out;
 }
 
 int Market::indexOf(const Item &i) const {
     auto it = index_.find(i.getKey());
-    if (it == index_.end()) throw std::runtime_error("no such item: " + i.getKey());
+    if (it == index_.end())
+        throw std::runtime_error("no such item: " + i.getKey());
     return it->second;
 }
 
@@ -52,6 +55,10 @@ bool Market::isAvailable(const Item &i) const {
     return it != index_.end() && available_[static_cast<std::size_t>(it->second)];
 }
 
-int Market::askPrice(const Item &i) const { return items_[static_cast<std::size_t>(indexOf(i))].getPrice(); }
+int Market::askPrice(const Item &i) const {
+    return items_[static_cast<std::size_t>(indexOf(i))].getPrice();
+}
 
-const Item &Market::getItem(const Item &i) const { return items_[static_cast<std::size_t>(indexOf(i))]; }
+const Item &Market::getItem(const Item &i) const {
+    return items_[static_cast<std::size_t>(indexOf(i))];
+}

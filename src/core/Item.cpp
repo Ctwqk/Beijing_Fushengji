@@ -10,7 +10,9 @@ Item::Item(std::string key, int basePrice, int reputationPrice, std::string news
       newsUpKey_(std::move(newsUpKey)),
       newsDownKey_(std::move(newsDownKey)) {}
 
-std::string Item::getName() const { return Language::getInstance().getText(key_); }
+std::string Item::getName() const {
+    return Language::getInstance().getText(key_);
+}
 
 std::vector<Item> defaultItems() {
     return {

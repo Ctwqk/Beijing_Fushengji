@@ -24,14 +24,18 @@ void TextPopUp::Render() {
         ImGui::Spacing();
 
         auto buttons = current->buttons;  // the action may modify the queue
-        if (buttons.empty()) buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM")));
+        if (buttons.empty())
+            buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM")));
         for (size_t i = 0; i < buttons.size(); ++i) {
             ImGui::PushID(static_cast<int>(i));
             const bool clicked = ImGui::Button(buttons[i]->label.c_str(), ImVec2(-1, 36));
             ImGui::PopID();
-            if (!clicked) continue;
-            if (buttons[i]->action) buttons[i]->action();
-            if (!events.empty() && events.front() == current) events.pop_front();
+            if (!clicked)
+                continue;
+            if (buttons[i]->action)
+                buttons[i]->action();
+            if (!events.empty() && events.front() == current)
+                events.pop_front();
             if (events.empty()) {
                 Close();
                 ImGui::CloseCurrentPopup();
@@ -44,7 +48,8 @@ void TextPopUp::Render() {
 
 void TextPopUp::setEvents(const std::vector<std::shared_ptr<Event>> &e) {
     events.insert(events.end(), e.begin(), e.end());
-    if (!events.empty()) isOpen = true;
+    if (!events.empty())
+        isOpen = true;
 }
 
 void TextPopUp::Open(const std::string &text, const std::string &label, std::shared_ptr<ButtonWithAction> b) {

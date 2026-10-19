@@ -10,12 +10,14 @@ constexpr const char *kPopupId = "###fsj_hospital";
 
 void HospitalPopUp::Open() {
     if (player->getHealth() >= Player::UPPER_LIMIT) {
-        if (errorWin) errorWin->Open(GET_TEXT("HEALTHY"), GET_TEXT("HOSPITAL_TITLE"));
+        if (errorWin)
+            errorWin->Open(GET_TEXT("HEALTHY"), GET_TEXT("HOSPITAL_TITLE"));
         return;
     }
     maxCure = player->maxHealable();
     if (maxCure == 0) {
-        if (errorWin) errorWin->Open(GET_TEXT("NO_MONEY_DOCTOR"), GET_TEXT("NO_MONEY"));
+        if (errorWin)
+            errorWin->Open(GET_TEXT("NO_MONEY_DOCTOR"), GET_TEXT("NO_MONEY"));
         return;
     }
     quantity = maxCure;
@@ -30,8 +32,10 @@ void HospitalPopUp::Render() {
                     Player::PRICE_PER_HEALTH, GET_TEXT("YUAN").c_str(), GET_TEXT("HEALTH").c_str());
         ImGui::SetNextItemWidth(200);
         ImGui::InputInt("##cure", &quantity, 1, 5);
-        if (quantity < 0) quantity = 0;
-        if (quantity > maxCure) quantity = maxCure;
+        if (quantity < 0)
+            quantity = 0;
+        if (quantity > maxCure)
+            quantity = maxCure;
         ImGui::Text("= %d %s", quantity * Player::PRICE_PER_HEALTH, GET_TEXT("YUAN").c_str());
         ImGui::Spacing();
         ImGui::BeginDisabled(quantity == 0);
