@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux:
+    name: Linux (Ubuntu 24.04, libcurl)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            ninja-build libsdl2-dev libgl-dev libcurl4-openssl-dev nlohmann-json3-dev libgtest-dev \
+            xvfb libgl1-mesa-dri libglx-mesa0 xdotool imagemagick
+
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DFSJ_WARNINGS_AS_ERRORS=ON
+
+      - name: Build
+        run: cmake --build build -j4
+
+      - name: Unit and integration tests
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Smoke test the GUI (Xvfb + Mesa software rendering)
+        env:
+          LIBGL_ALWAYS_SOFTWARE: "1"
+        run: |
+          # The game must start, render and keep running; `timeout` ends it after 8 s (exit code 124).
+          set +e
+          xvfb-run -a -s "-screen 0 760x660x24" timeout 8 build/Beijing_Fushengji --lang zh --offline --seed 1
+          status=$?
+          set -e
+          test "$status" -eq 124
+
+  linux-offline-only:
+    name: Linux (built without libcurl)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            ninja-build libsdl2-dev libgl-dev nlohmann-json3-dev libgtest-dev
+      - name: Configure, build, test
+        run: |
+          cmake -S . -B build -G Ninja -DFSJ_ENABLE_LLM=OFF -DFSJ_WARNINGS_AS_ERRORS=ON
+          cmake --build build -j4
+          ctest --test-dir build --output-on-failure
+
+  windows:
+    name: Windows (MSVC)
+    runs-on: windows-latest
+    env:
+      VCPKG_DEFAULT_TRIPLET: x64-windows
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install libcurl with vcpkg
+        run: vcpkg install curl:x64-windows
+
+      - name: Configure
+        run: >
+          cmake -S . -B build
+          -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+          -DVCPKG_TARGET_TRIPLET=x64-windows
+          -DFSJ_WARNINGS_AS_ERRORS=ON
+
+      - name: Build
+        run: cmake --build build --config Release --parallel 4
+
+      - name: Test
+        run: ctest --test-dir build -C Release --output-on-failure
