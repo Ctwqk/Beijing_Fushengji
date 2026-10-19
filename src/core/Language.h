@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <memory>
 #include <iostream>
+#include <vector>
 
 class Language {
 public:
@@ -26,6 +27,10 @@ public:
     }
 
     std::string getText(const std::string& key) const;
+    std::string getText(const std::string& key, Lang lang) const;
+    // Looks up `key` and replaces "{0}", "{1}", ... with the given arguments.
+    std::string format(const std::string& key, const std::vector<std::string>& args) const;
+    static std::string substitute(std::string text, const std::vector<std::string>& args);
     void initialize();
     void printAllKeys();
 

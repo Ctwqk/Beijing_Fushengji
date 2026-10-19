@@ -1,72 +1,36 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 
-#include <string>
-#include <unordered_map>
-#include <random>
-#include <functional>
-#include "Button.h"
-// Forward declarations
-#include "TextPopUp.h"
 #include <memory>
+#include <string>
+#include <vector>
 
-class Item;
-// class AiApi;
-class Event;
+#include "Button.h"
+#include "Market.h"
+#include "RandomEvent.h"
+
 class Player;
 
-enum class GoodEventName{
-    OldFriendCar,
-    OldFriendWine,
-    OldFriendCigerrate,
-};
-
-enum class BadEventNames{
-    Ganster,
-    Aunt,
-    Zhuantou,
-    EnvironmentProblem1,
-    EnvironmentPorblem2,
-    SecurityGuard
-};
-
-enum class NewsEventNames{
-    None,
-    ShanghaiBaby,
-    FakeCigerrate,
-    FakeWine,
-    FakeMakeUp,
-    FakeCD,
-    UsedCar,
-    ImportToy
-};
-
-extern std::unordered_map<Item, NewsEventNames> check;
-
-class Item; // Forward declare to prevent circular dependency
-class TextPopUp; // Forward declaration
-
+// A message the UI shows in a modal popup: a label (title), a text and the
+// buttons that dismiss it. An event without buttons gets a default "Confirm".
 struct Event {
-private:
-    
-    std::mt19937 gen;
-    std::uniform_real_distribution<double> dist;
-    std::shared_ptr<TextPopUp> textWin;
-    std::shared_ptr<Player> player;
-    bool goodThingHappen();
-    Item* item;
-
-public:
-    
-    std::string text;
     std::string label;
+    std::string text;
     std::vector<std::shared_ptr<ButtonWithAction>> buttons;
-    void setTextPopUp(const std::shared_ptr<TextPopUp> &tp);
-    Event(const std::string& l, const std::string& t, std::vector<std::shared_ptr<ButtonWithAction>> bs);
-    Event(Item* it);
-    Event(const std::string& l, const std::string& t, std::shared_ptr<ButtonWithAction> b);
-    // Event(const std::shared_ptr<Player> &p);
 
+    Event(std::string l, std::string t, std::vector<std::shared_ptr<ButtonWithAction>> bs)
+        : label(std::move(l)), text(std::move(t)), buttons(std::move(bs)) {}
+    Event(std::string l, std::string t, std::shared_ptr<ButtonWithAction> b = nullptr)
+        : label(std::move(l)), text(std::move(t)) {
+        if (b) buttons.push_back(std::move(b));
+    }
 };
 
-#endif // EVENTS_H
+// Informational popup for a news event. The price change has already been
+// applied by Market::newDay().
+std::shared_ptr<Event> makeNewsEvent(const Market::NewsEvent &news);
+
+// Popup presenting a random event; every option applies its outcome to the player.
+std::shared_ptr<Event> makeRandomEventPopup(const RandomEvent &event, const std::shared_ptr<Player> &player);
+
+#endif  // EVENTS_H

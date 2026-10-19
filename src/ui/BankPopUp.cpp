@@ -1,81 +1,80 @@
 #include "BankPopUp.h"
-#include "Player.h"
-#include "Button.h"
+
 #include "Language.h"
+#include "Player.h"
 
-void BankPopUp::Open(){
-    quantity = 1;
-    // std::cout<<"outer open"<<std::endl;
-    selectWin->Open();
-    isOpen = true;
-    isSelected = false;
+namespace {
+constexpr const char *kPopupId = "###fsj_bank";
 }
 
-void BankPopUp::Render(){
-
-    if(selectWin->IsOpen()){
-        selectWin->Render();
-        // std::cout<<"selectWin open"<<std::endl;
-    }
-    if(isSelected){
-        selectWin->Close();
-        ImGui::OpenPopup(GET_TEXT("BANK_TITLE").c_str());
-    }
-    // ImGui::SetNextWindowSize(ImVec2(400, 300));
-    if(ImGui::BeginPopupModal(GET_TEXT("BANK_TITLE").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)){
-        ImGui::InputInt("##", &quantity, 1, 5);
-        if(quantity < 0) quantity = 0;
-        if(quantity >  maxMoney) quantity = maxMoney;
-        ImGui::Spacing();
-        if(ImGui::Button(GET_TEXT("CONFIRM").c_str(), ImVec2(100, 40))){
-            if(isSaving){
-                player->setCash(player->getCash() - quantity);
-                player->setSaving(player->getSaving() + quantity);
-            }
-            else{
-                player->setCash(player->getCash() + quantity);
-                player->setSaving(player->getSaving() - quantity);
-            }
-            Close();
-            ImGui::CloseCurrentPopup();
-        }
-        ImGui::SameLine();
-        if(ImGui::Button(GET_TEXT("CANCEL").c_str(), ImVec2(100, 40))){
-            Close();
-            ImGui::CloseCurrentPopup();
-        }
-        ImGui::EndPopup();
-    }
-    
-}
-
-BankPopUp::BankPopUp(const std::shared_ptr<Player> &p): player(p){
+BankPopUp::BankPopUp(std::shared_ptr<Player> p) : player(std::move(p)) {
     std::vector<ButtonWithAction> buttons = {
-        {GET_TEXT("DEPOSIT"), [&](){
-            isSaving = true;
-            isSelected = true;
-            maxMoney = player->getCash();
-            quantity = maxMoney;
-            selectWin->Close();
-            ImGui::CloseCurrentPopup();
-        }},
-        {GET_TEXT("WITHDRAW"), [&](){
-            isSaving = false;
-            isSelected = true;
-            maxMoney = player->getSaving();
-            quantity = maxMoney;
-            selectWin->Close();
-            ImGui::CloseCurrentPopup();
-        }},
-        {GET_TEXT("CANCEL"), [&](){
-            selectWin->Close();
-            ImGui::CloseCurrentPopup();
-        }}
-    };
+        {GET_TEXT("DEPOSIT"),
+         [this]() {
+             isSaving = true;
+             maxMoney = player->getCash();
+             quantity = maxMoney;
+             stage = Stage::ChooseAmount;
+             ImGui::CloseCurrentPopup();
+         }},
+        {GET_TEXT("WITHDRAW"),
+         [this]() {
+             isSaving = false;
+             maxMoney = player->getSaving();
+             quantity = maxMoney;
+             stage = Stage::ChooseAmount;
+             ImGui::CloseCurrentPopup();
+         }},
+        {GET_TEXT("CANCEL"),
+         [this]() {
+             ImGui::CloseCurrentPopup();
+             Close();
+         }}};
     selectWin = std::make_unique<SelectPopUp>(buttons, 3);
 }
 
-void BankPopUp::Close(){
+void BankPopUp::Open() {
+    stage = Stage::ChooseAction;
+    isOpen = true;
+}
+
+void BankPopUp::Close() {
+    stage = Stage::Closed;
     isOpen = false;
-    isSelected = false;
+}
+
+void BankPopUp::Render() {
+    if (stage == Stage::ChooseAction) {
+        selectWin->Render();
+        return;
+    }
+    if (stage != Stage::ChooseAmount) return;
+
+    EnsureImGuiPopupOpen(kPopupId);
+    const std::string title = GET_TEXT("BANK_TITLE") + kPopupId;
+    if (ImGui::BeginPopupModal(title.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::Text("%s: %d    %s: %d", GET_TEXT("CASH").c_str(), player->getCash(), GET_TEXT("SAVINGS").c_str(),
+                    player->getSaving());
+        ImGui::SetNextItemWidth(200);
+        ImGui::InputInt("##amount", &quantity, 1, 100);
+        if (quantity < 0) quantity = 0;
+        if (quantity > maxMoney) quantity = maxMoney;
+        ImGui::Spacing();
+        ImGui::BeginDisabled(quantity == 0);
+        if (ImGui::Button(GET_TEXT("CONFIRM").c_str(), ImVec2(100, 40))) {
+            if (isSaving)
+                player->deposit(quantity);
+            else
+                player->withdraw(quantity);
+            ImGui::CloseCurrentPopup();
+            Close();
+        }
+        ImGui::EndDisabled();
+        ImGui::SameLine();
+        if (ImGui::Button(GET_TEXT("CANCEL").c_str(), ImVec2(100, 40))) {
+            ImGui::CloseCurrentPopup();
+            Close();
+        }
+        ImGui::EndPopup();
+    }
 }

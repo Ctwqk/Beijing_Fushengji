@@ -1,34 +1,29 @@
 #ifndef MARKETPOPUP_H
 #define MARKETPOPUP_H
 
-#include "Item.h"
 #include <memory>
-#include "PopUp.h"
-#include "TextPopUp.h"
 #include <string>
 
+#include "Item.h"
+#include "PopUp.h"
+
 class Player;
-class Market;
 
-class MarketPopUp : public PopUp{
-    private:
-        std::shared_ptr<Player> player;
-    protected:
-        Item curItem;
-        int totalCash;
-        int totalNumber;
-        int availableSpace;
-        bool isBuy;
-        int quantity;
-        
-        std::string noMoney, noSpace, label;
-        bool tradeSuccess = true;
-        
-    public:
-        MarketPopUp(std::shared_ptr<Player> p);
-        void Render() ;
-        void Open(Item &i, bool iB);
+// Quantity dialog for buying or selling one good.
+class MarketPopUp : public PopUp {
+public:
+    explicit MarketPopUp(std::shared_ptr<Player> p) : player(std::move(p)) {}
+    void Render() override;
+    // Opens the dialog; if the trade cannot happen at all the reason is shown instead.
+    void Open(const Item &i, bool buying);
+
+private:
+    std::shared_ptr<Player> player;
+    Item curItem;
+    int unitPrice = 0;
+    int maxQuantity = 0;
+    int quantity = 0;
+    bool isBuy = true;
 };
-
 
 #endif

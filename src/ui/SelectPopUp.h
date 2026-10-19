@@ -1,20 +1,21 @@
 #ifndef SELECTPOPUP_H
 #define SELECTPOPUP_H
-#include "PopUp.h"
+
 #include <string>
 #include <vector>
 
+#include "Button.h"
+#include "PopUp.h"
 
-struct ButtonWithAction;
+// A modal with a row of buttons ("What would you like to do?").
+class SelectPopUp : public PopUp {
+public:
+    SelectPopUp(std::vector<ButtonWithAction> selections, int buttonsPerRow);
+    void Render() override;
 
-class SelectPopUp: public PopUp{
-    private:
-        std::vector<ButtonWithAction> selections;
-        int buttonPerRow = 3;
-    public:
-        void Render();
-        // void Open();
-        SelectPopUp(std::vector<ButtonWithAction> selections, int bpr);
+private:
+    std::vector<ButtonWithAction> selections;
+    int buttonPerRow = 3;
 };
 
 #endif

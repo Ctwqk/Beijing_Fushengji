@@ -1,11 +1,42 @@
 #include "Language.h"
 
 std::string Language::getText(const std::string& key) const {
+    return getText(key, currentLang);
+}
+
+std::string Language::getText(const std::string& key, Lang lang) const {
     auto it = textMap.find(key);
     if (it != textMap.end()) {
-        return currentLang == Lang::CHINESE ? it->second.first : it->second.second;
+        return lang == Lang::CHINESE ? it->second.first : it->second.second;
     }
     return key; // Return the key if text not found
+}
+
+std::string Language::substitute(std::string text, const std::vector<std::string>& args) {
+    // Single pass so that substituted text is never scanned for placeholders again.
+    std::string out;
+    out.reserve(text.size());
+    for (size_t i = 0; i < text.size(); ++i) {
+        if (text[i] == '{') {
+            size_t j = i + 1;
+            size_t index = 0;
+            while (j < text.size() && text[j] >= '0' && text[j] <= '9' && index < 1000) {
+                index = index * 10 + static_cast<size_t>(text[j] - '0');
+                ++j;
+            }
+            if (j > i + 1 && j < text.size() && text[j] == '}' && index < args.size()) {
+                out += args[index];
+                i = j;
+                continue;
+            }
+        }
+        out += text[i];
+    }
+    return out;
+}
+
+std::string Language::format(const std::string& key, const std::vector<std::string>& args) const {
+    return substitute(getText(key), args);
 }
 
 void Language::printAllKeys() {
@@ -42,11 +73,12 @@ void Language::initialize() {
     textMap["ENGLISH"] = {"英文", "English"};
     
     // 新增的翻译
+    // {0} = starting cash, {1} = starting debt, {2} = daily interest on the debt in percent
     textMap["LIFE_BACKGROUND"] = {
-        "您扮演一位从外地到北京谋生的青年。一开始，您只有2000元钱，并且还欠村长（一个流氓头子）5500元债务。这些债务每天的利息高达10%，如果不及时还清，村长会叫在北京的老乡们来扁您，您可能牺牲在北京街头。您决定在北京地铁各黑市倒卖各种物品来发财致富，不仅还掉债务，而且要荣登北京富人排行榜",
-        "You play as a young person from outside Beijing seeking a living. Initially, you have only 2000 yuan and owe 5500 yuan to the village chief (a gangster). The debt has a daily interest rate of 10%, and if not paid on time, the chief will send fellow villagers in Beijing to beat you up. You decide to trade various items in the Beijing subway black markets to get rich, not only to pay off the debt but also to make it onto Beijing's rich list."
+        "您扮演一位从外地到北京谋生的青年。一开始，您只有{0}元钱，并且还欠村长（一个流氓头子）{1}元债务。这些债务每天的利息高达{2}%，如果不及时还清，村长会叫在北京的老乡们来扁您，您可能牺牲在北京街头。您决定在北京地铁各黑市倒卖各种物品来发财致富，不仅还掉债务，而且要荣登北京富人排行榜。",
+        "You play as a young person from outside Beijing seeking a living. Initially, you have only {0} yuan and owe {1} yuan to the village chief (a gangster). The debt grows by {2}% every day, and if it is not paid back in time the chief will send fellow villagers in Beijing to beat you up. You decide to trade various goods in the Beijing black markets to get rich, not only to pay off the debt but also to make it onto Beijing's rich list."
     };
-    
+
     // 城市地名
     textMap["LOC_HAIDIAN"] = {"海淀大街", "Haidian Street"};
     textMap["LOC_YAYUN"] = {"亚运村", "Asian Games Village"};
@@ -91,11 +123,10 @@ void Language::initialize() {
     textMap["SELL_BEFORE_HOME"] = {"明天俺就要回老家了，快把商品卖掉吧！", "Tomorrow I'm going home, sell your goods quickly!"};
     textMap["GO_HOME"] = {"回家", "Go Home"};
     textMap["ENDING"] = {"结局", "Ending"};
-    textMap["SOLD_REMAINING_ITEMS"] = {"已将您库存中剩余的", "Sold remaining "};
-    textMap["ITEMS_OF"] = {"个", " items of "};
-    textMap["PROFIT"] = {"元获利", " yuan profit "};
+    textMap["DAY_COUNTER"] = {"第{0}/{1}天", "Day {0}/{1}"};
+    textMap["SOLD_REMAINING"] = {"已将剩余的{0}件{1}卖出，收入{2}元。", "Sold the remaining {0} x {1} for {2} yuan."};
     textMap["YUAN"] = {"元", " yuan"};
-    
+
     // 按钮文本
     textMap["TAKE_SUBWAY"] = {"我要坐地铁", "Take Subway"};
     textMap["EXPLORE_CITY"] = {"我要逛京城", "Explore City"};
@@ -107,9 +138,10 @@ void Language::initialize() {
     textMap["INTERNET_CAFE"] = {"网吧", "Internet Cafe"};
     
     // 游戏结局相关
-    textMap["FINAL_PROFIT"] = {"您最终获利", "Your final profit"};
-    textMap["FINAL_DEBT"] = {"您最终仍欠村长", "You still owe the village chief"};
-    textMap["CANT_GO_HOME"] = {"元, 村子回不去了，你开始流浪", "yuan, you can't go back to the village and begin wandering"};
+    textMap["FINAL_PROFIT"] = {"您带着{0}元回到了老家。", "You head home with {0} yuan."};
+    textMap["FINAL_DEBT"] = {"您最终仍欠村长{0}元，村子回不去了，你开始流浪。", "You still owe the village chief {0} yuan and cannot go back to the village. You start wandering the streets."};
+    textMap["DEAD_ENDING"] = {"您倒在了北京街头，再也没能站起来……", "You collapsed on the streets of Beijing and never got up again..."};
+    textMap["REPUTATION_LINE"] = {"信誉：{0}", "Reputation: {0}"};
 
     // Bank related
     textMap["BANK_TITLE"] = {"银行", "Bank"};
@@ -166,8 +198,7 @@ void Language::initialize() {
     // AI-related
     textMap["RANDOM_EVENT"] = {"随机事件", "Random Event"};
     textMap["LIFE_EVENT"] = {"生活事件", "Life Event"};
-    textMap["COMMA_YOUR_DECISION"] = {"，你决定", ", your dicided to "};
-    textMap["MODEL_NAME"] = {"llama-3.3-70b-versatile", "Deepseek-R1-Distill-Llama-70b"};
+    textMap["COMMA_YOUR_DECISION"] = {"，你决定", ", you decided to "};
 
     // Player status messages
     textMap["HEALTH_LOW"] = {"健康状况不佳", "Poor Health"};
@@ -184,17 +215,22 @@ void Language::initialize() {
     textMap["SELECT_TITLE"] = {"选择", "Select"};
     textMap["WHAT_TO_DO"] = {"你要干什么", "What would you like to do?"};
     // AI prompts and errors
-    textMap["AI_EVENT_PROMPT"] = {"作为21世纪初北京生存事件生成器，请结合人物故事和当前状态（现金，健康，声誉）生成一个事件或问题，格式为：事件标题[5字]|事件描述[30字]，不要包含其他符号。", 
-                                 "As an early 21st century Beijing survival event generator, please create an event based on the character's story and current status (cash, health, reputation), format: Event Title[5 chars]|Event Description[30 chars], no other symbols."};
-    textMap["AI_OPTIONS_PROMPT"] = {"作为21世纪初北京生存事件生成器，请根据上面的事件和当前状态及人物故事生成三个选项，每个选项格式为：选项描述[10字]|金钱影响[±200-±800]|健康影响[±5-±20]|声誉影响[±10-±30]，各选项用#分隔，不要包含换行或其它符号。",
-                                   "As a Beijing survival event generator, please create three options based on the above event and current status, format: Option[10 chars]|Money[±200-±800]|Health[±5-±20]|Reputation[±10-±30], separate with #, no line breaks or other symbols."};
+    textMap["AI_SYSTEM_PROMPT"] = {
+        "你是一款以21世纪初北京为背景的生存经营游戏的随机事件生成器。请根据人物故事和当前状态，生成一个与日常生活相关的小事件，并给出三个有取舍的选项（不能全是好处）。只输出一个JSON对象，不要输出任何其他文字或markdown，格式如下：{\"title\":\"事件标题（不超过8个字）\",\"description\":\"事件描述（不超过60个字）\",\"options\":[{\"text\":\"选项描述（不超过12个字）\",\"cash\":整数,\"health\":整数,\"reputation\":整数}]}，options恰好3项。数值范围：cash在-800到800之间，health在-20到20之间，reputation在-30到30之间。所有文字使用简体中文。",
+        "You are the random-event generator of a survival and trading game set in early-2000s Beijing. Based on the character's story and current status, create one small everyday event and three options with real trade-offs (not all upside). Output exactly one JSON object and nothing else, no markdown, in this shape: {\"title\":\"event title (at most 5 words)\",\"description\":\"event description (at most 30 words)\",\"options\":[{\"text\":\"option text (at most 8 words)\",\"cash\":integer,\"health\":integer,\"reputation\":integer}]} with exactly 3 options. Ranges: cash between -800 and 800, health between -20 and 20, reputation between -30 and 30. Write all text in English."
+    };
     textMap["CURRENT_STATUS"] = {"当前状态", "Current Status"};
     textMap["EVENT"] = {"事件", "Event"};
-    textMap["EVENT_FORMAT_ERROR"] = {"事件格式错误", "Event format error"};
-    textMap["OPTIONS_COUNT_ERROR"] = {"选项数量错误", "Options count error"};
-    textMap["OPTION_FORMAT_ERROR"] = {"选项格式错误", "Option format error"};
-    textMap["EXPECTED_TWO_PARTS"] = {"预期2部分", "Expected 2 parts"};
-    textMap["EXPECTED_THREE_OPTIONS"] = {"预期3个选项", "Expected 3 options"};
-    textMap["EXPECTED_FOUR_PARTS"] = {"预期4部分", "Expected 4 parts"};
-    textMap["BUT_GOT"] = {"但实际获得", "but got"};
+    textMap["DAY"] = {"天数", "Day"};
+    textMap["FREE_SPACE"] = {"剩余空位", "Free space"};
+    textMap["MAX"] = {"最大", "Max"};
+    textMap["NO_DEBT"] = {"您现在没有欠债", "You do not owe anything right now"};
+    textMap["EVENT_SOURCE_AI"] = {"随机事件：AI（{0}）", "Random events: AI ({0})"};
+    textMap["EVENT_SOURCE_OFFLINE"] = {"随机事件：离线", "Random events: offline"};
+    textMap["COMING_SOON"] = {"（敬请期待）", " (coming soon)"};
+    textMap["NOT_ON_SALE"] = {"今天没有这种货", "That good is not on sale today"};
+    textMap["NOT_ENOUGH_STOCK"] = {"您没有这么多货", "You do not hold that many"};
+    textMap["TRADE_ERROR_TITLE"] = {"交易失败", "Trade failed"};
+    textMap["HEALTHY"] = {"您的身体很健康，不需要治疗", "You are in perfect health, no treatment needed"};
+    textMap["SELECT_FIRST"] = {"请先选择一件商品", "Please select a good first"};
 } 

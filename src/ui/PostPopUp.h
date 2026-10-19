@@ -1,22 +1,23 @@
 #ifndef POSTPOPUP_H
 #define POSTPOPUP_H
+
+#include <memory>
+
 #include "PopUp.h"
-#include "TextPopUp.h"
-#include "Player.h"
-#include <string>
 
-class PostPopUp: public PopUp{
-    private:
-        std::shared_ptr<Player> player;
-    protected:
-        int quantity;
-        int maxMoney;
+class Player;
 
-    public:
-        PostPopUp(const std::shared_ptr<Player> &p);
-        void Render();
-        void Open();
+// Post office: pay back (part of) the debt to the village chief.
+class PostPopUp : public PopUp {
+public:
+    explicit PostPopUp(std::shared_ptr<Player> p) : player(std::move(p)) {}
+    void Render() override;
+    void Open();
+
+private:
+    std::shared_ptr<Player> player;
+    int quantity = 0;
+    int maxMoney = 0;
 };
-
 
 #endif

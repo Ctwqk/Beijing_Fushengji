@@ -1,32 +1,30 @@
 #include "SelectPopUp.h"
-#include "Button.h"
+
 #include "Language.h"
 
-void SelectPopUp::Render(){
-    if(isOpen){
-        ImGui::OpenPopup(GET_TEXT("SELECT_TITLE").c_str());
-    }
-    if(ImGui::BeginPopupModal(GET_TEXT("SELECT_TITLE").c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)){
+namespace {
+constexpr const char *kPopupId = "###fsj_select";
+}
+
+SelectPopUp::SelectPopUp(std::vector<ButtonWithAction> buttons, int bpr)
+    : selections(std::move(buttons)), buttonPerRow(bpr > 0 ? bpr : 1) {}
+
+void SelectPopUp::Render() {
+    EnsureImGuiPopupOpen(kPopupId);
+    const std::string title = GET_TEXT("SELECT_TITLE") + kPopupId;
+    if (ImGui::BeginPopupModal(title.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
         ImGui::Text("%s", GET_TEXT("WHAT_TO_DO").c_str());
-        
         int count = 0;
-        for(const auto& selection: selections){
-            if(ImGui::Button(selection.label.c_str(), ImVec2(80, 30))){
-                selection.action();
+        for (size_t i = 0; i < selections.size(); ++i) {
+            ImGui::PushID(static_cast<int>(i));
+            const bool clicked = ImGui::Button(selections[i].label.c_str(), ImVec2(90, 32));
+            ImGui::PopID();
+            if (clicked && selections[i].action) {
+                selections[i].action();
+                break;  // the action may close this popup
             }
-            count++;
-            if(count % buttonPerRow != 0){
-                ImGui::SameLine();
-            }
+            if (++count % buttonPerRow != 0) ImGui::SameLine();
         }
         ImGui::EndPopup();
     }
-}
-// void SelectPopUp::Open(){
-//     isOpen = true;
-//     std::cout<<"inner open"<<std::endl;
-// }
-
-SelectPopUp::SelectPopUp(std::vector<ButtonWithAction> buttons, int bpr):selections(buttons), buttonPerRow(bpr){
-
 }
