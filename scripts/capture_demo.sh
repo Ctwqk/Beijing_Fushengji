@@ -8,10 +8,12 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-IMAGE="${IMAGE:-fushengji-dev}"
-docker build -q -t "$IMAGE" -f docker/Dockerfile docker >/dev/null
+IMAGE="${IMAGE:-pu-beijing-capture}"
+# The classic builder applies these limits to the dependency-install container too.
+DOCKER_BUILDKIT=0 docker build --memory=4g --memory-swap=4g -q -t "$IMAGE" -f docker/Dockerfile docker >/dev/null
 
-docker run --rm ${DOCKER_NAME:+--name "$DOCKER_NAME"} --user "$(id -u):$(id -g)" -e HOME=/tmp \
+docker run --rm --name "${DOCKER_NAME:-pu-beijing-capture}" --memory=4g --memory-swap=4g --cpus=4 \
+  --user "$(id -u):$(id -g)" -e HOME=/tmp \
   -v "$PWD":/src -w /src "$IMAGE" bash -lc '
 set -euo pipefail
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release >/dev/null

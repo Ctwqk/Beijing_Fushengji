@@ -42,3 +42,7 @@ out/
 *.user
 *.vcxproj.user
 .vs/
+
+# Python capture and mock-server caches
+__pycache__/
+*.py[cod]

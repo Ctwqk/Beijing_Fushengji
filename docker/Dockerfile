@@ -1,5 +1,5 @@
 # Reproducible Linux build / test / demo environment for Beijing_Fushengji.
-#   docker build -t fushengji-dev -f docker/Dockerfile docker
+#   DOCKER_BUILDKIT=0 docker build --memory=4g --memory-swap=4g -t pu-beijing-dev -f docker/Dockerfile docker
 # Everything needed to compile, run the unit tests and run the game headlessly
 # (Xvfb + Mesa software OpenGL) to capture screenshots.
 FROM ubuntu:24.04

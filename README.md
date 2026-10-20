@@ -4,7 +4,7 @@
 
 **A C++17 remake of the classic trading / life-sim game: buy low, sell high on the Beijing black market and pay off the village chief within 40 days. Bilingual UI (English / 简体中文), SDL2 + OpenGL + Dear ImGui, optional LLM-written random events that fall back to a built-in event table, so it is always playable offline.**
 
-> 《北京浮生记》的 C++17 复刻版：用 40 天在北京黑市倒买倒卖、还清村长的高利贷。支持中文 / English 界面；随机事件可由大模型生成，没有 API key 时自动使用内置事件，完全可以离线游玩。
+> 《北京浮生记》的 C++17 复刻版：用 40 天在北京黑市倒买倒卖、还清村长的高利贷。支持中文 / English 界面；随机事件可由大模型生成，没有配置服务时自动使用内置事件，完全可以离线游玩。
 
 ![Gameplay (Chinese UI, 6-day game)](docs/demo.gif)
 
@@ -64,7 +64,7 @@ Beijing_Fushengji [--lang zh|en] [--seed N] [--offline] [--days N] [--font PATH]
 | `--lang zh\|en` | skip the language selector |
 | `--seed N` | seed every random generator: the same seed gives the same prices, news and offline events |
 | `--offline` | never contact an LLM |
-| `--days N` | game length (default 40) |
+| `--days N` | game length, 1–40 days (default 40); shorter runs are useful for demos |
 | `--font PATH` | CJK font file (also `FUSHENGJI_FONT`); by default `Font/wqy-zenhei.ttc` next to the executable |
 
 ## AI-generated events
@@ -87,7 +87,8 @@ export FUSHENGJI_AI_BASE_URL=http://localhost:11434/v1 FUSHENGJI_AI_MODEL=llama3
 ./build/Beijing_Fushengji
 ```
 
-The status line at the bottom of the window shows whether events come from the AI or from the offline table.
+The status line shows the configured event source. An AI request can still fall back to the offline table; stderr
+records that fallback.
 
 ```mermaid
 sequenceDiagram
@@ -115,14 +116,17 @@ sequenceDiagram
 
 How it behaves:
 
-* One request per event, one at a time, issued from a **copy** of the game state, so the UI never blocks and the worker
-  never touches live player data.
+* One request per event, one at a time, issued from a **copy** of the game state. Rendering and window controls stay
+  responsive, while travel waits for the event and your choice; advancing quickly cannot skip a pending event.
+  The worker never touches live player data.
 * The model is asked for a single JSON object (`title`, `description`, three `options` with `text`, `cash`, `health`,
   `reputation`) in the language the player selected. The reply is parsed leniently (markdown fences, chatter around the
   JSON, `<think>` blocks and numbers written as strings are tolerated) and **every number is clamped**
-  (cash +-1000, health +-25, reputation +-40), so a model can neither hand out a fortune nor kill the player outright.
+  (cash +-1000, health +-25, reputation +-40), including numbers outside the integer range. These caps limit each
+  event's impact; a health penalty can still end a run when the player is already weak.
 * Anything that goes wrong (no network, 401/429/5xx, timeout, unusable reply) is logged to stderr and replaced by an
-  offline event, so a flaky endpoint never interrupts the game.
+  offline event, so a flaky endpoint never interrupts the game. Provider error text is omitted from logs because
+  some servers echo rejected credentials in it.
 * What is sent: the day, cash, health, reputation and the character's background plus the last eight event decisions.
   The API key is only ever sent in the `Authorization` header of that request.
 * Requests are aborted promptly when the window is closed.
@@ -189,14 +193,20 @@ ctest --test-dir build --output-on-failure     # unit tests + mock-server integr
 `docker/Dockerfile` contains the whole toolchain plus Xvfb, so you can build, test and even run the game headlessly:
 
 ```bash
-docker build -t fushengji-dev -f docker/Dockerfile docker
-docker run --rm --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD":/src -w /src fushengji-dev bash -lc \
+DOCKER_BUILDKIT=0 docker build --memory=4g --memory-swap=4g -t pu-beijing-dev -f docker/Dockerfile docker
+docker run --rm --name pu-beijing-build --memory=4g --memory-swap=4g --cpus=4 \
+  --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD":/src -w /src pu-beijing-dev bash -lc \
   'cmake -S . -B build -G Ninja && cmake --build build -j4 && ctest --test-dir build --output-on-failure'
 
-# run the game on a virtual display for 10 seconds (this is what the CI smoke test does)
-docker run --rm --user "$(id -u):$(id -g)" -e HOME=/tmp -e LIBGL_ALWAYS_SOFTWARE=1 -v "$PWD":/src -w /src fushengji-dev \
-  xvfb-run -a timeout 10 build/Beijing_Fushengji --lang zh --offline
+# run the game on a virtual display for 10 seconds (CI also drives the window)
+docker run --rm --name pu-beijing-smoke --memory=1g --memory-swap=1g --cpus=2 \
+  --user "$(id -u):$(id -g)" -e HOME=/tmp -e LIBGL_ALWAYS_SOFTWARE=1 -v "$PWD":/src -w /src pu-beijing-dev \
+  xvfb-run -a timeout --kill-after=3s 10 build/Beijing_Fushengji --lang zh --offline
 ```
+
+The timed smoke run normally exits with code 124. The classic Docker builder is selected so its memory limits also
+apply during dependency installation; runtime containers have separate limits. On a shared host, serialize builds
+and leave memory available for other services.
 
 ### Windows
 
@@ -205,7 +215,9 @@ CI builds the project with MSVC on `windows-latest` (SDL2 is fetched and built b
 ```powershell
 vcpkg install curl:x64-windows
 cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
-cmake --build build --config Release
+cmake --build build --config Release --parallel 4
+ctest --test-dir build -C Release --output-on-failure
+.\build\Release\Beijing_Fushengji.exe --lang zh --offline
 ```
 
 Without vcpkg add `-DFSJ_ENABLE_LLM=OFF` for an offline-only build. The Visual Studio project files of the original
@@ -230,7 +242,7 @@ it on a real Windows desktop yet).
 ctest --test-dir build --output-on-failure
 ```
 
-78 GoogleTest cases in `tests/` run against `fsj_core` without a window, plus one CTest entry that runs 10 more cases
+79 GoogleTest cases in `tests/` run against `fsj_core` without a window, plus one CTest entry that runs 11 more cases
 for the libcurl client against a local mock OpenAI server (`tests/mock_openai_server.py`: auth header, API errors,
 HTML gateway errors, timeout, cancellation, fallback). They cover, among others:
 
@@ -240,6 +252,13 @@ HTML gateway errors, timeout, cancellation, fallback). They cover, among others:
 * game flow: calendar, death, ending settlement, "same seed = same game";
 * the LLM layer: prompt building, lenient parsing, clamping, request body, response and error parsing, environment
   configuration, and fallback to offline events.
+
+CTest also checks CLI argument validation without opening a window. Linux CI runs
+`python3 tests/test_gui.py build/Beijing_Fushengji build/gui-test` under Xvfb/Mesa to check Chinese rendering,
+clean shutdown, and travel locking during a deliberately delayed local AI response. Its screenshots are uploaded
+as a CI artifact. No real API credentials or paid requests are needed for any test.
+
+See the [verification record](docs/verification.md) for the clean-build commands, results, and limits.
 
 ## Project layout
 
@@ -280,14 +299,14 @@ documentation, these bugs were found and fixed (the ones that can be tested with
 ## Design notes and trade-offs
 
 * **Core / UI split.** The rules are plain C++ with injectable seeds and a `ChatBackend` interface, which is what makes
-  the 88 tests possible. The UI stays a thin immediate-mode layer.
+  the 90 GoogleTest cases possible. The UI stays a thin immediate-mode layer.
 * **Own RNG helpers.** `std::mt19937` is fully specified by the standard but `std::uniform_*_distribution` is not, so
   `Rng` derives doubles and ranges by hand; a seed is meant to reproduce the same game on GCC, Clang and MSVC (checked
   on GCC only).
 * **Fail soft, not hard.** The LLM is an enhancement. Every failure mode degrades to the offline table instead of an
   error dialog, and model output is treated as untrusted input (parsed, validated, clamped).
 * **One request, JSON reply.** The original made two chained requests with `|`/`#` delimited text. A single JSON
-  request halves latency and cost and is much easier to validate.
+  request avoids a second network round trip and is easier to validate.
 * **Vendored ImGui, fetched everything else.** ImGui is small once trimmed and is built together with the game;
   heavier dependencies come from the system package manager or `FetchContent`.
 * **Balance is unchanged** (5 % debt, 4 % savings, 1750 per health point, 100 slots); only the inconsistencies were fixed.
