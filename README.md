@@ -1,6 +1,6 @@
 # Beijing Fushengji (北京浮生记)
 
-[![CI](https://github.com/Ctwqk/Beijing_Fushengji/actions/workflows/ci.yml/badge.svg?branch=portfolio-upgrade)](https://github.com/Ctwqk/Beijing_Fushengji/actions/workflows/ci.yml)
+[![CI](https://github.com/Ctwqk/Beijing_Fushengji/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Ctwqk/Beijing_Fushengji/actions/workflows/ci.yml)
 
 **A C++17 remake of the classic trading / life-sim game: buy low, sell high on the Beijing black market and pay off the village chief within 40 days. Bilingual UI (English / 简体中文), SDL2 + OpenGL + Dear ImGui, optional LLM-written random events that fall back to a built-in event table, so it is always playable offline.**
 
@@ -327,5 +327,5 @@ documentation, these bugs were found and fixed (the ones that can be tested with
 * Glyphs outside the bundled font's coverage show as `?` in LLM-written text.
 * The window layout is fixed for roughly 760x660 pixels and is not DPI aware.
 * The macOS code path (GL 3.2 core context) is written but untested. The Windows build is only checked by CI.
-* The repository has no `LICENSE` file yet, so no usage rights are granted for the code. The bundled font (WenQuanYi
+* The game code is released under the [MIT License](LICENSE). The bundled font (WenQuanYi
   Zen Hei) and Dear ImGui (MIT, see `third_party/imgui/LICENSE.txt`) keep their own licences.
