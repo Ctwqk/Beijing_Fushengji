@@ -33,6 +33,16 @@ def title_pixels(demo, name):
     return subprocess.check_output(["convert", path, "-crop", "760x28+0+0", "+repage", "rgb:-"])
 
 
+def choice_text_rows(path, box):
+    x, y, width, height = box
+    # Exclude the frame; only rendered dark glyphs count, not a taller empty button.
+    crop = "%dx%d+%d+%d" % (width - 12, height - 8, x - width // 2 + 6, y - height // 2 + 4)
+    pixels = subprocess.check_output(["convert", path, "-crop", crop, "+repage", "rgb:-"])
+    stride = (width - 12) * 3
+    return sum(any(max(pixels[i:i + 3]) < 90 for i in range(row, row + stride, 3))
+               for row in range(0, len(pixels), stride))
+
+
 def main():
     exe, out = sys.argv[1:3]
     # Ensure a developer's shell cannot change the test's event source.
@@ -57,7 +67,12 @@ def main():
             self.rfile.read(int(self.headers.get("Content-Length", 0)))
             requested.set()
             if release.wait(20):
-                self._send(200, chat_reply(json.dumps(EVENT)))
+                event = dict(EVENT)
+                if self.path.startswith("/invalid-title/"):
+                    event["title"] = "Invisible\0popup"
+                elif self.path.startswith("/long-choice/"):
+                    event["options"] = [dict(option, text="\u6c49" * 40) for option in EVENT["options"]]
+                self._send(200, chat_reply(json.dumps(event)))
 
     server = ThreadingHTTPServer(("127.0.0.1", 0), DelayedHandler)
     server.daemon_threads = True
@@ -92,13 +107,48 @@ def main():
         assert title_pixels(demo, "next-day.png") != before, "travel stayed locked after the event was resolved"
         demo.game.terminate()
         assert demo.game.wait(timeout=5) == 0, "English game did not close cleanly"
+        demo.close()
+        demo = None
+
+        failures = []
+        for mode in ("invalid-title", "long-choice"):
+            try:
+                os.environ["FUSHENGJI_AI_BASE_URL"] = "http://127.0.0.1:%d/%s/v1" % (server.server_address[1], mode)
+                requested.clear()
+                release.clear()
+                demo = Demo(exe, str(Path(out) / mode), ":98", ["--lang", "en", "--seed", "11"])
+                demo.click((322, 427))
+                assert requested.wait(5), "travel did not request the event"
+                demo.dismiss_popups(random.Random(1), choose=lambda boxes: 0)
+                day_one = title_pixels(demo, "day-one.png")
+                probe = str(Path(demo.out) / "event.png")
+                release.set()
+                # A NUL title must fall back to a visible event, not an invisible locked queue.
+                wait_until(event_visible)
+                boxes = demo.buttons(demo.pixels(probe))
+                if mode == "long-choice":
+                    # Forty CJK glyphs fit the parser's 120-byte limit but need multiple lines.
+                    assert all(box[3] > 36 for box in boxes), "valid long choices were clipped to one line"
+                    assert choice_text_rows(probe, boxes[0]) > 18, "choice text did not render beyond one 18 px line"
+                demo.click(boxes[0][:2])
+                demo.click((490, 465))
+                assert title_pixels(demo, "next-day.png") != day_one, "event left travel permanently locked"
+                assert demo.game.poll() is None, "AI text crashed the game"
+            except AssertionError as exc:
+                failures.append("%s: %s" % (mode, exc))
+            finally:
+                release.set()
+                if demo:
+                    demo.close()
+                    demo = None
+        assert not failures, failures
     finally:
         release.set()
         if demo:
             demo.close()
         server.shutdown()
         server.server_close()
-    print("PASS: Chinese render/exit; delayed AI event blocks travel, then travel resumes")
+    print("PASS: Chinese render/exit; delayed AI travel lock; invalid title fallback; readable long choices")
 
 
 if __name__ == "__main__":

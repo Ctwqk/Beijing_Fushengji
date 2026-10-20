@@ -2,6 +2,8 @@
 
 #include <set>
 
+#include <nlohmann/json.hpp>
+
 #include "RandomEvent.h"
 
 namespace {
@@ -126,6 +128,32 @@ TEST(ParseRandomEvent, TruncatesOverlongTextAtACodePointBoundary) {
     EXPECT_EQ(ev.description.size() % 3, 0u) << "cut in the middle of a UTF-8 sequence";
 }
 
+TEST(ParseRandomEvent, RejectsEmbeddedNullsBeforeTextReachesTheUi) {
+    // ImGui takes C strings: a NUL in the title hides our stable popup ID,
+    // leaving an invisible event permanently blocking travel.
+    for (const char *field : {"title", "description", "text"}) {
+        auto reply = nlohmann::json::parse(kValid);
+        auto &target = std::string(field) == "text" ? reply["options"][0] : reply;
+        target[field] = std::string("visible\0hidden", 14);
+        EXPECT_THROW(parseRandomEvent(reply.dump()), std::runtime_error) << field;
+    }
+}
+
+TEST(ParseRandomEvent, RejectsImGuiLabelSyntaxInTitlesAndChoices) {
+    for (const char *field : {"title", "text"}) {
+        for (const char *label : {"##invisible", "Pay###hidden-price", "Pay\nHidden price"}) {
+            auto reply = nlohmann::json::parse(kValid);
+            auto &target = std::string(field) == "text" ? reply["options"][0] : reply;
+            target[field] = label;
+            EXPECT_THROW(parseRandomEvent(reply.dump()), std::runtime_error) << field;
+        }
+    }
+    // Narrative text is rendered as text, not as a widget label.
+    auto reply = nlohmann::json::parse(kValid);
+    reply["description"] = "100% ready\n## A heading";
+    EXPECT_EQ(parseRandomEvent(reply.dump()).description, "100% ready\n## A heading");
+}
+
 // --- offline source ------------------------------------------------------------
 TEST(OfflineEvents, EveryEventIsWellFormedInBothLanguages) {
     for (auto lang : {Language::Lang::ENGLISH, Language::Lang::CHINESE}) {
@@ -146,7 +174,7 @@ TEST(OfflineEvents, EveryEventIsWellFormedInBothLanguages) {
                 EXPECT_LE(std::abs(o.dHealth), EventLimits::MAX_HEALTH);
                 EXPECT_LE(std::abs(o.dReputation), EventLimits::MAX_REPUTATION);
             }
-            // No option is a free lunch: at least one dimension gets worse or costs something.
+            // Each event has at least one costly choice; individual choices may be all upside.
             bool allGood = true;
             for (const auto &o : ev.options) allGood = allGood && o.dCash >= 0 && o.dHealth >= 0 && o.dReputation >= 0;
             EXPECT_FALSE(allGood) << ev.title;

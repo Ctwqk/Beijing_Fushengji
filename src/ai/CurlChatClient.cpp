@@ -52,7 +52,6 @@ std::string CurlChatClient::complete(const std::string &systemPrompt, const std:
     const std::string url = config_.chatCompletionsUrl();
     const std::string payload = buildChatRequestBody(config_.model, systemPrompt, userPrompt);
     std::string response;
-    char errorBuffer[CURL_ERROR_SIZE] = {0};
 
     h.headers = curl_slist_append(h.headers, "Content-Type: application/json");
     if (!config_.apiKey.empty()) {
@@ -66,7 +65,6 @@ std::string CurlChatClient::complete(const std::string &systemPrompt, const std:
     curl_easy_setopt(h.easy, CURLOPT_POSTFIELDSIZE, static_cast<long>(payload.size()));
     curl_easy_setopt(h.easy, CURLOPT_WRITEFUNCTION, writeCallback);
     curl_easy_setopt(h.easy, CURLOPT_WRITEDATA, &response);
-    curl_easy_setopt(h.easy, CURLOPT_ERRORBUFFER, errorBuffer);
     curl_easy_setopt(h.easy, CURLOPT_NOSIGNAL, 1L);
     curl_easy_setopt(h.easy, CURLOPT_TIMEOUT, static_cast<long>(config_.timeoutSeconds));
     curl_easy_setopt(h.easy, CURLOPT_CONNECTTIMEOUT, 10L);
@@ -77,13 +75,14 @@ std::string CurlChatClient::complete(const std::string &systemPrompt, const std:
 
     const CURLcode rc = curl_easy_perform(h.easy);
     if (rc != CURLE_OK) {
-        const std::string detail = errorBuffer[0] ? errorBuffer : curl_easy_strerror(rc);
-        throw std::runtime_error("HTTP request failed: " + detail);
+        // Detailed curl errors can contain private endpoint or proxy details.
+        // The static error category is safe for the fallback source to log.
+        throw std::runtime_error(std::string("HTTP request failed: ") + curl_easy_strerror(rc));
     }
     long status = 0;
     curl_easy_getinfo(h.easy, CURLINFO_RESPONSE_CODE, &status);
     if (status < 200 || status >= 300) {
-        // Prefer the API's own error message, fall back to the bare status code.
+        // Include only the sanitized protocol error category and HTTP status.
         try {
             parseChatResponse(response);
         } catch (const std::runtime_error &e) {

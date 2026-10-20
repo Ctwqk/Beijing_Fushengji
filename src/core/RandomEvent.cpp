@@ -27,7 +27,7 @@ struct EventDef {
     OptionDef options[3];
 };
 
-// Every option trades something for something else, so there is no free lunch.
+// Every event includes at least one choice with a cost or downside.
 const EventDef kEvents[] = {
     {"黑中介",
      "Shady Agent",
@@ -154,13 +154,18 @@ int jsonToInt(const nlohmann::json &v) {
     return 0;
 }
 
-std::string requireString(const nlohmann::json &obj, const char *field) {
+std::string requireString(const nlohmann::json &obj, const char *field, bool widgetLabel = false) {
     auto it = obj.find(field);
     if (it == obj.end() || !it->is_string())
         throw std::runtime_error(std::string("missing text field \"") + field + "\"");
     std::string s = trim(it->get<std::string>());
     if (s.empty())
         throw std::runtime_error(std::string("empty text field \"") + field + "\"");
+    // ImGui consumes C strings and treats ## as hidden label/ID syntax. A NUL
+    // title hides our stable popup ID; multiline labels can hide choice text.
+    if (s.find('\0') != std::string::npos ||
+        (widgetLabel && (s.find("##") != std::string::npos || s.find_first_of("\r\n\t") != std::string::npos)))
+        throw std::runtime_error(std::string("invalid text field \"") + field + "\"");
     return s;
 }
 
@@ -242,14 +247,16 @@ RandomEvent parseRandomEvent(const std::string &reply) {
     nlohmann::json j;
     try {
         j = nlohmann::json::parse(body.substr(first, last - first + 1));
-    } catch (const std::exception &e) {
-        throw std::runtime_error(std::string("model reply is not valid JSON: ") + e.what());
+    } catch (const std::exception &) {
+        // Parser diagnostics include model-response snippets, which may contain
+        // credentials or private endpoint details echoed by the provider.
+        throw std::runtime_error("model reply is not valid JSON");
     }
     if (!j.is_object())
         throw std::runtime_error("model reply is not a JSON object");
 
     RandomEvent ev;
-    ev.title = truncateUtf8(requireString(j, "title"), 120);
+    ev.title = truncateUtf8(requireString(j, "title", true), 120);
     ev.description = truncateUtf8(requireString(j, "description"), 600);
 
     auto opts = j.find("options");
@@ -259,7 +266,7 @@ RandomEvent parseRandomEvent(const std::string &reply) {
         if (!o.is_object())
             continue;
         EventOption option;
-        option.text = truncateUtf8(requireString(o, "text"), 120);
+        option.text = truncateUtf8(requireString(o, "text", true), 120);
         if (o.contains("cash"))
             option.dCash = jsonToInt(o.at("cash"));
         if (o.contains("health"))

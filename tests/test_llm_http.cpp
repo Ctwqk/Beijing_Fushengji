@@ -80,6 +80,44 @@ TEST(EventSourceFactory, DoesNotLogCredentialsEchoedInProviderErrors) {
     }
 }
 
+TEST(EventSourceFactory, DoesNotLogSensitiveTextFromMalformedModelReplies) {
+    REQUIRE_MOCK();
+    for (const char *mode : {"malformedkey", "malformedendpoint"}) {
+        SCOPED_TRACE(mode);
+        const AiConfig cfg = configFor(std::string(mode) + "/private-endpoint-sentinel", "credential-sentinel");
+        EventSourceSetup setup = makeEventSource(cfg, 1);
+        testing::internal::CaptureStderr();
+        const RandomEvent ev = setup.source->generate(EventContext{});
+        const std::string log = testing::internal::GetCapturedStderr();
+        EXPECT_EQ(ev.options.size(), 3u);
+        EXPECT_NE(log.find("offline"), std::string::npos);
+        EXPECT_NE(log.find("not valid JSON"), std::string::npos);
+        EXPECT_EQ(log.find(cfg.apiKey), std::string::npos);
+        EXPECT_EQ(log.find(cfg.baseUrl), std::string::npos);
+        EXPECT_EQ(log.find("private-endpoint-sentinel"), std::string::npos);
+    }
+}
+
+TEST(EventSourceFactory, DoesNotLogEndpointDetailsFromTransportErrors) {
+    AiConfig cfg;
+    // An unsupported scheme fails before DNS or a connection, independently of
+    // proxy settings and which local ports happen to have listeners.
+    cfg.baseUrl = "private-endpoint-sentinel://provider-secret.invalid/private-path/v1";
+    cfg.baseUrlFromEnv = true;
+    cfg.apiKey = "transport-credential-sentinel";
+    EventSourceSetup setup = makeEventSource(cfg, 1);
+    testing::internal::CaptureStderr();
+    const RandomEvent ev = setup.source->generate(EventContext{});
+    const std::string log = testing::internal::GetCapturedStderr();
+    EXPECT_EQ(ev.options.size(), 3u);
+    EXPECT_NE(log.find("offline"), std::string::npos);
+    EXPECT_NE(log.find("HTTP request failed"), std::string::npos);
+    EXPECT_EQ(log.find(cfg.apiKey), std::string::npos);
+    EXPECT_EQ(log.find("private-endpoint-sentinel"), std::string::npos);
+    EXPECT_EQ(log.find("provider-secret.invalid"), std::string::npos);
+    EXPECT_EQ(log.find("private-path"), std::string::npos);
+}
+
 TEST(CurlChatClient, ReportsNonJsonGatewayErrors) {
     REQUIRE_MOCK();
     CurlChatClient client(configFor("badgateway"));

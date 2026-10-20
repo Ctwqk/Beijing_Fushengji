@@ -1,5 +1,7 @@
 #include "TextPopUp.h"
 
+#include <algorithm>
+
 #include "Events.h"
 #include "Language.h"
 
@@ -27,8 +29,21 @@ void TextPopUp::Render() {
         if (buttons.empty())
             buttons.push_back(std::make_shared<ButtonWithAction>(GET_TEXT("CONFIRM")));
         for (size_t i = 0; i < buttons.size(); ++i) {
+            const std::string &label = buttons[i]->label;
+            const ImVec2 padding = ImGui::GetStyle().FramePadding;
+            const float width = std::max(1.0f, ImGui::GetContentRegionAvail().x - 1.0f);
+            const float wrapWidth = std::max(1.0f, width - 2.0f * padding.x);
+            const ImVec2 textSize = ImGui::CalcTextSize(label.c_str(), nullptr, false, wrapWidth);
+            const float height = std::max(36.0f, textSize.y + 2.0f * padding.y);
             ImGui::PushID(static_cast<int>(i));
-            const bool clicked = ImGui::Button(buttons[i]->label.c_str(), ImVec2(-1, 36));
+            // Button() clips to a single line. Draw the complete choice as wrapped
+            // text over a normally interactive button with an independent ID.
+            const bool clicked = ImGui::Button("##choice", ImVec2(width, height));
+            const ImVec2 pos = ImGui::GetItemRectMin();
+            const ImVec2 textPos(pos.x + std::max(padding.x, (width - textSize.x) * 0.5f),
+                                pos.y + (height - textSize.y) * 0.5f);
+            ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), textPos,
+                                              ImGui::GetColorU32(ImGuiCol_Text), label.c_str(), nullptr, wrapWidth);
             ImGui::PopID();
             if (!clicked)
                 continue;

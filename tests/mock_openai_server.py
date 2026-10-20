@@ -4,6 +4,8 @@ The first path segment selects the behaviour:
   /ok/...        a valid random-event reply
   /echo/...      replies with the Authorization header and the request body it received
   /garbage/...   a syntactically valid chat reply whose content is not an event
+  /malformedkey/...       invalid event JSON echoing a fake API credential
+  /malformedendpoint/...  invalid event JSON echoing the configured base URL
   /unauthorized/ HTTP 401 with an OpenAI-style error object
   /badgateway/   HTTP 502 with an HTML body
   /slow/...      answers after 5 seconds
@@ -60,6 +62,12 @@ class Handler(BaseHTTPRequestHandler):
             })))
         elif mode == "garbage":
             self._send(200, chat_reply("I'm sorry, I can't write events."))
+        elif mode in {"malformedkey", "malformedendpoint"}:
+            sensitive = (self.headers.get("Authorization", "") if mode == "malformedkey" else
+                         "http://" + self.headers["Host"] + self.path.removesuffix("/chat/completions"))
+            # A raw newline makes the event JSON invalid after the sensitive
+            # token, so a JSON parser's detailed error can echo that token.
+            self._send(200, chat_reply('{"title":"' + sensitive + '\n"}'))
         elif mode == "unauthorized":
             # Some providers echo rejected credentials. Error reporting must not log them.
             self._send(401, {"error": {"message": "Incorrect API key provided: " +
