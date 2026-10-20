@@ -251,11 +251,11 @@ TEST(PlayerFinance, RepayDebt) {
 }
 
 TEST(PlayerHealth, HealingCostsMoneyAndStopsAtTheCap) {
-    Player p(90, 10 * Player::PRICE_PER_HEALTH, 0, 0, 100, 100);
+    Player p(90, 17500, 0, 0, 100, 100);
     EXPECT_EQ(p.maxHealable(), 10);
     p.heal(4);
     EXPECT_EQ(p.getHealth(), 94);
-    EXPECT_EQ(p.getCash(), 6 * Player::PRICE_PER_HEALTH);
+    EXPECT_EQ(p.getCash(), 10500);  // four health points at the original 1750 yuan each
     EXPECT_EQ(p.maxHealable(), 6);
     EXPECT_THROW(p.heal(7), std::invalid_argument);  // beyond the health cap
     EXPECT_THROW(p.heal(-1), std::invalid_argument);
@@ -263,7 +263,7 @@ TEST(PlayerHealth, HealingCostsMoneyAndStopsAtTheCap) {
 }
 
 TEST(PlayerHealth, HealingNeedsEnoughCash) {
-    Player p(50, Player::PRICE_PER_HEALTH - 1, 0, 0, 100, 100);
+    Player p(50, 1749, 0, 0, 100, 100);
     EXPECT_EQ(p.maxHealable(), 0);
     try {
         p.heal(1);

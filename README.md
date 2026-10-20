@@ -27,10 +27,10 @@ room with 100 slots. After **40 days** you go home and the game settles your acc
 * **Black market** - seven goods (imported cigarettes, smuggled cars, fake liquor, imported toys, counterfeit
   cosmetics, *Shanghai Baby*, pirated CDs). Every day every good gets a fresh price around its baseline
   (x0.5 .. x1.5) and each good is only on sale with 60 % probability. You can always sell what you hold.
-* **News events** - now and then a listed good is hit by a news item and its price is multiplied or divided by 5 for
+* **News events** - each listed good has an 8 % daily chance of a news item multiplying or dividing its price by 5 for
   that day.
 * **Random life events** - on about 30 % of the days something happens (a black-market agent, a permit check, a cold
-  snap ...) and you pick one of three options that trade cash, health and reputation against each other. They are
+  snap ...) and you pick one of three options affecting cash, health and reputation. They are
   written by an LLM when one is configured, otherwise they come from a built-in table of 12 bilingual events.
 * **Debt and savings** - the debt grows by 5 % per day, money in the **bank** grows by 4 % per day. The **post
   office** repays debt.
@@ -124,9 +124,13 @@ How it behaves:
   JSON, `<think>` blocks and numbers written as strings are tolerated) and **every number is clamped**
   (cash +-1000, health +-25, reputation +-40), including numbers outside the integer range. These caps limit each
   event's impact; a health penalty can still end a run when the player is already weak.
+  The parser requires at least two choices and keeps at most three. Embedded NULs are rejected, as are ImGui's `##`
+  label syntax and line breaks in titles/choices; unusable replies fall back to offline events. Valid long choices
+  wrap inside their buttons so their full accepted text remains readable.
 * Anything that goes wrong (no network, 401/429/5xx, timeout, unusable reply) is logged to stderr and replaced by an
-  offline event, so a flaky endpoint never interrupts the game. Provider error text is omitted from logs because
-  some servers echo rejected credentials in it.
+  offline event, so a flaky endpoint never interrupts the game. Logs retain error categories and HTTP status;
+  provider response snippets and detailed curl diagnostics are omitted because they can expose credentials or
+  private endpoint details.
 * What is sent: the day, cash, health, reputation and the character's background plus the last eight event decisions.
   The API key is only ever sent in the `Authorization` header of that request.
 * Requests are aborted promptly when the window is closed.
@@ -173,7 +177,7 @@ flowchart LR
 
 ## Build and run
 
-Needs a C++17 compiler, CMake >= 3.16, SDL2, OpenGL, and optionally libcurl (LLM events). nlohmann/json, GoogleTest and
+Needs a C++17 compiler, CMake >= 3.20, SDL2, OpenGL, and optionally libcurl (LLM events). nlohmann/json, GoogleTest and
 (if no SDL2 is installed) SDL2 are downloaded by CMake when no system copy is found (`-DFSJ_FETCH_DEPENDENCIES=OFF`
 disables that).
 
@@ -242,7 +246,7 @@ it on a real Windows desktop yet).
 ctest --test-dir build --output-on-failure
 ```
 
-79 GoogleTest cases in `tests/` run against `fsj_core` without a window, plus one CTest entry that runs 11 more cases
+81 GoogleTest cases in `tests/` run against `fsj_core` without a window, plus one CTest entry that runs 13 more cases
 for the libcurl client against a local mock OpenAI server (`tests/mock_openai_server.py`: auth header, API errors,
 HTML gateway errors, timeout, cancellation, fallback). They cover, among others:
 
@@ -256,7 +260,8 @@ HTML gateway errors, timeout, cancellation, fallback). They cover, among others:
 CTest also checks CLI argument validation without opening a window. Linux CI runs
 `python3 tests/test_gui.py build/Beijing_Fushengji build/gui-test` under Xvfb/Mesa to check Chinese rendering,
 clean shutdown, and travel locking during a deliberately delayed local AI response. Its screenshots are uploaded
-as a CI artifact. No real API credentials or paid requests are needed for any test.
+as a CI artifact. It also checks recovery from a NUL-containing event title and actual multiline rendering of long
+choices. No real API credentials or paid requests are needed for any test.
 
 See the [verification record](docs/verification.md) for the clean-build commands, results, and limits.
 
@@ -299,7 +304,7 @@ documentation, these bugs were found and fixed (the ones that can be tested with
 ## Design notes and trade-offs
 
 * **Core / UI split.** The rules are plain C++ with injectable seeds and a `ChatBackend` interface, which is what makes
-  the 90 GoogleTest cases possible. The UI stays a thin immediate-mode layer.
+  the 94 GoogleTest cases possible. The UI stays a thin immediate-mode layer.
 * **Own RNG helpers.** `std::mt19937` is fully specified by the standard but `std::uniform_*_distribution` is not, so
   `Rng` derives doubles and ranges by hand; a seed is meant to reproduce the same game on GCC, Clang and MSVC (checked
   on GCC only).
@@ -309,8 +314,11 @@ documentation, these bugs were found and fixed (the ones that can be tested with
   request avoids a second network round trip and is easier to validate.
 * **Vendored ImGui, fetched everything else.** ImGui is small once trimmed and is built together with the game;
   heavier dependencies come from the system package manager or `FetchContent`.
-* **Balance is unchanged** (5 % debt, 4 % savings, 1750 per health point, 100 slots); only the inconsistencies were fixed.
-  A naive bank-everything strategy still loses to the debt, but the game is not tuned beyond that.
+* **Retained rules, changed economy.** The prototype's opening balances, catalogue prices, 5 % debt interest,
+  4 % savings interest, 1750 per health point and 100 slots are retained. Prices now reset around their baselines;
+  news probability changed from 50 % to 8 % per listed good, and life events from every move to 30 % of moves
+  (except the ending). This is not a balance-identical recreation. A naive bank-everything strategy still loses
+  to the debt; the new event frequencies have not been extensively play-tested.
 
 ## Known limitations and roadmap
 

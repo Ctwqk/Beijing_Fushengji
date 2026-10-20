@@ -159,7 +159,14 @@ TEST(Market, UnknownGoodsAreRejected) {
 
 TEST(Market, DefaultCatalogueIsConsistent) {
     const auto items = defaultItems();
-    EXPECT_EQ(items.size(), 7u);
+    const std::vector<std::pair<std::string, int>> catalogue = {
+        {"IMPORTED_CIGARETTES", 206}, {"SMUGGLED_CARS", 15338}, {"FAKE_LIQUOR", 2634}, {"IMPORTED_TOYS", 610},
+        {"FAKE_COSMETICS", 235}, {"SHANGHAI_BABY", 1000}, {"PIRATED_CD", 100}};
+    ASSERT_EQ(items.size(), catalogue.size());
+    for (std::size_t i = 0; i < items.size(); ++i) {
+        EXPECT_EQ(items[i].getKey(), catalogue[i].first);
+        EXPECT_EQ(items[i].getBasePrice(), catalogue[i].second);
+    }
     std::set<std::string> keys;
     for (const Item &i : items) {
         EXPECT_TRUE(keys.insert(i.getKey()).second) << "duplicate key " << i.getKey();
