@@ -197,20 +197,19 @@ ctest --test-dir build --output-on-failure     # unit tests + mock-server integr
 `docker/Dockerfile` contains the whole toolchain plus Xvfb, so you can build, test and even run the game headlessly:
 
 ```bash
-DOCKER_BUILDKIT=0 docker build --memory=4g --memory-swap=4g -t pu-beijing-dev -f docker/Dockerfile docker
-docker run --rm --name pu-beijing-build --memory=4g --memory-swap=4g --cpus=4 \
-  --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD":/src -w /src pu-beijing-dev bash -lc \
+DOCKER_BUILDKIT=0 docker build --memory=4g --memory-swap=4g -t beijing-dev -f docker/Dockerfile docker
+docker run --rm --name beijing-build --memory=4g --memory-swap=4g --cpus=4 \
+  --user "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD":/src -w /src beijing-dev bash -lc \
   'cmake -S . -B build -G Ninja && cmake --build build -j4 && ctest --test-dir build --output-on-failure'
 
 # run the game on a virtual display for 10 seconds (CI also drives the window)
-docker run --rm --name pu-beijing-smoke --memory=1g --memory-swap=1g --cpus=2 \
-  --user "$(id -u):$(id -g)" -e HOME=/tmp -e LIBGL_ALWAYS_SOFTWARE=1 -v "$PWD":/src -w /src pu-beijing-dev \
+docker run --rm --name beijing-smoke --memory=1g --memory-swap=1g --cpus=2 \
+  --user "$(id -u):$(id -g)" -e HOME=/tmp -e LIBGL_ALWAYS_SOFTWARE=1 -v "$PWD":/src -w /src beijing-dev \
   xvfb-run -a timeout --kill-after=3s 10 build/Beijing_Fushengji --lang zh --offline
 ```
 
 The timed smoke run normally exits with code 124. The classic Docker builder is selected so its memory limits also
-apply during dependency installation; runtime containers have separate limits. On a shared host, serialize builds
-and leave memory available for other services.
+apply during dependency installation; runtime containers have separate limits.
 
 ### Windows
 
@@ -328,4 +327,4 @@ documentation, these bugs were found and fixed (the ones that can be tested with
 * The window layout is fixed for roughly 760x660 pixels and is not DPI aware.
 * The macOS code path (GL 3.2 core context) is written but untested. The Windows build is only checked by CI.
 * The game code is released under the [MIT License](LICENSE). The bundled font (WenQuanYi
-  Zen Hei) and Dear ImGui (MIT, see `third_party/imgui/LICENSE.txt`) keep their own licences.
+  Zen Hei, see `Font/COPYING`) and Dear ImGui (MIT, see `third_party/imgui/LICENSE.txt`) keep their own licences.

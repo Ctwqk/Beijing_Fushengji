@@ -3,9 +3,7 @@
 Verified on 2026-10-19 from a clean tracked-file snapshot using the Ubuntu 24.04 image in
 `docker/Dockerfile`, GCC 13.3 and Mesa software OpenGL. No previous build tree was copied.
 
-Local heavy work was serialized with the owner's global lock and a systemd scope capped at 6 GiB with no swap.
-Each build/demo container was separately limited to 4 GiB, no swap, and four CPUs; builds used at most four jobs.
-Available host memory was checked against the required 8 GiB threshold before starting.
+Each build/demo container was limited to 4 GiB, no swap, and four CPUs; builds used at most four jobs.
 
 ## Commands and results
 
@@ -49,7 +47,7 @@ are uploaded by Linux CI. Chinese glyphs were also visually inspected in the loc
 
 ## Demo assets
 
-`IMAGE=pu-beijing-takeover-dev DOCKER_NAME=pu-beijing-demo-verify scripts/capture_demo.sh` completed in the clean
+`scripts/capture_demo.sh` completed in the clean
 snapshot, using the same Dockerfile-built toolchain. It replayed the language selector and seeded Chinese/English
 tours under Xvfb, including trading, town services, random events and the ending. The resulting eight PNGs in
 `docs/screenshots/` and `docs/demo.gif` were copied back into the repository. Each PNG is below 81 KB; the GIF is
@@ -114,4 +112,4 @@ ctest --test-dir build-headless --output-on-failure
 ```
 
 The offline app passed 82/82 CTest entries; the headless core passed 81/81. All local builds, HTTP integration tests
-and GUI runs used the global lock and memory limits described above. No live-provider calls were needed.
+and GUI runs used the container limits described above. No live-provider calls were needed.

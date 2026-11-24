@@ -8,11 +8,11 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-IMAGE="${IMAGE:-pu-beijing-capture}"
+IMAGE="${IMAGE:-beijing-capture}"
 # The classic builder applies these limits to the dependency-install container too.
 DOCKER_BUILDKIT=0 docker build --memory=4g --memory-swap=4g -q -t "$IMAGE" -f docker/Dockerfile docker >/dev/null
 
-docker run --rm --name "${DOCKER_NAME:-pu-beijing-capture}" --memory=4g --memory-swap=4g --cpus=4 \
+docker run --rm --name "${DOCKER_NAME:-beijing-capture}" --memory=4g --memory-swap=4g --cpus=4 \
   --user "$(id -u):$(id -g)" -e HOME=/tmp \
   -v "$PWD":/src -w /src "$IMAGE" bash -lc '
 set -euo pipefail
